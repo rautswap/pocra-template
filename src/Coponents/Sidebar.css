@@ -1,0 +1,7 @@
+#title{
+	grid-area: title;
+    font-family: serif;
+    font-weight: bold;
+    color: rgba(255, 255, 255);
+    text-shadow: 0 0 3px black, 0 0 1px black, 0 0 1px black, 0 0 1px black;
+}

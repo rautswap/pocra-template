@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-
+import "./Sidebar.css"
 export default class Sidebar extends Component {
     render() {
         return (
@@ -7,8 +7,8 @@ export default class Sidebar extends Component {
                 <aside className="main-sidebar sidebar-dark-primary elevation-4">
                     {/* Brand Logo */}
                     <a className="brand-link">
-                        <img src="http://gis.mahapocra.gov.in/controlpanel/images/pocra.png" alt="PoCRA Logo" className="brand-image img-square elevation-3" style={{ opacity: '.8' }} />
-                        <span className="brand-text font-weight">PoCRA</span>
+                        <img src="http://gis.mahapocra.gov.in/controlpanel/images/pocra.png" alt="PoCRA Logo" className="brand-image img-square"  />
+                        <span className="brand-text font-weight " id="title">PoCRA</span>
                     </a>
                     {/* Sidebar */}
                     <div className="sidebar">
