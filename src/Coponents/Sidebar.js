@@ -7,7 +7,7 @@ export default class Sidebar extends Component {
                 <aside className="main-sidebar sidebar-dark-primary elevation-4">
                     {/* Brand Logo */}
                     <a className="brand-link">
-                        <img src="http://gis.mahapocra.gov.in/controlpanel/images/pocra.png" alt="PoCRA Logo" className="brand-image img-square"  />
+                        <img src="https://mahapocra.gov.in/assets/images/pocra.png" alt="PoCRA Logo" className="brand-image img-square"  />
                         <span className="brand-text font-weight " id="title">PoCRA</span>
                     </a>
                     {/* Sidebar */}

@@ -24,8 +24,9 @@ export default class Header extends Component {
                     <ul className="navbar-nav ml-auto">
                         {/* Navbar Search */}
                         <li class="dropdown dropdown-quick-sidebar-toggler">
-                            <img src="https://mahapocra.gov.in/assets/images/emblum.png" />
-                            <img src="https://mahapocra.gov.in/assets/images/logo.png" />
+                            <img src="https://mahapocra.gov.in/assets/images/emblum.png" style={{height: 50, width: 50}} />
+
+                            <img src="https://mahapocra.gov.in/assets/images/logo.png" style={{height: 50, width: 50}} />
                         </li>
                     </ul>
                 </nav>
