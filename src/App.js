@@ -1,16 +1,29 @@
 import logo from './logo.svg';
 import './App.css';
-import Header from './Coponents/Header';
-import MainContent from './Coponents/MainContent';
-import Sidebar from './Coponents/Sidebar';
-import Footer from './Coponents/Footer';
+import Header from './Components/Dashboard/Header';
+import MainContent from './Components/Dashboard/MainContent';
+import Sidebar from './Components/Dashboard/Sidebar';
+import Footer from './Components/Dashboard/Footer';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Map from './Components/Map';
+import NoFound from './Components/NoFound';
 function App() {
   return (
     <div class="wrapper">
-      <Header />
-      <Sidebar />
-      <MainContent />
-      <Footer />
+
+      <Router>
+        <Header />
+        <Sidebar />
+        <Switch>
+          <Route exact path="/" component={MainContent} />
+          <Route path="/forecast" component={Map} />
+          <Route exact path="/home" component={MainContent} />
+          <Route component={NoFound} />
+        </Switch>
+        <Footer />
+      </Router>
+
+
     </div>
   );
 }
