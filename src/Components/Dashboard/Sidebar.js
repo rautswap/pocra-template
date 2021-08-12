@@ -33,7 +33,7 @@ export default class Sidebar extends Component {
                     {/* Sidebar */}
                     <div className="sidebar">
                         {/* Sidebar user panel (optional) */}
-                        <div className="form-inline" >
+                        <div className="form-inline" style={{paddingTop:5}} >
                             <div className="input-group" data-widget="sidebar-search">
                                 <input className="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search" />
                                 <div className="input-group-append">
