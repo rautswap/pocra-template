@@ -10,40 +10,40 @@ import { format } from 'ol/coordinate';
 import { transform } from 'ol/proj';
 import { Image as ImageLayer, Tile as TileLayer } from 'ol/layer';
 import TileWMS from 'ol/source/TileWMS'
-var latLong = '&nbsp;&nbsp; Latitude : {y}, &nbsp;&nbsp; Longitude: {x} &nbsp;&nbsp;';
-var scaleLineControl = new ScaleLine({
+const latLong = '&nbsp;&nbsp; Latitude : {y}, &nbsp;&nbsp; Longitude: {x} &nbsp;&nbsp;';
+const scaleLineControl = new ScaleLine({
     units: 'metric',
     type: 'scalebar',
     bar: false,
     steps: 2,
     minWidth: 150
 });
-var mouse = new MousePosition({
+const mouse = new MousePosition({
     projection: 'EPSG:4326',
     coordinateFormat: function (coordinate) {
         return format(coordinate, latLong, 4);
     }
 });
-var layers = [
+const layers = [
     new TileLayer({
         source: new OSM(),
-    }),new TileLayer({
-		source: new TileWMS({
-			url: 'http://gis.mahapocra.gov.in/geoserver/PoCRA_Dashboard/wms',
-			crossOrigin: 'Anonymous',
-			serverType: 'geoserver',
-			visible: true,
-			params: {
-				'LAYERS': 'PoCRA:MahaDist',
-				'TILED': true,
-			}
-		}),
-	}),
+    }), new TileLayer({
+        title: 'State',
+        source: new TileWMS({
+            url: 'http://gis.mahapocra.gov.in/geoserver/PoCRA_Dashboard/wms',
+            crossOrigin: 'Anonymous',
+            serverType: 'geoserver',
+            visible: true,
+            params: {
+                'LAYERS': 'PoCRA:MahaDist',
+                'TILED': true,
+            }
+        }),
+    }),
 
 ]
-
-// The map
-var map = new Map({
+var mapTitle = "";
+const map = new Map({
     target: null,
     view: new View({
         zoom: 7,
@@ -57,6 +57,12 @@ class Forecast extends Component {
         map.setTarget("map");
     }
     render() {
+        map.getLayers().forEach(function (el) {
+
+            if (el.get('title')) {
+                mapTitle = el.get('title');
+            }
+        })
         return (
             <div>
                 <div className="content-wrapper">
@@ -65,10 +71,30 @@ class Forecast extends Component {
                         <div className="container-fluid">
                             <div className="row mb-2">
                                 <div className="col-sm-6">
-                                    <h1>Forecast</h1>
+                                    <h1>Forecast </h1>
                                 </div>
                                 <div className="col-sm-6">
                                     <ol className="breadcrumb float-sm-right">
+                                        <li className="breadcrumb-item">
+                                            <a className="nav-link" data-toggle="dropdown" href="#">
+                                                <i className="fas fa-backward" />
+                                            </a>
+                                        </li>
+                                        <li className="breadcrumb-item">
+                                            <a className="nav-link" data-toggle="dropdown" href="#">
+                                                <i className="fas fa-play" />
+                                            </a>
+                                        </li>
+                                        <li className="breadcrumb-item">
+                                            <a className="nav-link" data-toggle="dropdown" href="#">
+                                                <i className="fas fa-pause" />
+                                            </a>
+                                        </li>
+                                        <li className="breadcrumb-item">
+                                            <a className="nav-link" data-toggle="dropdown" href="#">
+                                                <i className="fas fa-forward" />
+                                            </a>
+                                        </li>
                                     </ol>
                                 </div>
                             </div>
