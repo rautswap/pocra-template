@@ -16,8 +16,8 @@ import Moment from 'moment';
 let data = '';
 class Forecast extends Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = {
             todate: "",
@@ -78,14 +78,18 @@ class Forecast extends Component {
             controls: defaultControls().extend([this.mouse, this.scaleLineControl]),
             layers: this.layers
         });
-
+        this.setTime = this.setTime.bind(this);
 
     }
 
 
     componentDidMount() {
         this.map.setTarget("map");
-        const response =fetch("http://gis.mahapocra.gov.in/weatherservices/meta/getforecastdate")
+        this.getForecastData();
+    }
+
+    async getForecastData() {
+        const response = fetch("http://gis.mahapocra.gov.in/weatherservices/meta/getforecastdate")
             .then(response => response.json())
             .then(data => {
                 this.setState(prev => ({
@@ -108,12 +112,10 @@ class Forecast extends Component {
                     tempmin4: data.forecast[0].temp_min4,
                 }));
             });
-       
-        console.log(response);
-
     }
     setTime() {
-        // console.log(data)
+        var date = new Date(this.state.maxdate);
+        console.log(date)
     }
 
     render() {
