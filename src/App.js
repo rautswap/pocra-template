@@ -7,6 +7,7 @@ import Footer from './Components/Dashboard/Footer';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Forecast from './Components/Forecast';
 import NoFound from './Components/NoFound';
+import Forecast1 from './Components/Forecast1';
 function App() {
   return (
     <div class="wrapper">
