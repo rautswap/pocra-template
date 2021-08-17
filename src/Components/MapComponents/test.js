@@ -11,7 +11,7 @@ import { ScaleLine, MousePosition, defaults as defaultControls } from 'ol/contro
 import { format } from 'ol/coordinate';
 import Moment from 'moment';
 
-const Forecast = (props) => {
+const test = (props) => {
     const [forecastData, setForecastDate] = useState([]);
     // const [todate, setTodate] = useState('');
     const [minDate, setMinDate] = useState('');
@@ -197,4 +197,4 @@ const Forecast = (props) => {
     )
 }
 
-export default Forecast;
+export default test;

@@ -28,7 +28,7 @@ var view = "", overlay = "";
 let rain_class1, rain_class2, rain_class3, rain_class4, rain_class5, maxrainfall;
 let rain1, rain2, rain3, rain4, rain5, tempmax1, tempmax2, tempmax3, tempmax4, tempmin1, tempmin2, tempmin3, tempmin4;
 var map, popup, overlay;
-class Forecast extends Component {
+class Forecast1 extends Component {
 
     constructor(props) {
         super(props);
@@ -141,11 +141,11 @@ class Forecast extends Component {
         });
 
         this.map.addOverlay(overlay);
-
+      
         this.map.on('click', evt => {
             overlay.setPosition(undefined)
             const coordinate = evt.coordinate;
-
+            
             var viewResolution = (view.getResolution());
             var url = imdlayer.getSource().getFeatureInfoUrl(
                 evt.coordinate,
@@ -162,9 +162,9 @@ class Forecast extends Component {
                         var jsondata = JSON.parse(html);
                         if (jsondata.features[0]) {
                             if (jsondata.features[0].properties) {
-                                var popupContent = overlay.element.querySelector('#popup-content');
-                                popupContent.innerHTML = '';
-                                popupContent.innerHTML = '<table id="customers" className="table table-bordered" style="border:1px solid black;width: 100%;color:black"><tr ><td style="background-color:skyblue;text-align:center;font-weight:bold;" colspan=2 >IMD Weather Forecast Attribute Information</td></tr><tr><td style="text-align: left">District </td><td style="text-align: left">' + jsondata.features[0].properties.dtnname + '</td></tr><tr><td style="text-align: left">Taluka </td><td style="text-align: left">' + jsondata.features[0].properties.thnname + '</td></tr><tr><td style="text-align: left">Forecast Date </td><td style="text-align: left">' + jsondata.features[0].properties.forecast_date + '</td></tr><tr><td style="text-align: left">Rainfall (mm) </td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.rainfall_mm) + '</td></tr><tr><td style="text-align: left">Maximum Temprature &#8451; </td><td style="text-align: left ">' + parseFloat(jsondata.features[0].properties.temp_max_deg_c) + '</td></tr><tr><td style="text-align: left">Minimum Temprature &#8451; </td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.temp_min_deg_c) + '</td></tr><tr><td style="text-align: left">Wind Speed(m/s) </td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.wind_speed_ms) + '</td></tr><tr><td style="text-align: left">Wind Direction</td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.wind_direction_deg) + '</td></tr><tr><td style="text-align: left">Humidity 1 (%) </td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.humidity_1) + '</td></tr><tr><td style="text-align: left">Humidity 2 (%)</td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.humidity_2) + '</td></tr><tr><td style="text-align: left">Cloud Cover </td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.cloud_cover_octa) + '</td></tr><tr></table>';
+                               var popupContent=overlay.element.querySelector('#popup-content');
+                               popupContent.innerHTML = '';
+                               popupContent.innerHTML = '<table id="customers" className="table table-bordered" style="border:1px solid black;width: 100%;color:black"><tr ><td style="background-color:skyblue;text-align:center;font-weight:bold;" colspan=2 >IMD Weather Forecast Attribute Information</td></tr><tr><td style="text-align: left">District </td><td style="text-align: left">' + jsondata.features[0].properties.dtnname + '</td></tr><tr><td style="text-align: left">Taluka </td><td style="text-align: left">' + jsondata.features[0].properties.thnname + '</td></tr><tr><td style="text-align: left">Forecast Date </td><td style="text-align: left">' + jsondata.features[0].properties.forecast_date + '</td></tr><tr><td style="text-align: left">Rainfall (mm) </td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.rainfall_mm) + '</td></tr><tr><td style="text-align: left">Maximum Temprature &#8451; </td><td style="text-align: left ">' + parseFloat(jsondata.features[0].properties.temp_max_deg_c) + '</td></tr><tr><td style="text-align: left">Minimum Temprature &#8451; </td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.temp_min_deg_c) + '</td></tr><tr><td style="text-align: left">Wind Speed(m/s) </td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.wind_speed_ms) + '</td></tr><tr><td style="text-align: left">Wind Direction</td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.wind_direction_deg) + '</td></tr><tr><td style="text-align: left">Humidity 1 (%) </td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.humidity_1) + '</td></tr><tr><td style="text-align: left">Humidity 2 (%)</td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.humidity_2) + '</td></tr><tr><td style="text-align: left">Cloud Cover </td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.cloud_cover_octa) + '</td></tr><tr></table>';
                                 // overlay.addOverlay(this.popup);
                                 overlay.setPosition(coordinate);
                             }
@@ -172,7 +172,7 @@ class Forecast extends Component {
                     });
             }
 
-
+            
         })
 
         // Listener to add Popup overlay showing the position the user clicked
@@ -301,13 +301,18 @@ class Forecast extends Component {
         });
 
         this.map.addLayer(imdlayer);
-        
-        const resolution = this.map.getView().getResolution();
-        // this.updateLegend(resolution);
-        let graphicUrl = imdlayer.getSource().getLegendUrl(resolution);
-        // console.log(graphicUrl)
-        let img = document.getElementById('legend');
-        img.src = graphicUrl;
+        this.map.getView().calculateExtent(this.map.getSize())
+        // Nowadays, this.map.getSize() is optional most of the time (except if you don't share view between different maps), so above is equivalent to the following
+
+        this.map.getView().fit(
+            this.map.getView().calculateExtent(this.map.getSize()), { duration: 1590, size: this.map.getSize() - 100 }
+        );
+        // const resolution = map.getView().getResolution();
+        // // this.updateLegend(resolution);
+        // let graphicUrl = imdlayer.getSource().getLegendUrl(resolution);
+        // // console.log(graphicUrl)
+        // let img = document.getElementById('legend');
+        // img.src = graphicUrl;
 
     }
 
@@ -507,4 +512,4 @@ class Forecast extends Component {
 
 
 
-export default Forecast;
+export default Forecast1;
