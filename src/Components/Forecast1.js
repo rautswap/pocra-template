@@ -1,4 +1,5 @@
 import React, { Component, useState } from 'react'
+
 import './MapComponents/Map.css';
 import "ol/ol.css";
 import "ol-ext/dist/ol-ext.css";
@@ -8,23 +9,25 @@ import OSM from 'ol/source/OSM';
 import XYZ from 'ol/source/XYZ';
 import { ScaleLine, MousePosition, defaults as defaultControls } from 'ol/control';
 import { format, toStringHDMS } from 'ol/coordinate';
-import { transform, toLonLat } from 'ol/proj';
+import { transform, toLonLat, fromLonLat } from 'ol/proj';
 import { Image as ImageLayer, Tile as TileLayer } from 'ol/layer';
 import TileWMS from 'ol/source/TileWMS'
 import ImageWMS from 'ol/source/ImageWMS'
 import Moment from 'moment';
+import ReactDOM from 'react-dom';
 
 
 let startDate = "", sdate = "";
 let frameRate = 0.5; // frames per second
 let animationId = null, imdlayer, MahaDist, minimumDate;
 var container = document.getElementById('popup');
-var content = document.getElementById('popup-content');
-var closer = document.getElementById('popup-closer');
+var content = ((document.getElementById('popup-content') || {}).value) || "";
+// ((document.getElementById("mapselect") || {}).value) || ""
 
 var view = "", overlay = "";
 let rain_class1, rain_class2, rain_class3, rain_class4, rain_class5, maxrainfall;
 let rain1, rain2, rain3, rain4, rain5, tempmax1, tempmax2, tempmax3, tempmax4, tempmin1, tempmin2, tempmin3, tempmin4;
+var map, popup, overlay;
 class Forecast1 extends Component {
 
     constructor(props) {
@@ -55,8 +58,8 @@ class Forecast1 extends Component {
         this.scaleLineControl = new ScaleLine({
             units: 'metric',
             type: 'scalebar',
-            bar: false,
-            steps: 2,
+            bar: true,
+            steps: 4,
             minWidth: 150
         });
         this.mouse = new MousePosition({
@@ -85,23 +88,26 @@ class Forecast1 extends Component {
             zoom: 7,
             center: transform([77.50, 18.95], 'EPSG:4326', 'EPSG:3857'),
         });
-        this.map = new Map({
+        // this.overlay = new Overlay({
+        //     element: container,
+        //     autoPan: true,
+        //     autoPanAnimation: {
+        //         duration: 250,
+        //     },
+        // });
 
+        this.map = new Map({
+            // overlays: [this.overlay],
             target: null,
             view: view,
             controls: defaultControls().extend([this.mouse, this.scaleLineControl]),
             layers: [topo]
         });
-        overlay = new Overlay({
-            element: container,
-            positioning: 'center-center',
-            autoPan: true,
-            autoPanAnimation: {
-                duration: 250,
-            },
-        });
-        this.map.addOverlay(overlay);
 
+
+
+        // map.addOverlay(overlay);
+        this.closer = document.getElementById('popup-closer');
         this.setTime = this.setTime.bind(this);
         this.stop = this.stop.bind(this);
         this.play = this.play.bind(this);
@@ -117,23 +123,29 @@ class Forecast1 extends Component {
         // this.overlay = this.overlay.bind(this);
 
     }
+
+
     closepop() {
         overlay.setPosition(undefined);
-        closer.blur();
+        // closer.blur();
         return false;
     }
     componentDidMount() {
 
         this.map.setTarget("map");
         this.getForecastData();
-        // const close = this.closepop();
-        this.map.on('singleclick', function (evt) {
+        const overlay = new Overlay({
+            element: ReactDOM.findDOMNode(this).querySelector('#popup'),
+            positioning: 'center-center',
+            stopEvent: false
+        });
 
-            overlay.setPosition(undefined);
-            closer.blur();
+        this.map.addOverlay(overlay);
+
+        this.map.on('click', evt => {
+            overlay.setPosition(undefined)
             const coordinate = evt.coordinate;
-            // const hdms = toStringHDMS(toLonLat(coordinate));
-            // console.log(this.overlay)
+
             var viewResolution = (view.getResolution());
             var url = imdlayer.getSource().getFeatureInfoUrl(
                 evt.coordinate,
@@ -142,22 +154,64 @@ class Forecast1 extends Component {
             );
             if (url) {
                 fetch(url)
-                    .then(function (response) {
+                    .then((response) => {
                         // console.log(response.text());
                         return response.text();
                     })
-                    .then(function (html) {
+                    .then((html) => {
                         var jsondata = JSON.parse(html);
                         if (jsondata.features[0]) {
                             if (jsondata.features[0].properties) {
-                                content.innerHTML = "";
-                                content.innerHTML = '<table id="customers" className="table table-bordered" style="border:1px solid black;width: 100%;color:black"><tr ><td style="background-color:skyblue;text-align:center;font-weight:bold;" colspan=2 >IMD Weather Forecast Attribute Information</td></tr><tr><td style="text-align: left">District </td><td style="text-align: left">' + jsondata.features[0].properties.dtnname + '</td></tr><tr><td style="text-align: left">Taluka </td><td style="text-align: left">' + jsondata.features[0].properties.thnname + '</td></tr><tr><td style="text-align: left">Forecast Date </td><td style="text-align: left">' + jsondata.features[0].properties.forecast_date + '</td></tr><tr><td style="text-align: left">Rainfall (mm) </td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.rainfall_mm) + '</td></tr><tr><td style="text-align: left">Maximum Temprature &#8451; </td><td style="text-align: left ">' + parseFloat(jsondata.features[0].properties.temp_max_deg_c) + '</td></tr><tr><td style="text-align: left">Minimum Temprature &#8451; </td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.temp_min_deg_c) + '</td></tr><tr><td style="text-align: left">Wind Speed(m/s) </td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.wind_speed_ms) + '</td></tr><tr><td style="text-align: left">Wind Direction</td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.wind_direction_deg) + '</td></tr><tr><td style="text-align: left">Humidity 1 (%) </td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.humidity_1) + '</td></tr><tr><td style="text-align: left">Humidity 2 (%)</td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.humidity_2) + '</td></tr><tr><td style="text-align: left">Cloud Cover </td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.cloud_cover_octa) + '</td></tr><tr></table>';
+                                var popupContent = overlay.element.querySelector('#popup-content');
+                                popupContent.innerHTML = '';
+                                popupContent.innerHTML = '<table id="customers" className="table table-bordered" style="border:1px solid black;width: 100%;color:black"><tr ><td style="background-color:skyblue;text-align:center;font-weight:bold;" colspan=2 >IMD Weather Forecast Attribute Information</td></tr><tr><td style="text-align: left">District </td><td style="text-align: left">' + jsondata.features[0].properties.dtnname + '</td></tr><tr><td style="text-align: left">Taluka </td><td style="text-align: left">' + jsondata.features[0].properties.thnname + '</td></tr><tr><td style="text-align: left">Forecast Date </td><td style="text-align: left">' + jsondata.features[0].properties.forecast_date + '</td></tr><tr><td style="text-align: left">Rainfall (mm) </td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.rainfall_mm) + '</td></tr><tr><td style="text-align: left">Maximum Temprature &#8451; </td><td style="text-align: left ">' + parseFloat(jsondata.features[0].properties.temp_max_deg_c) + '</td></tr><tr><td style="text-align: left">Minimum Temprature &#8451; </td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.temp_min_deg_c) + '</td></tr><tr><td style="text-align: left">Wind Speed(m/s) </td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.wind_speed_ms) + '</td></tr><tr><td style="text-align: left">Wind Direction</td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.wind_direction_deg) + '</td></tr><tr><td style="text-align: left">Humidity 1 (%) </td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.humidity_1) + '</td></tr><tr><td style="text-align: left">Humidity 2 (%)</td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.humidity_2) + '</td></tr><tr><td style="text-align: left">Cloud Cover </td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.cloud_cover_octa) + '</td></tr><tr></table>';
+                                // overlay.addOverlay(this.popup);
                                 overlay.setPosition(coordinate);
                             }
                         }
                     });
             }
-        });
+
+
+        })
+
+        // Listener to add Popup overlay showing the position the user clicked
+        // this.map.on('click', evt => {
+
+        //     this.overlay.setPosition(undefined)
+        //     //   this.closer.blur();
+        //     const coordinate = evt.coordinate;
+        //     // console.log(this.overlay)
+        //     var viewResolution = (view.getResolution());
+        //     var url = imdlayer.getSource().getFeatureInfoUrl(
+        //         evt.coordinate,
+        //         viewResolution,
+        //         'EPSG:3857', { 'INFO_FORMAT': 'application/json' }
+        //     );
+        //     if (url) {
+        //         fetch(url)
+        //             .then((response) => {
+        //                 // console.log(response.text());
+        //                 return response.text();
+        //             })
+        //             .then((html) => {
+        //                 var jsondata = JSON.parse(html);
+        //                 if (jsondata.features[0]) {
+        //                     if (jsondata.features[0].properties) {
+        //                         // content.innerHTML += '';reactDom.findDOMNode(this).querySelector('#popup-content')
+        //                         document.getElementById("popup-content").innerHTML = '<table id="customers" className="table table-bordered" style="border:1px solid black;width: 100%;color:black"><tr ><td style="background-color:skyblue;text-align:center;font-weight:bold;" colspan=2 >IMD Weather Forecast Attribute Information</td></tr><tr><td style="text-align: left">District </td><td style="text-align: left">' + jsondata.features[0].properties.dtnname + '</td></tr><tr><td style="text-align: left">Taluka </td><td style="text-align: left">' + jsondata.features[0].properties.thnname + '</td></tr><tr><td style="text-align: left">Forecast Date </td><td style="text-align: left">' + jsondata.features[0].properties.forecast_date + '</td></tr><tr><td style="text-align: left">Rainfall (mm) </td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.rainfall_mm) + '</td></tr><tr><td style="text-align: left">Maximum Temprature &#8451; </td><td style="text-align: left ">' + parseFloat(jsondata.features[0].properties.temp_max_deg_c) + '</td></tr><tr><td style="text-align: left">Minimum Temprature &#8451; </td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.temp_min_deg_c) + '</td></tr><tr><td style="text-align: left">Wind Speed(m/s) </td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.wind_speed_ms) + '</td></tr><tr><td style="text-align: left">Wind Direction</td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.wind_direction_deg) + '</td></tr><tr><td style="text-align: left">Humidity 1 (%) </td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.humidity_1) + '</td></tr><tr><td style="text-align: left">Humidity 2 (%)</td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.humidity_2) + '</td></tr><tr><td style="text-align: left">Cloud Cover </td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.cloud_cover_octa) + '</td></tr><tr></table>';
+        //                         // overlay.setPosition(coordinate);
+        //                     }
+        //                 }
+        //             });
+        //     }
+        // })
+
+
+
+
+
+
 
     }
 
@@ -247,18 +301,13 @@ class Forecast1 extends Component {
         });
 
         this.map.addLayer(imdlayer);
-        this.map.getView().calculateExtent(this.map.getSize())
-        // Nowadays, map.getSize() is optional most of the time (except if you don't share view between different maps), so above is equivalent to the following
-
-        this.map.getView().fit(
-            this.map.getView().calculateExtent(this.map.getSize()), { duration: 1590, size: this.map.getSize() - 100 }
-        );
-        // const resolution = this.map.getView().getResolution();
-        // // this.updateLegend(resolution);
-        // let graphicUrl = imdlayer.getSource().getLegendUrl(resolution);
-        // // console.log(graphicUrl)
-        // let img = document.getElementById('legend');
-        // img.src = graphicUrl;
+        
+        const resolution = this.map.getView().getResolution();
+        // this.updateLegend(resolution);
+        let graphicUrl = imdlayer.getSource().getLegendUrl(resolution);
+        // console.log(graphicUrl)
+        let img = document.getElementById('legend');
+        img.src = graphicUrl;
 
     }
 
@@ -435,11 +484,10 @@ class Forecast1 extends Component {
                                 <div className="row">
                                     <div className="col-12 col-sm-12" id="map" style={{ height: "80vh" }}>
                                     </div>
-                                    <div id="popup" className="ol-popup" >
-                                        <a id="popup-closer" className="ol-popup-closer" onClick={this.closepop} />
+                                    <div id="popup" className="ol-popup">
+                                        <a href="#" id="popup-closer" className="ol-popup-closer" />
                                         <div id="popup-content" />
                                     </div>
-
                                     Legend:
                                     <div><img id="legend" /></div>
                                 </div>
