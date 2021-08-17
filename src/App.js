@@ -17,7 +17,7 @@ function App() {
         <Sidebar />
         <Switch>
           <Route exact path="/" component={MainContent} />
-          <Route path="/forecast" component={Forecast1} />
+          <Route path="/forecast" component={Forecast} />
           <Route exact path="/home" component={MainContent} />
           <Route component={NoFound} />
         </Switch>
