@@ -11,8 +11,9 @@ import { ScaleLine, MousePosition, defaults as defaultControls } from 'ol/contro
 import { format } from 'ol/coordinate';
 import Moment from 'moment';
 
-const Forecast = () => {
-    const [todate, setTodate] = useState('');
+const Forecast = (props) => {
+    const [forecastData, setForecastDate] = useState([]);
+    // const [todate, setTodate] = useState('');
     const [minDate, setMinDate] = useState('');
     const [minimumDate, setMinimumDate] = useState('');
     const [maxDate, setMaxDate] = useState('');
@@ -25,11 +26,29 @@ const Forecast = () => {
     const [tempmax1, setTempMax1] = useState('');
     const [tempmax2, setTempMax2] = useState('');
     const [tempmax3, setTempMax3] = useState('');
+
     const [tempmax4, setTempMax4] = useState('');
     const [tempmin1, setTempMin1] = useState('');
     const [tempmin2, setTempMin2] = useState('');
     const [tempmin3, setTempMin3] = useState('');
     const [tempmin4, setTempMin4] = useState('');
+    useEffect(() => {
+        map.setTarget("map");
+
+        async function fetchData() {
+            const response = await fetch("http://gis.mahapocra.gov.in/weatherservices/meta/getforecastdate")
+                .then(response => response.json())
+                .then(data => {
+                    setForecastDate(data.forecast);
+                });
+        }
+        fetchData();
+        // response;
+    }, []);
+
+    useEffect(()=>{
+        
+    })
 
     var scaleLineControl = new ScaleLine({
         units: 'metric',
@@ -75,135 +94,43 @@ const Forecast = () => {
     });
     let frameRate = 0.5; // frames per second
     let animationId = null, imdlayer;
+    var mindate, maxdate;
+    
 
+    const onSetTimeHandler = () => {
 
-    async function fetchData() {
-        const response = await fetch("http://gis.mahapocra.gov.in/weatherservices/meta/getforecastdate")
-            .then(response => response.json())
-            .then(data => {
-                console.log(data.forecast[0].maxdate)
-                setTodate((prevTodate) => {
-                    const updateTodate = [data.forecast[0].today];
-                    return updateTodate;
-                });
-                setMinDate((prevMindate) => {
-                    const updateMindate = [data.forecast[0].mindate];
-                    return updateMindate;
-                });
-                setMaxDate([data.forecast[0].maxdate])
-                setMinimumDate((prevMinimumDate) => {
-                    const updateMinimuDate = [data.forecast[0].mindate];
-                    return updateMinimuDate;
-                });
-                // setMinimumDate(data.forecast[0].mindate);
-
-                // setMinDate(data.forecast[0].mindate);
-                // setMinimumDate(data.forecast[0].mindate);
-                // setMaxDate(data.forecast[0].maxdate);
-                // setRain1(data.forecast[0].rain1);
-                // setRain2(data.forecast[0].rain2);
-                // setRain3(data.forecast[0].rain3);
-                // setRain4(data.forecast[0].rain4);
-                // setRain5(data.forecast[0].rain5);
-                // setMaxRainfall(data.forecast[0].maxrainfall);
-                // setTempMax1(data.forecast[0].temp_max1);
-                // setTempMax2(data.forecast[0].temp_max2);
-                // setTempMax3(data.forecast[0].temp_max3);
-                // setTempMax4(data.forecast[0].temp_max4);
-                // setTempMin1(data.forecast[0].temp_min1);
-                // setTempMin2(data.forecast[0].temp_min2);
-                // setTempMin3(data.forecast[0].temp_min3);
-                // setTempMin4(data.forecast[0].temp_min4);
-                // loadMap(data.forecast[0].mindate);
-            });
     }
 
-    useEffect(() => {
-        map.setTarget("map");
-
-        fetchData();
-
-        // response;
-    }, []);
-
-
-
-
-
-
-    const loadMap = (forecatdate) => {
-        var label, propname;
+    const forecastMapLoad = () => {
+        var elevalue = document.getElementById("mapselect").value;
+        var propname = "";
+        var label = "";
         var rain_class1, rain_class2, rain_class3, rain_class4, rain_class5, maxrainfall;
-        let elevalue = document.getElementById("mapselect").value;
-        if (imdlayer) {
-            map.removeLayer(imdlayer);
-        }
-
-        if (elevalue === "rainfall") {
-            propname = "rainfall_mm";
-            label = "Rainfall";
-            // // document.getElementById("legendTitle").innerHTML = label + '(mm)';
-
-
-            console.log(rain1)
-            // rain_class1 = rain1;
-            // rain_class2 = rain2;
-            // rain_class3 = rain3;
-            // rain_class4 = rain4;
-            // rain_class5 = rain5;
-
-        }
-        // else if(elevalue === "rainfall") {
-        //     propname = "rainfall_mm";
-        //     label = "Rainfall";
-        //     // // document.getElementById("legendTitle").innerHTML = label + '(mm)';
-        //     rain_class1 = state.rain1;
-        //     rain_class2 = state.rain2;
-        //     rain_class3 = state.rain3;
-        //     rain_class4 = state.rain4;
-        //     rain_class5 = state.rain5;
-
-        // }
-        console.log("propname:" + propname + ";rain1:" + (parseInt(rain_class2)) + ";rain2:" + (parseInt(rain_class2) + 0.1) + ";rain3:" + (parseInt(rain_class3)) + ";rain4:" + (parseInt(rain_class3) + 0.1) + ";rain5:" + (parseInt(rain_class4)) + ";rain6:" + (parseInt(rain_class4) + 0.1))
-        var indate = "forecast_date IN('" + Moment(forecatdate).format('YYYY-MM-DD') + "')";
-        imdlayer = new ImageLayer({
-            title: "IMD Forecast",
-            source: new ImageWMS({
-                attributions: ['&copy; IMD Forecast'],
-                crossOrigin: 'Anonymous',
-                serverType: 'geoserver',
-                visible: true,
-                url: "http://gis.mahapocra.gov.in/geoserver/PoCRA_Dashboard/wms?",
-                params: {
-                    'LAYERS': 'PoCRA:ForecastView',
-                    'TILED': true,
-                    'env': "propname:" + propname + ";rain1:" + (parseInt(rain_class2)) + ";rain2:" + (parseInt(rain_class2) + 0.1) + ";rain3:" + (parseInt(rain_class3)) + ";rain4:" + (parseInt(rain_class3) + 0.1) + ";rain5:" + (parseInt(rain_class4)) + ";rain6:" + (parseInt(rain_class4) + 0.1),
-                    'CQL_FILTER': indate
-                },
-            })
-        });
-
-        map.addLayer(imdlayer);
-
-        const resolution = map.getView().getResolution();
-        // updateLegend(resolution);
-        let graphicUrl = imdlayer.getSource().getLegendUrl(resolution);
-        console.log(graphicUrl)
-        let img = document.getElementById('legend');
-        img.src = graphicUrl;
-
+        propname = "rainfall_mm";
+        label = "Rainfall";
+        // document.getElementById("legendTitle").innerHTML = label + '(mm)';
+        rain_class2 = rain2;
+        console.log(rain_class2)
+        // rain_class3 = rain3;
+        // rain_class4 = rain4;
+        // rain_class5 = rain5;
     }
-
+    const onPrevHandler = () => {
+        var startdate = rain2 
+        console.log(startdate)
+    }
 
     return (
-        <div >
+
+        <>
+            
             <div className="content-wrapper">
                 {/* Content Header (Page header) */}
                 <section className="content-header">
                     <div className="container-fluid">
                         <div className="row mb-2">
                             <div className="col-sm-6">
-                                <label style={{ paddingTop: 9, color: "rgb(248, 112, 33)" }}>IMD Weather Forecast (  {Moment({ minimumDate }).format('DD-MM-YYYY')} - {Moment({ maxDate }).format('DD-MM-YYYY')} )</label>
+                                <label style={{ paddingTop: 9, color: "rgb(248, 112, 33)" }}>IMD Weather Forecast (  {Moment(minimumDate).format('DD-MM-YYYY')} - {Moment(maxDate).format('DD-MM-YYYY')} )</label>
                             </div>
                             <div className="col-sm-6 float-sm-right">
                                 <ol className="breadcrumb float-sm-right">
@@ -218,12 +145,12 @@ const Forecast = () => {
                                     </li>
                                     <li className="nav-item dropdown">
                                         <div className="form-group" style={{ padding: 5 }}>
-                                            <label>Forecast on Date: {Moment({ minDate }).format('DD-MM-YYYY')}</label>
+                                            <label>Forecast on Date: {Moment(minDate).format('DD-MM-YYYY')}</label>
                                         </div>
                                     </li>
-                                    <li className="nav-item dropdown">
+                                    <li className="nav-item dropdown" >
                                         <a className="nav-link" >
-                                            <i class="fas fa-backward" title={"Privious"} ></i>
+                                            <i class="fas fa-backward" title={"Privious"} onClick={onPrevHandler} ></i>
                                         </a>
                                     </li>
                                     <li className="nav-item dropdown">
@@ -266,7 +193,7 @@ const Forecast = () => {
                 {/* /.content */}
             </div>
 
-        </div>
+        </>
     )
 }
 
