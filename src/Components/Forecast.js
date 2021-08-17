@@ -24,7 +24,7 @@ let animationId = null, imdlayer, MahaDist, minimumDate;
 var view = "";
 let rain_class1, rain_class2, rain_class3, rain_class4, rain_class5, maxrainfall;
 var geojson;
-class Forecast1 extends Component {
+class Forecast extends Component {
 
     constructor(props) {
         super(props);
@@ -479,6 +479,7 @@ class Forecast1 extends Component {
                                     {/* Legend:
                                     <div><img id="legend" /></div> */}
                                 </div>
+                                
                             </div>
                             {/* /.card-body */}
                         </div>
@@ -495,4 +496,4 @@ class Forecast1 extends Component {
 
 
 
-export default Forecast1;
+export default Forecast;
