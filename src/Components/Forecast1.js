@@ -81,7 +81,19 @@ class Forecast1 extends Component {
                 crossOrigin: 'Anonymous',
             })
         });
-
+        var pocraDistrict = new TileLayer({
+            title: "Base Layer",
+            source: new TileWMS({
+                url: 'http://gis.mahapocra.gov.in/geoserver/PoCRA_Dashboard/wms',
+                crossOrigin: 'Anonymous',
+                serverType: 'geoserver',
+                visible: true,
+                params: {
+                    'LAYERS': 'PoCRA_Dashboard:District',
+                    'TILED': true,
+                }
+            })
+        });
 
 
         view = new View({
@@ -101,7 +113,7 @@ class Forecast1 extends Component {
             target: null,
             view: view,
             controls: defaultControls().extend([this.mouse, this.scaleLineControl]),
-            layers: [topo]
+            layers: [topo,pocraDistrict]
         });
 
 

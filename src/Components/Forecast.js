@@ -5,29 +5,25 @@ import "ol/ol.css";
 import "ol-ext/dist/ol-ext.css";
 import { Map, View } from "ol";
 import Overlay from 'ol/Overlay';
-import OSM from 'ol/source/OSM';
 import XYZ from 'ol/source/XYZ';
 import { ScaleLine, MousePosition, defaults as defaultControls } from 'ol/control';
-import { format, toStringHDMS } from 'ol/coordinate';
-import { transform, toLonLat, fromLonLat } from 'ol/proj';
+import { format } from 'ol/coordinate';
+import { transform } from 'ol/proj';
 import { Image as ImageLayer, Tile as TileLayer } from 'ol/layer';
 import TileWMS from 'ol/source/TileWMS'
 import ImageWMS from 'ol/source/ImageWMS'
 import Moment from 'moment';
 import ReactDOM from 'react-dom';
-
+import GeoJSON from 'ol/format/GeoJSON';
+import VectorLayer from 'ol/layer/Vector';
+import VectorSource from 'ol/source/Vector';
 
 let startDate = "", sdate = "";
 let frameRate = 0.5; // frames per second
 let animationId = null, imdlayer, MahaDist, minimumDate;
-var container = document.getElementById('popup');
-var content = ((document.getElementById('popup-content') || {}).value) || "";
-// ((document.getElementById("mapselect") || {}).value) || ""
-
-var view = "", overlay = "";
+var view = "";
 let rain_class1, rain_class2, rain_class3, rain_class4, rain_class5, maxrainfall;
-let rain1, rain2, rain3, rain4, rain5, tempmax1, tempmax2, tempmax3, tempmax4, tempmin1, tempmin2, tempmin3, tempmin4;
-var map, popup, overlay;
+var geojson;
 class Forecast1 extends Component {
 
     constructor(props) {
@@ -69,7 +65,7 @@ class Forecast1 extends Component {
             }
         });
 
-        let topo = new TileLayer({
+        var topo = new TileLayer({
             title: 'Topo Map',
             type: 'base',
             visible: true,
@@ -82,19 +78,25 @@ class Forecast1 extends Component {
             })
         });
 
-
+        this.pocraDistrict = new TileLayer({
+            title: "Base Layer",
+            source: new TileWMS({
+                url: 'http://gis.mahapocra.gov.in/geoserver/PoCRA_Dashboard/wms',
+                crossOrigin: 'Anonymous',
+                serverType: 'geoserver',
+                visible: true,
+                params: {
+                    'LAYERS': 'PoCRA_Dashboard:District',
+                    'TILED': true,
+                }
+            })
+        });
 
         view = new View({
             zoom: 7,
             center: transform([77.50, 18.95], 'EPSG:4326', 'EPSG:3857'),
         });
-        // this.overlay = new Overlay({
-        //     element: container,
-        //     autoPan: true,
-        //     autoPanAnimation: {
-        //         duration: 250,
-        //     },
-        // });
+
 
         this.map = new Map({
             // overlays: [this.overlay],
@@ -111,7 +113,7 @@ class Forecast1 extends Component {
         this.setTime = this.setTime.bind(this);
         this.stop = this.stop.bind(this);
         this.play = this.play.bind(this);
-        this.loadMap = this.loadMap.bind(this);
+        this.loadForecastMap = this.loadForecastMap.bind(this);
         this.changeMap = this.changeMap.bind(this);
         this.nextTime = this.nextTime.bind(this);
         this.next = this.next.bind(this);
@@ -119,17 +121,10 @@ class Forecast1 extends Component {
         this.prev = this.prev.bind(this);
         this.resetTime = this.resetTime.bind(this);
         this.reset = this.reset.bind(this);
-        this.closepop = this.closepop.bind(this);
-        // this.overlay = this.overlay.bind(this);
 
     }
 
 
-    closepop() {
-        overlay.setPosition(undefined);
-        // closer.blur();
-        return false;
-    }
     componentDidMount() {
 
         this.map.setTarget("map");
@@ -141,11 +136,11 @@ class Forecast1 extends Component {
         });
 
         this.map.addOverlay(overlay);
-      
+
         this.map.on('click', evt => {
             overlay.setPosition(undefined)
             const coordinate = evt.coordinate;
-            
+
             var viewResolution = (view.getResolution());
             var url = imdlayer.getSource().getFeatureInfoUrl(
                 evt.coordinate,
@@ -162,57 +157,16 @@ class Forecast1 extends Component {
                         var jsondata = JSON.parse(html);
                         if (jsondata.features[0]) {
                             if (jsondata.features[0].properties) {
-                               var popupContent=overlay.element.querySelector('#popup-content');
-                               popupContent.innerHTML = '';
-                               popupContent.innerHTML = '<table id="customers" className="table table-bordered" style="border:1px solid black;width: 100%;color:black"><tr ><td style="background-color:skyblue;text-align:center;font-weight:bold;" colspan=2 >IMD Weather Forecast Attribute Information</td></tr><tr><td style="text-align: left">District </td><td style="text-align: left">' + jsondata.features[0].properties.dtnname + '</td></tr><tr><td style="text-align: left">Taluka </td><td style="text-align: left">' + jsondata.features[0].properties.thnname + '</td></tr><tr><td style="text-align: left">Forecast Date </td><td style="text-align: left">' + jsondata.features[0].properties.forecast_date + '</td></tr><tr><td style="text-align: left">Rainfall (mm) </td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.rainfall_mm) + '</td></tr><tr><td style="text-align: left">Maximum Temprature &#8451; </td><td style="text-align: left ">' + parseFloat(jsondata.features[0].properties.temp_max_deg_c) + '</td></tr><tr><td style="text-align: left">Minimum Temprature &#8451; </td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.temp_min_deg_c) + '</td></tr><tr><td style="text-align: left">Wind Speed(m/s) </td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.wind_speed_ms) + '</td></tr><tr><td style="text-align: left">Wind Direction</td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.wind_direction_deg) + '</td></tr><tr><td style="text-align: left">Humidity 1 (%) </td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.humidity_1) + '</td></tr><tr><td style="text-align: left">Humidity 2 (%)</td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.humidity_2) + '</td></tr><tr><td style="text-align: left">Cloud Cover </td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.cloud_cover_octa) + '</td></tr><tr></table>';
+                                var popupContent = overlay.element.querySelector('#popup-content');
+                                popupContent.innerHTML = '';
+                                popupContent.innerHTML = '<table id="customers" className="table table-bordered" style="border:1px solid black;width: 100%;color:black"><tr ><td style="background-color:skyblue;text-align:center;font-weight:bold;" colspan=2 >IMD Weather Forecast Attribute Information</td></tr><tr><td style="text-align: left">District </td><td style="text-align: left">' + jsondata.features[0].properties.dtnname + '</td></tr><tr><td style="text-align: left">Taluka </td><td style="text-align: left">' + jsondata.features[0].properties.thnname + '</td></tr><tr><td style="text-align: left">Forecast Date </td><td style="text-align: left">' + jsondata.features[0].properties.forecast_date + '</td></tr><tr><td style="text-align: left">Rainfall (mm) </td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.rainfall_mm) + '</td></tr><tr><td style="text-align: left">Maximum Temprature &#8451; </td><td style="text-align: left ">' + parseFloat(jsondata.features[0].properties.temp_max_deg_c) + '</td></tr><tr><td style="text-align: left">Minimum Temprature &#8451; </td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.temp_min_deg_c) + '</td></tr><tr><td style="text-align: left">Wind Speed(m/s) </td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.wind_speed_ms) + '</td></tr><tr><td style="text-align: left">Wind Direction</td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.wind_direction_deg) + '</td></tr><tr><td style="text-align: left">Humidity 1 (%) </td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.humidity_1) + '</td></tr><tr><td style="text-align: left">Humidity 2 (%)</td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.humidity_2) + '</td></tr><tr><td style="text-align: left">Cloud Cover </td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.cloud_cover_octa) + '</td></tr><tr></table>';
                                 // overlay.addOverlay(this.popup);
                                 overlay.setPosition(coordinate);
                             }
                         }
                     });
             }
-
-            
         })
-
-        // Listener to add Popup overlay showing the position the user clicked
-        // this.map.on('click', evt => {
-
-        //     this.overlay.setPosition(undefined)
-        //     //   this.closer.blur();
-        //     const coordinate = evt.coordinate;
-        //     // console.log(this.overlay)
-        //     var viewResolution = (view.getResolution());
-        //     var url = imdlayer.getSource().getFeatureInfoUrl(
-        //         evt.coordinate,
-        //         viewResolution,
-        //         'EPSG:3857', { 'INFO_FORMAT': 'application/json' }
-        //     );
-        //     if (url) {
-        //         fetch(url)
-        //             .then((response) => {
-        //                 // console.log(response.text());
-        //                 return response.text();
-        //             })
-        //             .then((html) => {
-        //                 var jsondata = JSON.parse(html);
-        //                 if (jsondata.features[0]) {
-        //                     if (jsondata.features[0].properties) {
-        //                         // content.innerHTML += '';reactDom.findDOMNode(this).querySelector('#popup-content')
-        //                         document.getElementById("popup-content").innerHTML = '<table id="customers" className="table table-bordered" style="border:1px solid black;width: 100%;color:black"><tr ><td style="background-color:skyblue;text-align:center;font-weight:bold;" colspan=2 >IMD Weather Forecast Attribute Information</td></tr><tr><td style="text-align: left">District </td><td style="text-align: left">' + jsondata.features[0].properties.dtnname + '</td></tr><tr><td style="text-align: left">Taluka </td><td style="text-align: left">' + jsondata.features[0].properties.thnname + '</td></tr><tr><td style="text-align: left">Forecast Date </td><td style="text-align: left">' + jsondata.features[0].properties.forecast_date + '</td></tr><tr><td style="text-align: left">Rainfall (mm) </td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.rainfall_mm) + '</td></tr><tr><td style="text-align: left">Maximum Temprature &#8451; </td><td style="text-align: left ">' + parseFloat(jsondata.features[0].properties.temp_max_deg_c) + '</td></tr><tr><td style="text-align: left">Minimum Temprature &#8451; </td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.temp_min_deg_c) + '</td></tr><tr><td style="text-align: left">Wind Speed(m/s) </td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.wind_speed_ms) + '</td></tr><tr><td style="text-align: left">Wind Direction</td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.wind_direction_deg) + '</td></tr><tr><td style="text-align: left">Humidity 1 (%) </td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.humidity_1) + '</td></tr><tr><td style="text-align: left">Humidity 2 (%)</td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.humidity_2) + '</td></tr><tr><td style="text-align: left">Cloud Cover </td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.cloud_cover_octa) + '</td></tr><tr></table>';
-        //                         // overlay.setPosition(coordinate);
-        //                     }
-        //                 }
-        //             });
-        //     }
-        // })
-
-
-
-
-
-
-
     }
 
 
@@ -240,12 +194,45 @@ class Forecast1 extends Component {
                     tempmin3: data.forecast[0].temp_min3,
                     tempmin4: data.forecast[0].temp_min4,
                 }));
-                this.loadMap(data.forecast[0].mindate);
+                this.loadForecastMap(data.forecast[0].mindate);
+                // this.onFitMapHandler();
             });
 
     }
 
-    loadMap = (forecatdate) => {
+    source = new VectorSource({
+        url: 'http://gis.mahapocra.gov.in/geoserver/PoCRA_Dashboard/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=District&outputFormat=application/json',
+        format: new GeoJSON(),
+    });
+
+    onFitMapHandler() {
+
+        if (geojson) {
+            this.map.removeLayer(geojson);
+        }
+
+        var url = "http://gis.mahapocra.gov.in/geoserver/PoCRA_Dashboard/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=District&outputFormat=application/json";
+        geojson = new VectorLayer({
+            title: "Taluka",
+            source: new VectorSource({
+                url: url,
+                format: new GeoJSON()
+            }),
+        });
+        const feature = geojson.getSource().getFeatures();
+        console.log(feature);
+        // const polygon = feature.getGeometry()
+        // geojson.getSource().on('addfeature', function () {
+        //     //alert(geojson.getSource().getExtent());
+        //     this.map.getView().fit(
+        //         geojson.getSource().getExtent(), { duration: 1590, size: this.map.getSize() - 100 }
+        //     );
+        // });
+        // this.map.addLayer(geojson);
+
+    }
+
+    loadForecastMap = (forecatdate) => {
         // ((document.getElementById("mapselect")||{}).value)||"";
         let elevalue = ((document.getElementById("mapselect") || {}).value) || "";
         if (imdlayer) {
@@ -301,14 +288,10 @@ class Forecast1 extends Component {
         });
 
         this.map.addLayer(imdlayer);
-        this.map.getView().calculateExtent(this.map.getSize())
-        // Nowadays, this.map.getSize() is optional most of the time (except if you don't share view between different maps), so above is equivalent to the following
+        this.map.addLayer(this.pocraDistrict);
 
-        this.map.getView().fit(
-            this.map.getView().calculateExtent(this.map.getSize()), { duration: 1590, size: this.map.getSize() - 100 }
-        );
-        // const resolution = map.getView().getResolution();
-        // // this.updateLegend(resolution);
+        // this.loadForecastMap1();
+        // this.updateLegend(resolution);
         // let graphicUrl = imdlayer.getSource().getLegendUrl(resolution);
         // // console.log(graphicUrl)
         // let img = document.getElementById('legend');
@@ -324,7 +307,7 @@ class Forecast1 extends Component {
         this.setState({
             mindate: startDate
         });
-        this.loadMap(Moment(startDate).format('YYYY-MM-DD'));
+        this.loadForecastMap(Moment(startDate).format('YYYY-MM-DD'));
         if (sdate == edate) {
             this.stop();
             this.reset();
@@ -344,7 +327,7 @@ class Forecast1 extends Component {
         this.setState({
             mindate: startDate
         });
-        this.loadMap(Moment(startDate).format('YYYY-MM-DD'));
+        this.loadForecastMap(Moment(startDate).format('YYYY-MM-DD'));
         this.stop();
     }
     reset() {
@@ -377,7 +360,7 @@ class Forecast1 extends Component {
             this.setState({
                 mindate: startDate
             });
-            this.loadMap(Moment(startDate).format('YYYY-MM-DD'));
+            this.loadForecastMap(Moment(startDate).format('YYYY-MM-DD'));
         }
 
         this.stop();
@@ -402,7 +385,7 @@ class Forecast1 extends Component {
             this.setState({
                 mindate: startDate
             });
-            this.loadMap(Moment(startDate).format('YYYY-MM-DD'));
+            this.loadForecastMap(Moment(startDate).format('YYYY-MM-DD'));
             // updateInfo();
             this.stop();
         }
@@ -417,7 +400,7 @@ class Forecast1 extends Component {
     };
 
     changeMap() {
-        this.loadMap(this.state.mindate)
+        this.loadForecastMap(this.state.mindate)
     }
 
 
@@ -493,8 +476,8 @@ class Forecast1 extends Component {
                                         <a href="#" id="popup-closer" className="ol-popup-closer" />
                                         <div id="popup-content" />
                                     </div>
-                                    Legend:
-                                    <div><img id="legend" /></div>
+                                    {/* Legend:
+                                    <div><img id="legend" /></div> */}
                                 </div>
                             </div>
                             {/* /.card-body */}
