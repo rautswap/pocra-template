@@ -11,7 +11,6 @@ import Forecast1 from './Components/Forecast1';
 function App() {
   return (
     <div class="wrapper">
-
       <Router>
         <Header />
         <Sidebar />
