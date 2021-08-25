@@ -18,12 +18,14 @@ import GeoJSON from 'ol/format/GeoJSON';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import ForecastTable from './ForecastTable';
+import LegendPanel from './LegendPanel';
 let startDate = "", sdate = "";
 let frameRate = 0.5; // frames per second
 let animationId = null, imdlayer, MahaDist, minimumDate;
 var view = "";
 let rain_class1, rain_class2, rain_class3, rain_class4, rain_class5, maxrainfall;
 var geojson;
+var propertyName;
 class Forecast extends Component {
 
 	constructor(props) {
@@ -48,6 +50,7 @@ class Forecast extends Component {
 			tempmin2: "",
 			tempmin3: "",
 			tempmin4: "",
+			pname:"",
 		}
 
 		// latLong = '&nbsp;&nbsp; Latitude : {y}, &nbsp;&nbsp; Longitude: {x} &nbsp;&nbsp;';
@@ -121,6 +124,7 @@ class Forecast extends Component {
 		this.prev = this.prev.bind(this);
 		this.resetTime = this.resetTime.bind(this);
 		this.reset = this.reset.bind(this);
+		// this.renderAuthButton=this.renderAuthButton.bind(this);
 
 	}
 
@@ -168,7 +172,7 @@ class Forecast extends Component {
 					});
 			}
 		})
-		
+
 	}
 
 
@@ -195,6 +199,7 @@ class Forecast extends Component {
 					tempmin2: data.forecast[0].temp_min2,
 					tempmin3: data.forecast[0].temp_min3,
 					tempmin4: data.forecast[0].temp_min4,
+					pname: "rainfall_mm",
 				}));
 				this.loadForecastMap(data.forecast[0].mindate);
 				// this.onFitMapHandler();
@@ -261,27 +266,36 @@ class Forecast extends Component {
 			rain_class3 = this.state.rain3;
 			rain_class4 = this.state.rain4;
 			rain_class5 = this.state.rain5;
-
+			propertyName = this.propname;
+			this.state = {
+				pname : "rainfall_mm",
+				...this.state
+			}
+			
 		} else if (elevalue === "mintemprature") {
 			this.propname = "temp_min_deg_c";
 			this.label = "Minimum Temprature";
 			this.state = {
+				pname : "temp_min_deg_c",
 				...this.state
 			}
 			rain_class2 = this.state.tempmin1;
 			rain_class3 = this.state.tempmin2;
 			rain_class4 = this.state.tempmin3;
 			rain_class5 = this.state.tempmin4;
+			propertyName = this.propname;
 		} else if (elevalue === "maxtemprature") {
 			this.propname = "temp_max_deg_c";
 			this.label = "Maximum Temprature";
 			this.state = {
+				pname : "temp_max_deg_c",
 				...this.state
 			}
 			rain_class2 = this.state.tempmax1;
 			rain_class3 = this.state.tempmax2;
 			rain_class4 = this.state.tempmax3;
 			rain_class5 = this.state.tempmax4;
+			propertyName = this.propname;
 		}
 
 		var indate = "forecast_date IN('" + Moment(forecatdate).format('YYYY-MM-DD') + "')";
@@ -296,7 +310,7 @@ class Forecast extends Component {
 				params: {
 					'LAYERS': 'PoCRA:ForecastView',
 					'TILED': true,
-					'env': "propname:" + this.propname + ";rain1:" + (parseInt(rain_class2)) + ";rain2:" + (parseInt(rain_class2) + 0.1) + ";rain3:" + (parseInt(rain_class3)) + ";rain4:" + (parseInt(rain_class3) + 0.1) + ";rain5:" + (parseInt(rain_class4)) + ";rain6:" + (parseInt(rain_class4) + 0.1),
+					'env': "propname:" + this.propname + ";title:" + rain_class2 + ";rain1:" + (parseInt(rain_class2)) + ";rain2:" + (parseInt(rain_class2) + 0.1) + ";rain3:" + (parseInt(rain_class3)) + ";rain4:" + (parseInt(rain_class3) + 0.1) + ";rain5:" + (parseInt(rain_class4)) + ";rain6:" + (parseInt(rain_class4) + 0.1),
 					'CQL_FILTER': indate
 				},
 			})
@@ -307,8 +321,8 @@ class Forecast extends Component {
 
 
 
-		// this.loadForecastMap1();
-		// this.updateLegend(resolution);
+		// const resolution = this.map.getView().getResolution();
+		// // this.updateLegend(resolution);
 		// let graphicUrl = imdlayer.getSource().getLegendUrl(resolution);
 		// // console.log(graphicUrl)
 		// let img = document.getElementById('legend');
@@ -423,6 +437,15 @@ class Forecast extends Component {
 
 
 	render() {
+		const renderAuthButton = () => {
+			let isLoggedIn = this.state.pname;
+			if (isLoggedIn==="rainfall_mm") {
+			  return <button>Logout</button>;
+			} 
+			else {
+			  return <button>Login</button>;
+			}
+		}
 
 		return (
 
@@ -487,23 +510,26 @@ class Forecast extends Component {
 						<div className="card card-solid">
 							<div className="card-body">
 								<div className="row">
-									<div className="col-12 col-sm-12" id="map" style={{ height: "60vh", width: "100%"}}>
+									<div className="col-12 col-sm-12" id="map" style={{ height: "60vh", width: "100%" }}>
 									</div>
 									<div id="popup" className="ol-popup">
 										<a href="#" id="popup-closer" className="ol-popup-closer" />
 										<div id="popup-content" />
 									</div>
-									
+									<div>
+										{renderAuthButton()}
+									</div>
+
 									{/* Legend:
-                                    <div><img id="legend" /></div> */}
+									<div><img id="legend" /></div> */}
 								</div>
-								
+
 
 							</div>
-							
+
 							{/* /.card-body */}
 						</div>
-						<ForecastTable todate={this.state.todate}/>
+						{/* <ForecastTable todate={this.state.todate} /> */}
 						{/* /.card */}
 					</section>
 

@@ -52,7 +52,6 @@ class ForecastTable extends Component {
 
 
 	renderTableData() {
-		console.log(this.state.data.dtncode)
 		return this.state.data.map((student, index) => {
 			const { dtnname, thnname, forecast_date, rainfall_mm, temp_min_deg_c, temp_max_deg_c, humidity_1, humidity_2, wind_speed_ms, wind_direction_deg, cloud_cover_octa } = student //destructuring
 			return (
