@@ -270,25 +270,25 @@ class Forecast extends Component {
 			rain_class5 = this.state.rain5;
 			propertyName = this.propname;
 			this.state = {
-				pname: "rainfall_mm"
+				...this.state
 			}
 
 		} else if (elevalue === "mintemprature") {
 			this.propname = "temp_min_deg_c";
 			this.label = "Minimum Temprature";
-			this.state = {
-				pname: "temp_min_deg_c"
-			}
+
 			rain_class2 = this.state.tempmin1;
 			rain_class3 = this.state.tempmin2;
 			rain_class4 = this.state.tempmin3;
 			rain_class5 = this.state.tempmin4;
-			propertyName = this.propname;
+			this.state = {
+				...this.state
+			}
 		} else if (elevalue === "maxtemprature") {
 			this.propname = "temp_max_deg_c";
 			this.label = "Maximum Temprature";
 			this.state = {
-				pname: "temp_max_deg_c"
+				...this.state
 			}
 			rain_class2 = this.state.tempmax1;
 			rain_class3 = this.state.tempmax2;
@@ -379,7 +379,10 @@ class Forecast extends Component {
 
 	};
 	nextTime() {
-		var edate = Moment(this.state.maxdate).format('DD-MM-YYYY')
+		console.log(this.state)
+		var enddate=new Date(this.state.maxdate);
+		var end=new Date(enddate.getTime() + 24 * 60 * 60 * 1000);
+		var edate = Moment(end).format('DD-MM-YYYY')
 		startDate = new Date(this.state.mindate);
 		startDate = new Date(startDate.getTime() + 24 * 60 * 60 * 1000);
 		sdate = Moment(startDate).format('DD-MM-YYYY');
@@ -450,7 +453,7 @@ class Forecast extends Component {
 
 
 	render() {
-		
+
 		return (
 
 			<div>
@@ -520,7 +523,7 @@ class Forecast extends Component {
 										<a href="#" id="popup-closer" className="ol-popup-closer" />
 										<div id="popup-content" />
 									</div>
-									
+
 									<div id={"legend"} className="box stack-top">
 										<LegendPanel mapcomp={this.state} />
 									</div>
