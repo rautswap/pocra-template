@@ -5,9 +5,8 @@ import MainContent from './Components/Dashboard/MainContent';
 import Sidebar from './Components/Dashboard/Sidebar';
 import Footer from './Components/Dashboard/Footer';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Forecast from './Components/Forecast';
+import Forecast from './Components/ForecastComponent/Forecast';
 import NoFound from './Components/NoFound';
-import Forecast1 from './Components/Forecast1';
 function App() {
   return (
     <div class="wrapper">

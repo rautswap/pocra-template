@@ -1,6 +1,6 @@
 import React, { Component, useState } from 'react'
 
-import './MapComponents/Map.css';
+import '../MapComponents/Map.css';
 import "ol/ol.css";
 import "ol-ext/dist/ol-ext.css";
 import { Map, View } from "ol";
@@ -50,7 +50,7 @@ class Forecast extends Component {
 			tempmin2: "",
 			tempmin3: "",
 			tempmin4: "",
-			pname:"",
+			pname: "",
 		}
 
 		// latLong = '&nbsp;&nbsp; Latitude : {y}, &nbsp;&nbsp; Longitude: {x} &nbsp;&nbsp;';
@@ -203,6 +203,7 @@ class Forecast extends Component {
 				}));
 				this.loadForecastMap(data.forecast[0].mindate);
 				// this.onFitMapHandler();
+
 			});
 
 	}
@@ -241,6 +242,7 @@ class Forecast extends Component {
 	}
 
 	loadForecastMap = (forecatdate) => {
+
 		let viewMap = this.map.getView();
 		let extent = viewMap.calculateExtent(this.map.getSize());
 		//hold the current resolution
@@ -268,16 +270,14 @@ class Forecast extends Component {
 			rain_class5 = this.state.rain5;
 			propertyName = this.propname;
 			this.state = {
-				pname : "rainfall_mm",
-				...this.state
+				pname: "rainfall_mm"
 			}
-			
+
 		} else if (elevalue === "mintemprature") {
 			this.propname = "temp_min_deg_c";
 			this.label = "Minimum Temprature";
 			this.state = {
-				pname : "temp_min_deg_c",
-				...this.state
+				pname: "temp_min_deg_c"
 			}
 			rain_class2 = this.state.tempmin1;
 			rain_class3 = this.state.tempmin2;
@@ -288,8 +288,7 @@ class Forecast extends Component {
 			this.propname = "temp_max_deg_c";
 			this.label = "Maximum Temprature";
 			this.state = {
-				pname : "temp_max_deg_c",
-				...this.state
+				pname: "temp_max_deg_c"
 			}
 			rain_class2 = this.state.tempmax1;
 			rain_class3 = this.state.tempmax2;
@@ -432,24 +431,29 @@ class Forecast extends Component {
 
 	changeMap() {
 		this.loadForecastMap(this.state.mindate)
+
+		if (this.propname == "rainfall_mm") {
+			this.setState({
+				pname: "rainfall_mm"
+			})
+		} else if (this.propname == "temp_min_deg_c") {
+			this.setState({
+				pname: "temp_min_deg_c"
+			})
+		} else if (this.propname == "temp_max_deg_c") {
+			this.setState({
+				pname: "temp_max_deg_c"
+			})
+		}
 	}
 
 
 
 	render() {
-		const renderAuthButton = () => {
-			let isLoggedIn = this.state.pname;
-			if (isLoggedIn==="rainfall_mm") {
-			  return <button>Logout</button>;
-			} 
-			else {
-			  return <button>Login</button>;
-			}
-		}
-
+		
 		return (
 
-			<div >
+			<div>
 				<div className="content-wrapper">
 					{/* Content Header (Page header) */}
 					<section className="content-header">
@@ -516,8 +520,9 @@ class Forecast extends Component {
 										<a href="#" id="popup-closer" className="ol-popup-closer" />
 										<div id="popup-content" />
 									</div>
-									<div>
-										{renderAuthButton()}
+									
+									<div id={"legend"} className="box stack-top">
+										<LegendPanel mapcomp={this.state} />
 									</div>
 
 									{/* Legend:
@@ -529,7 +534,7 @@ class Forecast extends Component {
 
 							{/* /.card-body */}
 						</div>
-						{/* <ForecastTable todate={this.state.todate} /> */}
+						<ForecastTable todate={this.state.todate} />
 						{/* /.card */}
 					</section>
 
