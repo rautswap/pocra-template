@@ -214,7 +214,6 @@ export default class DBTDashboard extends Component {
 				});
 				// console.log(initialPlanets);
 				this.setState({
-					// ...this.state,
 					district: [
 						{
 							label: 'Select District',
