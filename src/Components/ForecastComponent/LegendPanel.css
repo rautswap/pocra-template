@@ -17,7 +17,8 @@
 
 .borber {
 	padding-left: 2%;
-	color: #2b5b8f;
+	color: white;
+	background-color: teal;
 }
 
 #legend table, th {

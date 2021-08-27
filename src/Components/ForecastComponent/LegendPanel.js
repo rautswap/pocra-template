@@ -6,8 +6,7 @@ export default class LegendPanel extends Component {
 
 		const renderAuthButton = () => {
 
-			console.log(this.props.mapcomp.pname)
-			if (this.props.mapcomp.pname == "rainfall_mm") {
+			if (this.props.props.pname == "rainfall_mm") {
 				return (
 					<>
 						<table >
@@ -20,28 +19,28 @@ export default class LegendPanel extends Component {
 							<tr>
 								<td><img src="dist/legend/forcast1.jpg" height={'30px'} width={'50px'} />  </td>
 
-								<td>{this.props.mapcomp.rain1} - {this.props.mapcomp.rain2} </td>
+								<td>{this.props.props.rain1} - {this.props.props.rain2} </td>
 							</tr>
 							<tr>
 								<td><img src="dist/legend/forcast2.jpg" height={'30px'} width={'50px'} />  </td>
 
-								<td>{this.props.mapcomp.rain2 + 0.1} - {this.props.mapcomp.rain3} </td>
+								<td>{this.props.props.rain2 + 0.1} - {this.props.props.rain3} </td>
 							</tr>
 							<tr>
 								<td><img src="dist/legend/forcast3.jpg" height={'30px'} width={'50px'} />  </td>
 
-								<td>{this.props.mapcomp.rain3 + 0.1} - {this.props.mapcomp.rain4} </td>
+								<td>{this.props.props.rain3 + 0.1} - {this.props.props.rain4} </td>
 							</tr>
 							<tr>
 								<td><img src="dist/legend/forcast4.jpg" height={'30px'} width={'50px'} />  </td>
 
-								<td>{this.props.mapcomp.rain4 + 0.1} and above </td>
+								<td>{this.props.props.rain4 + 0.1} and above </td>
 							</tr>
 						</table>
 					</>
 				)
 
-			} else if (this.props.mapcomp.pname == "temp_min_deg_c") {
+			} else if (this.props.props.pname == "temp_min_deg_c") {
 				return (
 					<>
 						<table>
@@ -54,28 +53,28 @@ export default class LegendPanel extends Component {
 							<tr>
 								<td><img src="dist/legend/forcast1.jpg" height={'30px'} width={'50px'} />  </td>
 
-								<td>{this.props.mapcomp.rain1} - {this.props.mapcomp.tempmin1} </td>
+								<td>{this.props.props.rain1} - {this.props.props.tempmin1} </td>
 							</tr>
 							<tr>
 								<td><img src="dist/legend/forcast2.jpg" height={'30px'} width={'50px'} />  </td>
 
-								<td>{this.props.mapcomp.tempmin1 + 0.1} - {this.props.mapcomp.tempmin2} </td>
+								<td>{this.props.props.tempmin1 + 0.1} - {this.props.props.tempmin2} </td>
 							</tr>
 							<tr>
 								<td><img src="dist/legend/forcast3.jpg" height={'30px'} width={'50px'} />  </td>
 
-								<td>{this.props.mapcomp.tempmin2 + 0.1} - {this.props.mapcomp.tempmin3} </td>
+								<td>{this.props.props.tempmin2 + 0.1} - {this.props.props.tempmin3} </td>
 							</tr>
 							<tr>
 								<td><img src="dist/legend/forcast4.jpg" height={'30px'} width={'50px'} />  </td>
 
-								<td>{this.props.mapcomp.tempmin3 + 0.1} and above </td>
+								<td>{this.props.props.tempmin3 + 0.1} and above </td>
 							</tr>
 						</table>
 					</>
 				)
 
-			} else if (this.props.mapcomp.pname == "temp_max_deg_c") {
+			} else if (this.props.props.pname == "temp_max_deg_c") {
 				return (
 					<>
 						<table>
@@ -88,22 +87,22 @@ export default class LegendPanel extends Component {
 							<tr>
 								<td><img src="dist/legend/forcast1.jpg" height={'30px'} width={'50px'} />  </td>
 
-								<td>{this.props.mapcomp.rain1} - {this.props.mapcomp.tempmax1} </td>
+								<td>{this.props.props.rain1} - {this.props.props.tempmax1} </td>
 							</tr>
 							<tr>
 								<td><img src="dist/legend/forcast2.jpg" height={'30px'} width={'50px'} />  </td>
 
-								<td>{this.props.mapcomp.tempmax1 + 0.1} - {this.props.mapcomp.tempmax2} </td>
+								<td>{this.props.props.tempmax1 + 0.1} - {this.props.props.tempmax2} </td>
 							</tr>
 							<tr>
 								<td><img src="dist/legend/forcast3.jpg" height={'30px'} width={'50px'} />  </td>
 
-								<td>{this.props.mapcomp.tempmax2 + 0.1} - {this.props.mapcomp.tempmax3} </td>
+								<td>{this.props.props.tempmax2 + 0.1} - {this.props.props.tempmax3} </td>
 							</tr>
 							<tr>
 								<td><img src="dist/legend/forcast4.jpg" height={'30px'} width={'50px'} />  </td>
 
-								<td>{this.props.mapcomp.tempmax3 + 0.1} and above </td>
+								<td>{this.props.props.tempmax3 + 0.1} and above </td>
 							</tr>
 						</table>
 					</>

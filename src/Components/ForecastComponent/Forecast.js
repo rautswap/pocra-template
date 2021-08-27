@@ -525,7 +525,7 @@ class Forecast extends Component {
 									</div>
 
 									<div id={"legend"} className="box stack-top">
-										<LegendPanel mapcomp={this.state} />
+										<LegendPanel props={this.state} />
 									</div>
 
 									{/* Legend:
