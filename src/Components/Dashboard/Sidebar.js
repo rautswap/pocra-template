@@ -7,15 +7,17 @@ export default class Sidebar extends Component {
             { name: 'home', css: 'nav-icon fas fa-tachometer-alt', label: 'होम' },
             { name: 'forecast', css: 'nav-icon fas fa-th', label: 'हवामान अंदाज' },
             { name: 'soilcard', css: 'nav-icon fas fa-copy', label: 'मृद आरोग्य पत्रिका ' },
-            // {
-            //     name: 'rainfall',
-            //     label: 'Rainfall',
-            //     css: 'nav-icon fas fa-th',
-            //     items: [
-            //         { name: 'statements', label: 'Statements' },
-            //         { name: 'reports', label: 'Reports' },
-            //     ],
-            // },
+            // { name: 'dbt', css: 'nav-icon fas fa-tachometer-alt', label: 'PoCRA DBT' },
+            {
+                name: 'dbt',
+                label: 'PoCRA DBT',
+                css: 'nav-icon fas fa-tachometer-alt',
+                items: [
+                    { name: 'dbt', label: 'Farmer' },
+                    { name: 'nrm', label: 'NRM' },
+                    { name: 'fpc_fpo', label: 'FPC/FPO' },
+                ],
+            },
             // {
             //     name: 'forecast',
             //     label: 'Forecast',
@@ -47,21 +49,21 @@ export default class Sidebar extends Component {
                         <nav className="mt-2">
                             <ul className="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                                 {items.map(({ label, name, css, items: subItems, ...rest }) => (
-                                    <li class="nav-item">
+                                    <li className="nav-item">
                                         {Array.isArray(subItems) ? (
-                                            <li class="nav-item">
-                                                <a href={"/" + name} class="nav-link">
-                                                    <i class="nav-icon fas fa-copy"></i>
+                                            <li className="nav-item">
+                                                <a href={"/" + name} className="nav-link">
+                                                    <i className="nav-icon fas fa-copy"></i>
                                                     <p>
                                                         {label}
-                                                        <i class="fas fa-angle-left right"></i>
+                                                        <i className="fas fa-angle-left right"></i>
                                                     </p>
                                                 </a>
                                                 {subItems.map((subItem) => (
-                                                    <ul class="nav nav-treeview">
-                                                        <li class="nav-item">
-                                                            <a href={subItem.name} class="nav-link">
-                                                                <i class="far fa-circle nav-icon"></i>
+                                                    <ul className="nav nav-treeview">
+                                                        <li className="nav-item">
+                                                            <a href={subItem.name} className="nav-link">
+                                                                <i className="far fa-circle nav-icon"></i>
                                                                 <p>{subItem.label}</p>
                                                             </a>
                                                         </li>
@@ -70,8 +72,8 @@ export default class Sidebar extends Component {
                                                 ))}
                                             </li>
 
-                                        ) : <a href={name} class="nav-link">
-                                            <i class={css}></i>
+                                        ) : <a href={name} className="nav-link">
+                                            <i className={css}></i>
                                             <p>
                                                 {label}
                                             </p>

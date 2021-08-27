@@ -7,6 +7,7 @@ import Footer from './Components/Dashboard/Footer';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Forecast from './Components/ForecastComponent/Forecast';
 import NoFound from './Components/NoFound';
+import DBTDashboard from './Components/DBTComponent/DBTDashboard';
 function App() {
   return (
     <div class="wrapper">
@@ -17,6 +18,7 @@ function App() {
           <Route exact path="/" component={MainContent} />
           <Route path="/forecast" component={Forecast} />
           <Route exact path="/home" component={MainContent} />
+          <Route exact path="/dbt" component={DBTDashboard} />
           <Route component={NoFound} />
         </Switch>
         <Footer />

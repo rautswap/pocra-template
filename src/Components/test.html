@@ -1,17 +1,34 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>AdminLTE 3 | Advanced form elements</title>
+  <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Buttons</title>
 
-  <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- daterange picker -->
+  <link rel="stylesheet" href="../../plugins/daterangepicker/daterangepicker.css">
+  <!-- iCheck for checkboxes and radio inputs -->
+  <link rel="stylesheet" href="../../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <!-- Bootstrap Color Picker -->
+  <link rel="stylesheet" href="../../plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css">
+  <!-- Tempusdominus Bbootstrap 4 -->
+  <link rel="stylesheet" href="../../plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+  <!-- Select2 -->
+  <link rel="stylesheet" href="../../plugins/select2/css/select2.min.css">
+  <link rel="stylesheet" href="../../plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+  <!-- Bootstrap4 Duallistbox -->
+  <link rel="stylesheet" href="../../plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -30,30 +47,20 @@
       </li>
     </ul>
 
+    <!-- SEARCH FORM -->
+    <form class="form-inline ml-3">
+      <div class="input-group input-group-sm">
+        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+        <div class="input-group-append">
+          <button class="btn btn-navbar" type="submit">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-      <!-- Navbar Search -->
-      <li class="nav-item">
-        <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-          <i class="fas fa-search"></i>
-        </a>
-        <div class="navbar-search-block">
-          <form class="form-inline">
-            <div class="input-group input-group-sm">
-              <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-              <div class="input-group-append">
-                <button class="btn btn-navbar" type="submit">
-                  <i class="fas fa-search"></i>
-                </button>
-                <button class="btn btn-navbar" type="button" data-widget="navbar-search">
-                  <i class="fas fa-times"></i>
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </li>
-
       <!-- Messages Dropdown Menu -->
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
@@ -140,11 +147,6 @@
         </div>
       </li>
       <li class="nav-item">
-        <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-          <i class="fas fa-expand-arrows-alt"></i>
-        </a>
-      </li>
-      <li class="nav-item">
         <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
           <i class="fas fa-th-large"></i>
         </a>
@@ -157,7 +159,10 @@
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="../../index3.html" class="brand-link">
-      <img src="../../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <img src="../../dist/img/AdminLTELogo.png"
+           alt="AdminLTE Logo"
+           class="brand-image img-circle elevation-3"
+           style="opacity: .8">
       <span class="brand-text font-weight-light">AdminLTE 3</span>
     </a>
 
@@ -173,24 +178,12 @@
         </div>
       </div>
 
-      <!-- SidebarSearch Form -->
-      <div class="form-inline">
-        <div class="input-group" data-widget="sidebar-search">
-          <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-          <div class="input-group-append">
-            <button class="btn btn-sidebar">
-              <i class="fas fa-search fa-fw"></i>
-            </button>
-          </div>
-        </div>
-      </div>
-
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-item">
+          <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
@@ -228,7 +221,7 @@
               </p>
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-copy"></i>
               <p>
@@ -263,12 +256,6 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="../layout/fixed-sidebar-custom.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Fixed Sidebar <small>+ Custom Area</small></p>
-                </a>
-              </li>
-              <li class="nav-item">
                 <a href="../layout/fixed-topnav.html" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Fixed Navbar</p>
@@ -288,7 +275,7 @@
               </li>
             </ul>
           </li>
-          <li class="nav-item">
+          <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-chart-pie"></i>
               <p>
@@ -315,16 +302,10 @@
                   <p>Inline</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="../charts/uplot.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>uPlot</p>
-                </a>
-              </li>
             </ul>
           </li>
-          <li class="nav-item menu-open">
-            <a href="#" class="nav-link active">
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
               <i class="nav-icon fas fa-tree"></i>
               <p>
                 UI Elements
@@ -345,7 +326,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="../UI/buttons.html" class="nav-link active">
+                <a href="../UI/buttons.html" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Buttons</p>
                 </a>
@@ -382,8 +363,8 @@
               </li>
             </ul>
           </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
+          <li class="nav-item has-treeview menu-open">
+            <a href="#" class="nav-link active">
               <i class="nav-icon fas fa-edit"></i>
               <p>
                 Forms
@@ -398,7 +379,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="../forms/advanced.html" class="nav-link">
+                <a href="../forms/advanced.html" class="nav-link active">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Advanced Elements</p>
                 </a>
@@ -417,7 +398,7 @@
               </li>
             </ul>
           </li>
-          <li class="nav-item">
+          <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-table"></i>
               <p>
@@ -464,15 +445,7 @@
               </p>
             </a>
           </li>
-          <li class="nav-item">
-            <a href="../kanban.html" class="nav-link">
-              <i class="nav-icon fas fa-columns"></i>
-              <p>
-                Kanban Board
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
+          <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <i class="nav-icon far fa-envelope"></i>
               <p>
@@ -501,7 +474,7 @@
               </li>
             </ul>
           </li>
-          <li class="nav-item">
+          <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-book"></i>
               <p>
@@ -558,21 +531,9 @@
                   <p>Contacts</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="../examples/faq.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>FAQ</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../examples/contact-us.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Contact us</p>
-                </a>
-              </li>
             </ul>
           </li>
-          <li class="nav-item">
+          <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <i class="nav-icon far fa-plus-square"></i>
               <p>
@@ -582,74 +543,28 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="../examples/login.html" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>
-                    Login & Register v1
-                    <i class="fas fa-angle-left right"></i>
-                  </p>
+                  <p>Login</p>
                 </a>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="../examples/login.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Login v1</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="../examples/register.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Register v1</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="../examples/forgot-password.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Forgot Password v1</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="../examples/recover-password.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Recover Password v1</p>
-                    </a>
-                  </li>
-                </ul>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="../examples/register.html" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>
-                    Login & Register v2
-                    <i class="fas fa-angle-left right"></i>
-                  </p>
+                  <p>Register</p>
                 </a>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="../examples/login-v2.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Login v2</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="../examples/register-v2.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Register v2</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="../examples/forgot-password-v2.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Forgot Password v2</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="../examples/recover-password-v2.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Recover Password v2</p>
-                    </a>
-                  </li>
-                </ul>
+              </li>
+              <li class="nav-item">
+                <a href="../examples/forgot-password.html" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Forgot Password</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="../examples/recover-password.html" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Recover Password</p>
+                </a>
               </li>
               <li class="nav-item">
                 <a href="../examples/lockscreen.html" class="nav-link">
@@ -701,38 +616,9 @@
               </li>
             </ul>
           </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-search"></i>
-              <p>
-                Search
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="../search/simple.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Simple Search</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../search/enhanced.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Enhanced</p>
-                </a>
-              </li>
-            </ul>
-          </li>
           <li class="nav-header">MISCELLANEOUS</li>
           <li class="nav-item">
-            <a href="../../iframe.html" class="nav-link">
-              <i class="nav-icon fas fa-ellipsis-h"></i>
-              <p>Tabbed IFrame Plugin</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="https://adminlte.io/docs/3.1/" class="nav-link">
+            <a href="https://adminlte.io/docs/3.0" class="nav-link">
               <i class="nav-icon fas fa-file"></i>
               <p>Documentation</p>
             </a>
@@ -744,7 +630,7 @@
               <p>Level 1</p>
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-circle"></i>
               <p>
@@ -759,7 +645,7 @@
                   <p>Level 2</p>
                 </a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item has-treeview">
                 <a href="#" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>
@@ -835,12 +721,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Buttons</h1>
+            <h1>Advanced Form</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Buttons</li>
+              <li class="breadcrumb-item active">Advanced Form</li>
             </ol>
           </div>
         </div>
@@ -850,1453 +736,612 @@
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="card card-primary card-outline">
-              <div class="card-header">
-                <h3 class="card-title">
-                  <i class="fas fa-edit"></i>
-                  Buttons
-                </h3>
-              </div>
-              <div class="card-body pad table-responsive">
-                <p>Various types of buttons. Using the base class <code>.btn</code></p>
-                <table class="table table-bordered text-center">
-                  <tr>
-                    <th>Normal</th>
-                    <th>Large <code>.btn-lg</code></th>
-                    <th>Small <code>.btn-sm</code></th>
-                    <th>Extra Small <code>.btn-xs</code></th>
-                    <th>Flat <code>.btn-flat</code></th>
-                    <th>Disabled <code>.disabled</code></th>
-                  </tr>
-                  <tr>
-                    <td>
-                      <button type="button" class="btn btn-block btn-default">Default</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-default btn-lg">Default</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-default btn-sm">Default</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-default btn-xs">Default</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-default btn-flat">Default</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-default disabled">Default</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <button type="button" class="btn btn-block btn-primary">Primary</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-primary btn-lg">Primary</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-primary btn-sm">Primary</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-primary btn-xs">Primary</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-primary btn-flat">Primary</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-primary disabled">Primary</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <button type="button" class="btn btn-block btn-secondary">Secondary</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-secondary btn-lg">Secondary</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-secondary btn-sm">Secondary</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-secondary btn-xs">Secondary</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-secondary btn-flat">Secondary</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-secondary disabled">Secondary</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <button type="button" class="btn btn-block btn-success">Success</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-success btn-lg">Success</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-success btn-sm">Success</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-success btn-xs">Success</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-success btn-flat">Success</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-success disabled">Success</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <button type="button" class="btn btn-block btn-info">Info</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-info btn-lg">Info</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-info btn-sm">Info</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-info btn-xs">Info</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-info btn-flat">Info</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-info disabled">Info</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <button type="button" class="btn btn-block btn-danger">Danger</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-danger btn-lg">Danger</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-danger btn-sm">Danger</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-danger btn-xs">Danger</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-danger btn-flat">Danger</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-danger disabled">Danger</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <button type="button" class="btn btn-block btn-warning">Warning</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-warning btn-lg">Warning</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-warning btn-sm">Warning</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-warning btn-xs">Warning</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-warning btn-flat">Warning</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-warning disabled">Warning</button>
-                    </td>
-                  </tr>
-                </table>
-              </div>
-              <!-- /.card -->
-            </div>
-          </div>
-          <!-- /.col -->
-        </div>
-        <!-- ./row -->
+        <!-- SELECT2 EXAMPLE -->
+        <div class="card card-default">
+          <div class="card-header">
+            <h3 class="card-title">Select2 (Default Theme)</h3>
 
-        <div class="row">
-          <div class="col-md-12">
-            <div class="card card-primary card-outline">
-              <div class="card-header">
-                <h3 class="card-title">
-                  <i class="fas fa-edit"></i>
-                  Outline Buttons
-                </h3>
-              </div>
-              <div class="card-body pad table-responsive">
-                <p>Various types of buttons. Using the base class <code>.btn</code></p>
-                <table class="table table-bordered text-center">
-                  <tr>
-                    <th>Normal</th>
-                    <th>Large <code>.btn-lg</code></th>
-                    <th>Small <code>.btn-sm</code></th>
-                    <th>Extra Small <code>.btn-xs</code></th>
-                    <th>Flat <code>.btn-flat</code></th>
-                    <th>Disabled <code>.disabled</code></th>
-                  </tr>
-                  <tr>
-                    <td>
-                      <button type="button" class="btn btn-block btn-outline-primary">Primary</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-outline-primary btn-lg">Primary</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-outline-primary btn-sm">Primary</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-outline-primary btn-xs">Primary</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-outline-primary btn-flat">Primary</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-outline-primary disabled">Primary</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <button type="button" class="btn btn-block btn-outline-secondary">Secondary</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-outline-secondary btn-lg">Secondary</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-outline-secondary btn-sm">Secondary</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-outline-secondary btn-xs">Secondary</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-outline-secondary btn-flat">Secondary</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-outline-secondary disabled">Secondary</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <button type="button" class="btn btn-block btn-outline-success">Success</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-outline-success btn-lg">Success</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-outline-success btn-sm">Success</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-outline-success btn-xs">Success</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-outline-success btn-flat">Success</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-outline-success disabled">Success</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <button type="button" class="btn btn-block btn-outline-info">Info</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-outline-info btn-lg">Info</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-outline-info btn-sm">Info</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-outline-info btn-xs">Info</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-outline-info btn-flat">Info</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-outline-info disabled">Info</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <button type="button" class="btn btn-block btn-outline-danger">Danger</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-outline-danger btn-lg">Danger</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-outline-danger btn-sm">Danger</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-outline-danger btn-xs">Danger</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-outline-danger btn-flat">Danger</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-outline-danger disabled">Danger</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <button type="button" class="btn btn-block btn-outline-warning">Warning</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-outline-warning btn-lg">Warning</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-outline-warning btn-sm">Warning</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-outline-warning btn-xs">Warning</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-outline-warning btn-flat">Warning</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-outline-warning disabled">Warning</button>
-                    </td>
-                  </tr>
-                </table>
-              </div>
-              <!-- /.card -->
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+              <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
             </div>
           </div>
-          <!-- /.col -->
-        </div>
-        <!-- ./row -->
+          <!-- /.card-header -->
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Minimal</label>
+                  <select class="form-control select2" style="width: 100%;">
+                    <option selected="selected">Alabama</option>
+                    <option>Alaska</option>
+                    <option>California</option>
+                    <option>Delaware</option>
+                    <option>Tennessee</option>
+                    <option>Texas</option>
+                    <option>Washington</option>
+                  </select>
+                </div>
+                <!-- /.form-group -->
+                <div class="form-group">
+                  <label>Disabled</label>
+                  <select class="form-control select2" disabled="disabled" style="width: 100%;">
+                    <option selected="selected">Alabama</option>
+                    <option>Alaska</option>
+                    <option>California</option>
+                    <option>Delaware</option>
+                    <option>Tennessee</option>
+                    <option>Texas</option>
+                    <option>Washington</option>
+                  </select>
+                </div>
+                <!-- /.form-group -->
+              </div>
+              <!-- /.col -->
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Multiple</label>
+                  <select class="select2" multiple="multiple" data-placeholder="Select a State" style="width: 100%;">
+                    <option>Alabama</option>
+                    <option>Alaska</option>
+                    <option>California</option>
+                    <option>Delaware</option>
+                    <option>Tennessee</option>
+                    <option>Texas</option>
+                    <option>Washington</option>
+                  </select>
+                </div>
+                <!-- /.form-group -->
+                <div class="form-group">
+                  <label>Disabled Result</label>
+                  <select class="form-control select2" style="width: 100%;">
+                    <option selected="selected">Alabama</option>
+                    <option>Alaska</option>
+                    <option disabled="disabled">California (disabled)</option>
+                    <option>Delaware</option>
+                    <option>Tennessee</option>
+                    <option>Texas</option>
+                    <option>Washington</option>
+                  </select>
+                </div>
+                <!-- /.form-group -->
+              </div>
+              <!-- /.col -->
+            </div>
+            <!-- /.row -->
 
-        <div class="row">
-          <div class="col-md-12">
-            <div class="card card-primary card-outline">
-              <div class="card-header">
-                <h3 class="card-title">
-                  <i class="fas fa-edit"></i>
-                  Gradient Buttons (bg-gradient-*)
-                </h3>
+            <h5>Custom Color Variants</h5>
+            <div class="row">
+              <div class="col-12 col-sm-6">
+                <div class="form-group">
+                  <label>Minimal (.select2-danger)</label>
+                  <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;">
+                    <option selected="selected">Alabama</option>
+                    <option>Alaska</option>
+                    <option>California</option>
+                    <option>Delaware</option>
+                    <option>Tennessee</option>
+                    <option>Texas</option>
+                    <option>Washington</option>
+                  </select>
+                </div>
+                <!-- /.form-group -->
               </div>
-              <div class="card-body pad table-responsive">
-                <p>Various types of buttons. Using the base class <code>.btn</code></p>
-                <table class="table table-bordered text-center">
-                  <tr>
-                    <th>Normal</th>
-                    <th>Large <code>.btn-lg</code></th>
-                    <th>Small <code>.btn-sm</code></th>
-                    <th>Extra Small <code>.btn-xs</code></th>
-                    <th>Flat <code>.btn-flat</code></th>
-                    <th>Disabled <code>.disabled</code></th>
-                  </tr>
-                  <tr>
-                    <td>
-                      <button type="button" class="btn btn-block bg-gradient-primary">Primary</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block bg-gradient-primary btn-lg">Primary</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block bg-gradient-primary btn-sm">Primary</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block bg-gradient-primary btn-xs">Primary</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block bg-gradient-primary btn-flat">Primary</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block bg-gradient-primary disabled">Primary</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <button type="button" class="btn btn-block bg-gradient-secondary">Secondary</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block bg-gradient-secondary btn-lg">Secondary</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block bg-gradient-secondary btn-sm">Secondary</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block bg-gradient-secondary btn-xs">Secondary</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block bg-gradient-secondary btn-flat">Secondary</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block bg-gradient-secondary disabled">Secondary</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <button type="button" class="btn btn-block bg-gradient-success">Success</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block bg-gradient-success btn-lg">Success</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block bg-gradient-success btn-sm">Success</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block bg-gradient-success btn-xs">Success</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block bg-gradient-success btn-flat">Success</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block bg-gradient-success disabled">Success</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <button type="button" class="btn btn-block bg-gradient-info">Info</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block bg-gradient-info btn-lg">Info</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block bg-gradient-info btn-sm">Info</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block bg-gradient-info btn-xs">Info</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block bg-gradient-info btn-flat">Info</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block bg-gradient-info disabled">Info</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <button type="button" class="btn btn-block bg-gradient-danger">Danger</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block bg-gradient-danger btn-lg">Danger</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block bg-gradient-danger btn-sm">Danger</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block bg-gradient-danger btn-xs">Danger</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block bg-gradient-danger btn-flat">Danger</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block bg-gradient-danger disabled">Danger</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <button type="button" class="btn btn-block bg-gradient-warning">Warning</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block bg-gradient-warning btn-lg">Warning</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block bg-gradient-warning btn-sm">Warning</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block bg-gradient-warning btn-xs">Warning</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block bg-gradient-warning btn-flat">Warning</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-block bg-gradient-warning disabled">Warning</button>
-                    </td>
-                  </tr>
-                </table>
+              <!-- /.col -->
+              <div class="col-12 col-sm-6">
+                <div class="form-group">
+                  <label>Multiple (.select2-purple)</label>
+                  <div class="select2-purple">
+                    <select class="select2" multiple="multiple" data-placeholder="Select a State" data-dropdown-css-class="select2-purple" style="width: 100%;">
+                      <option>Alabama</option>
+                      <option>Alaska</option>
+                      <option>California</option>
+                      <option>Delaware</option>
+                      <option>Tennessee</option>
+                      <option>Texas</option>
+                      <option>Washington</option>
+                    </select>
+                  </div>
+                </div>
+                <!-- /.form-group -->
               </div>
-              <!-- /.card -->
+              <!-- /.col -->
+            </div>
+            <!-- /.row -->
+          </div>
+          <!-- /.card-body -->
+          <div class="card-footer">
+            Visit <a href="https://select2.github.io/">Select2 documentation</a> for more examples and information about
+            the plugin.
+          </div>
+        </div>
+        <!-- /.card -->
+
+        <!-- SELECT2 EXAMPLE -->
+        <div class="card card-default">
+          <div class="card-header">
+            <h3 class="card-title">Select2 (Bootstrap4 Theme)</h3>
+
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+              <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
             </div>
           </div>
-          <!-- /.col -->
+          <!-- /.card-header -->
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Minimal</label>
+                  <select class="form-control select2bs4" style="width: 100%;">
+                    <option selected="selected">Alabama</option>
+                    <option>Alaska</option>
+                    <option>California</option>
+                    <option>Delaware</option>
+                    <option>Tennessee</option>
+                    <option>Texas</option>
+                    <option>Washington</option>
+                  </select>
+                </div>
+                <!-- /.form-group -->
+                <div class="form-group">
+                  <label>Disabled</label>
+                  <select class="form-control select2bs4" disabled="disabled" style="width: 100%;">
+                    <option selected="selected">Alabama</option>
+                    <option>Alaska</option>
+                    <option>California</option>
+                    <option>Delaware</option>
+                    <option>Tennessee</option>
+                    <option>Texas</option>
+                    <option>Washington</option>
+                  </select>
+                </div>
+                <!-- /.form-group -->
+              </div>
+              <!-- /.col -->
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Multiple</label>
+                  <select class="select2bs4" multiple="multiple" data-placeholder="Select a State"
+                          style="width: 100%;">
+                    <option>Alabama</option>
+                    <option>Alaska</option>
+                    <option>California</option>
+                    <option>Delaware</option>
+                    <option>Tennessee</option>
+                    <option>Texas</option>
+                    <option>Washington</option>
+                  </select>
+                </div>
+                <!-- /.form-group -->
+                <div class="form-group">
+                  <label>Disabled Result</label>
+                  <select class="form-control select2bs4" style="width: 100%;">
+                    <option selected="selected">Alabama</option>
+                    <option>Alaska</option>
+                    <option disabled="disabled">California (disabled)</option>
+                    <option>Delaware</option>
+                    <option>Tennessee</option>
+                    <option>Texas</option>
+                    <option>Washington</option>
+                  </select>
+                </div>
+                <!-- /.form-group -->
+              </div>
+              <!-- /.col -->
+            </div>
+            <!-- /.row -->
+          </div>
+          <!-- /.card-body -->
+          <div class="card-footer">
+            Visit <a href="https://select2.github.io/">Select2 documentation</a> for more examples and information about
+            the plugin.
+          </div>
         </div>
-          <!-- ./row -->
+        <!-- /.card -->
+
+        <div class="card card-default">
+          <div class="card-header">
+            <h3 class="card-title">Bootstrap Duallistbox</h3>
+
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+              <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+            </div>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+            <div class="row">
+              <div class="col-12">
+                <div class="form-group">
+                  <label>Multiple</label>
+                  <select class="duallistbox" multiple="multiple">
+                    <option selected>Alabama</option>
+                    <option>Alaska</option>
+                    <option>California</option>
+                    <option>Delaware</option>
+                    <option>Tennessee</option>
+                    <option>Texas</option>
+                    <option>Washington</option>
+                  </select>
+                </div>
+                <!-- /.form-group -->
+              </div>
+              <!-- /.col -->
+            </div>
+            <!-- /.row -->
+          </div>
+          <!-- /.card-body -->
+          <div class="card-footer">
+            Visit <a href="https://github.com/istvan-ujjmeszaros/bootstrap-duallistbox#readme">Bootstrap Duallistbox</a> for more examples and information about
+            the plugin.
+          </div>
+        </div>
+        <!-- /.card -->
+
         <div class="row">
           <div class="col-md-6">
-            <!-- Buttons with Icons -->
-            <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">Buttons with Icons</h3>
-              </div>
-              <div class="card-body row">
-                <div class="col-md-6">
-                  <button type="button" class="btn btn-primary btn-block"><i class="fa fa-bell"></i> .btn-block</button>
-                  <button type="button" class="btn btn-info btn-block btn-flat"><i class="fa fa-bell"></i> .btn-block .btn-flat</button>
-                  <button type="button" class="btn btn-danger btn-block btn-sm"><i class="fa fa-bell"></i> .btn-block .btn-sm</button>
-                </div>
-                <div class="col-md-6">
-                  <button type="button" class="btn btn-outline-primary btn-block"><i class="fa fa-bell"></i> .btn-block</button>
-                  <button type="button" class="btn btn-outline-info btn-block btn-flat"><i class="fa fa-book"></i> .btn-block .btn-flat</button>
-                  <button type="button" class="btn btn-outline-danger btn-block btn-sm"><i class="fa fa-book"></i> .btn-block .btn-sm</button>
-                </div>
-              </div>
-            </div>
-            <!-- /.card -->
 
-            <!-- Block buttons -->
-            <div class="card">
+            <div class="card card-danger">
               <div class="card-header">
-                <h3 class="card-title">Block Buttons</h3>
+                <h3 class="card-title">Input masks</h3>
               </div>
               <div class="card-body">
-                <button type="button" class="btn btn-default btn-block">.btn-block</button>
-                <button type="button" class="btn btn-default btn-block btn-flat">.btn-block .btn-flat</button>
-                <button type="button" class="btn btn-default btn-block btn-sm">.btn-block .btn-sm</button>
-              </div>
-            </div>
-            <!-- /.card -->
+                <!-- Date dd/mm/yyyy -->
+                <div class="form-group">
+                  <label>Date masks:</label>
 
-            <!-- Horizontal grouping -->
-            <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">Horizontal Button Group</h3>
-              </div>
-              <div class="card-body table-responsive pad">
-                <p>
-                  Horizontal button groups are easy to create with bootstrap. Just add your buttons
-                  inside <code>&lt;div class="btn-group"&gt;&lt;/div&gt;</code>
-                </p>
-
-                <table class="table table-bordered">
-                  <tr>
-                    <th>Button</th>
-                    <th>Icons</th>
-                    <th>Flat</th>
-                    <th>Dropdown</th>
-                  </tr>
-                  <!-- Default -->
-                  <tr>
-                    <td>
-                      <div class="btn-group">
-                        <button type="button" class="btn btn-default">Left</button>
-                        <button type="button" class="btn btn-default">Middle</button>
-                        <button type="button" class="btn btn-default">Right</button>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="btn-group">
-                        <button type="button" class="btn btn-default">
-                          <i class="fas fa-align-left"></i>
-                        </button>
-                        <button type="button" class="btn btn-default">
-                          <i class="fas fa-align-center"></i>
-                        </button>
-                        <button type="button" class="btn btn-default">
-                          <i class="fas fa-align-right"></i>
-                        </button>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="btn-group">
-                        <button type="button" class="btn btn-default btn-flat">
-                          <i class="fas fa-align-left"></i>
-                        </button>
-                        <button type="button" class="btn btn-default btn-flat">
-                          <i class="fas fa-align-center"></i>
-                        </button>
-                        <button type="button" class="btn btn-default btn-flat">
-                          <i class="fas fa-align-right"></i>
-                        </button>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="btn-group">
-                        <button type="button" class="btn btn-default">1</button>
-                        <button type="button" class="btn btn-default">2</button>
-
-                        <div class="btn-group">
-                          <button type="button" class="btn btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown">
-                          </button>
-                          <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#">Dropdown link</a>
-                            <a class="dropdown-item" href="#">Dropdown link</a>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  <!-- ./default -->
-                  <!-- Info -->
-                  <tr>
-                    <td>
-                      <div class="btn-group">
-                        <button type="button" class="btn btn-info">Left</button>
-                        <button type="button" class="btn btn-info">Middle</button>
-                        <button type="button" class="btn btn-info">Right</button>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="btn-group">
-                        <button type="button" class="btn btn-info">
-                          <i class="fas fa-align-left"></i>
-                        </button>
-                        <button type="button" class="btn btn-info">
-                          <i class="fas fa-align-center"></i>
-                        </button>
-                        <button type="button" class="btn btn-info">
-                          <i class="fas fa-align-right"></i>
-                        </button>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="btn-group">
-                        <button type="button" class="btn btn-info btn-flat">
-                          <i class="fas fa-align-left"></i>
-                        </button>
-                        <button type="button" class="btn btn-info btn-flat">
-                          <i class="fas fa-align-center"></i>
-                        </button>
-                        <button type="button" class="btn btn-info btn-flat">
-                          <i class="fas fa-align-right"></i>
-                        </button>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="btn-group">
-                        <button type="button" class="btn btn-info">1</button>
-                        <button type="button" class="btn btn-info">2</button>
-
-                        <div class="btn-group">
-                          <button type="button" class="btn btn-info dropdown-toggle dropdown-icon" data-toggle="dropdown">
-                          </button>
-                          <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#">Dropdown link</a>
-                            <a class="dropdown-item" href="#">Dropdown link</a>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  <!-- /. info -->
-                  <!-- /.danger -->
-                  <tr>
-                    <td>
-                      <div class="btn-group">
-                        <button type="button" class="btn btn-danger">Left</button>
-                        <button type="button" class="btn btn-danger">Middle</button>
-                        <button type="button" class="btn btn-danger">Right</button>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="btn-group">
-                        <button type="button" class="btn btn-danger">
-                          <i class="fas fa-align-left"></i>
-                        </button>
-                        <button type="button" class="btn btn-danger">
-                          <i class="fas fa-align-center"></i>
-                        </button>
-                        <button type="button" class="btn btn-danger">
-                          <i class="fas fa-align-right"></i>
-                        </button>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="btn-group">
-                        <button type="button" class="btn btn-danger btn-flat">
-                          <i class="fas fa-align-left"></i>
-                        </button>
-                        <button type="button" class="btn btn-danger btn-flat">
-                          <i class="fas fa-align-center"></i>
-                        </button>
-                        <button type="button" class="btn btn-danger btn-flat">
-                          <i class="fas fa-align-right"></i>
-                        </button>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="btn-group">
-                        <button type="button" class="btn btn-danger">1</button>
-                        <button type="button" class="btn btn-danger">2</button>
-
-                        <div class="btn-group">
-                          <button type="button" class="btn btn-danger dropdown-toggle dropdown-icon" data-toggle="dropdown">
-                          </button>
-                          <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#">Dropdown link</a>
-                            <a class="dropdown-item" href="#">Dropdown link</a>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  <!-- /.danger -->
-                  <!-- warning -->
-                  <tr>
-                    <td>
-                      <div class="btn-group">
-                        <button type="button" class="btn btn-warning">Left</button>
-                        <button type="button" class="btn btn-warning">Middle</button>
-                        <button type="button" class="btn btn-warning">Right</button>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="btn-group">
-                        <button type="button" class="btn btn-warning">
-                          <i class="fas fa-align-left"></i>
-                        </button>
-                        <button type="button" class="btn btn-warning">
-                          <i class="fas fa-align-center"></i>
-                        </button>
-                        <button type="button" class="btn btn-warning">
-                          <i class="fas fa-align-right"></i>
-                        </button>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="btn-group">
-                        <button type="button" class="btn btn-warning btn-flat">
-                          <i class="fas fa-align-left"></i>
-                        </button>
-                        <button type="button" class="btn btn-warning btn-flat">
-                          <i class="fas fa-align-center"></i>
-                        </button>
-                        <button type="button" class="btn btn-warning btn-flat">
-                          <i class="fas fa-align-right"></i>
-                        </button>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="btn-group">
-                        <button type="button" class="btn btn-warning">1</button>
-                        <button type="button" class="btn btn-warning">2</button>
-
-                        <div class="btn-group">
-                          <button type="button" class="btn btn-warning dropdown-toggle dropdown-icon" data-toggle="dropdown">
-                          </button>
-                          <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#">Dropdown link</a>
-                            <a class="dropdown-item" href="#">Dropdown link</a>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  <!-- /.warning -->
-                  <!-- success -->
-                  <tr>
-                    <td>
-                      <div class="btn-group">
-                        <button type="button" class="btn btn-success">Left</button>
-                        <button type="button" class="btn btn-success">Middle</button>
-                        <button type="button" class="btn btn-success">Right</button>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="btn-group">
-                        <button type="button" class="btn btn-success">
-                          <i class="fas fa-align-left"></i>
-                        </button>
-                        <button type="button" class="btn btn-success">
-                          <i class="fas fa-align-center"></i>
-                        </button>
-                        <button type="button" class="btn btn-success">
-                          <i class="fas fa-align-right"></i>
-                        </button>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="btn-group">
-                        <button type="button" class="btn btn-success btn-flat">
-                          <i class="fas fa-align-left"></i>
-                        </button>
-                        <button type="button" class="btn btn-success btn-flat">
-                          <i class="fas fa-align-center"></i>
-                        </button>
-                        <button type="button" class="btn btn-success btn-flat">
-                          <i class="fas fa-align-right"></i>
-                        </button>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="btn-group">
-                        <button type="button" class="btn btn-success">1</button>
-                        <button type="button" class="btn btn-success">2</button>
-
-                        <div class="btn-group">
-                          <button type="button" class="btn btn-success dropdown-toggle dropdown-icon" data-toggle="dropdown">
-                          </button>
-                          <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#">Dropdown link</a>
-                            <a class="dropdown-item" href="#">Dropdown link</a>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  <!-- /.success -->
-                </table>
-              </div>
-            </div>
-            <!-- /.card -->
-
-            <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">Appended Buttons</h3>
-              </div>
-              <div class="card-body">
-                <strong>With dropdown</strong>
-                <div class="input-group mb-3">
-                  <div class="input-group-prepend">
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                      Action
-                    </button>
-                    <div class="dropdown-menu">
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Separated link</a>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                     </div>
+                    <input type="text" class="form-control" data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy" data-mask>
                   </div>
-                  <!-- /btn-group -->
-                  <input type="text" class="form-control">
+                  <!-- /.input group -->
                 </div>
-                <!-- /input-group -->
-                <strong>Normal</strong>
-                <div class="input-group mb-3">
-                  <div class="input-group-prepend">
-                    <button type="button" class="btn btn-danger">Action</button>
+                <!-- /.form group -->
+
+                <!-- Date mm/dd/yyyy -->
+                <div class="form-group">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                    </div>
+                    <input type="text" class="form-control" data-inputmask-alias="datetime" data-inputmask-inputformat="mm/dd/yyyy" data-mask>
                   </div>
-                  <!-- /btn-group -->
-                  <input type="text" class="form-control">
+                  <!-- /.input group -->
                 </div>
-                <!-- /input-group -->
-                <strong>Flat</strong>
-                <div class="input-group mb-3">
-                  <input type="text" class="form-control rounded-0">
-                  <span class="input-group-append">
-                    <button type="button" class="btn btn-info btn-flat">Go!</button>
-                  </span>
+                <!-- /.form group -->
+
+                <!-- phone mask -->
+                <div class="form-group">
+                  <label>US phone mask:</label>
+
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                    </div>
+                    <input type="text" class="form-control" data-inputmask='"mask": "(999) 999-9999"' data-mask>
+                  </div>
+                  <!-- /.input group -->
                 </div>
-                <!-- /input-group -->
+                <!-- /.form group -->
+
+                <!-- phone mask -->
+                <div class="form-group">
+                  <label>Intl US phone mask:</label>
+
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                    </div>
+                    <input type="text" class="form-control"
+                           data-inputmask="'mask': ['999-999-9999 [x99999]', '+099 99 99 9999[9]-9999']" data-mask>
+                  </div>
+                  <!-- /.input group -->
+                </div>
+                <!-- /.form group -->
+
+                <!-- IP mask -->
+                <div class="form-group">
+                  <label>IP mask:</label>
+
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-laptop"></i></span>
+                    </div>
+                    <input type="text" class="form-control" data-inputmask="'alias': 'ip'" data-mask>
+                  </div>
+                  <!-- /.input group -->
+                </div>
+                <!-- /.form group -->
+
               </div>
               <!-- /.card-body -->
             </div>
             <!-- /.card -->
-            <!-- split buttons box -->
-            <div class="card">
+
+            <div class="card card-info">
               <div class="card-header">
-                <h3 class="card-title">Split buttons</h3>
+                <h3 class="card-title">Color & Time Picker</h3>
               </div>
               <div class="card-body">
-                <!-- Split button -->
-                <p class="mb-1">Normal split buttons:</p>
-
-                <div class="margin">
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-default">Action</button>
-                    <button type="button" class="btn btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown">
-                      <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <div class="dropdown-menu" role="menu">
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Separated link</a>
-                    </div>
-                  </div>
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-info">Action</button>
-                    <button type="button" class="btn btn-info dropdown-toggle dropdown-icon" data-toggle="dropdown">
-                      <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <div class="dropdown-menu" role="menu">
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Separated link</a>
-                    </div>
-                  </div>
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-danger">Action</button>
-                    <button type="button" class="btn btn-danger dropdown-toggle dropdown-icon" data-toggle="dropdown">
-                      <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <div class="dropdown-menu" role="menu">
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Separated link</a>
-                    </div>
-                  </div>
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-success">Action</button>
-                    <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
-                      <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <div class="dropdown-menu" role="menu">
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Separated link</a>
-                    </div>
-                  </div>
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-warning">Action</button>
-                    <button type="button" class="btn btn-warning dropdown-toggle dropdown-icon" data-toggle="dropdown">
-                      <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <div class="dropdown-menu" role="menu">
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Separated link</a>
-                    </div>
-                  </div>
+                <!-- Color Picker -->
+                <div class="form-group">
+                  <label>Color picker:</label>
+                  <input type="text" class="form-control my-colorpicker1">
                 </div>
+                <!-- /.form group -->
 
-                <!-- flat split buttons -->
-                <p class="mt-3 mb-1">Flat split buttons:</p>
+                <!-- Color Picker -->
+                <div class="form-group">
+                  <label>Color picker with addon:</label>
 
-                <div class="margin">
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-default btn-flat">Action</button>
-                    <button type="button" class="btn btn-default btn-flat dropdown-toggle dropdown-icon" data-toggle="dropdown">
-                      <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <div class="dropdown-menu" role="menu">
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Separated link</a>
+                  <div class="input-group my-colorpicker2">
+                    <input type="text" class="form-control">
+
+                    <div class="input-group-append">
+                      <span class="input-group-text"><i class="fas fa-square"></i></span>
                     </div>
                   </div>
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-info btn-flat">Action</button>
-                    <button type="button" class="btn btn-info btn-flat dropdown-toggle dropdown-icon" data-toggle="dropdown">
-                      <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <div class="dropdown-menu" role="menu">
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Separated link</a>
-                    </div>
-                  </div>
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-danger btn-flat">Action</button>
-                    <button type="button" class="btn btn-danger btn-flat dropdown-toggle dropdown-icon" data-toggle="dropdown">
-                      <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <div class="dropdown-menu" role="menu">
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Separated link</a>
-                    </div>
-                  </div>
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-success btn-flat">Action</button>
-                    <button type="button" class="btn btn-success btn-flat dropdown-toggle dropdown-icon" data-toggle="dropdown">
-                      <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <div class="dropdown-menu" role="menu">
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Separated link</a>
-                    </div>
-                  </div>
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-warning btn-flat">Action</button>
-                    <button type="button" class="btn btn-warning btn-flat dropdown-toggle dropdown-icon" data-toggle="dropdown">
-                      <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <div class="dropdown-menu" role="menu">
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Separated link</a>
-                    </div>
-                  </div>
+                  <!-- /.input group -->
                 </div>
+                <!-- /.form group -->
 
-                <!-- Split button -->
-                <p class="mt-3 mb-1">Hoverable split buttons:</p>
-                <div class="margin">
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-default">Action</button>
-                    <button type="button" class="btn btn-default dropdown-toggle dropdown-hover dropdown-icon" data-toggle="dropdown">
-                      <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <div class="dropdown-menu" role="menu">
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Separated link</a>
-                    </div>
+                <!-- time Picker -->
+                <div class="bootstrap-timepicker">
+                  <div class="form-group">
+                    <label>Time picker:</label>
+
+                    <div class="input-group date" id="timepicker" data-target-input="nearest">
+                      <input type="text" class="form-control datetimepicker-input" data-target="#timepicker"/>
+                      <div class="input-group-append" data-target="#timepicker" data-toggle="datetimepicker">
+                          <div class="input-group-text"><i class="far fa-clock"></i></div>
+                      </div>
+                      </div>
+                    <!-- /.input group -->
                   </div>
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-info">Action</button>
-                    <button type="button" class="btn btn-info dropdown-toggle dropdown-hover dropdown-icon" data-toggle="dropdown">
-                      <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <div class="dropdown-menu" role="menu">
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Separated link</a>
-                    </div>
-                  </div>
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-danger">Action</button>
-                    <button type="button" class="btn btn-danger dropdown-toggle dropdown-hover dropdown-icon" data-toggle="dropdown">
-                      <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <div class="dropdown-menu" role="menu">
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Separated link</a>
-                    </div>
-                  </div>
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-success">Action</button>
-                    <button type="button" class="btn btn-success dropdown-toggle dropdown-hover dropdown-icon" data-toggle="dropdown">
-                      <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <div class="dropdown-menu" role="menu">
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Separated link</a>
-                    </div>
-                  </div>
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-warning">Action</button>
-                    <button type="button" class="btn btn-warning dropdown-toggle dropdown-hover dropdown-icon" data-toggle="dropdown">
-                      <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <div class="dropdown-menu" role="menu">
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Separated link</a>
-                    </div>
-                  </div>
+                  <!-- /.form group -->
                 </div>
-
               </div>
               <!-- /.card-body -->
             </div>
-            <!-- end split buttons box -->
+            <!-- /.card -->
+
           </div>
-          <!-- /.col -->
+          <!-- /.col (left) -->
           <div class="col-md-6">
-            <!-- Application buttons -->
-            <div class="card">
+            <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">Application Buttons</h3>
+                <h3 class="card-title">Date picker</h3>
               </div>
               <div class="card-body">
-                <p>Add the classes <code>.btn.btn-app</code> to an <code>&lt;a></code> tag to achieve the following:</p>
-                <a class="btn btn-app">
-                  <i class="fas fa-edit"></i> Edit
-                </a>
-                <a class="btn btn-app">
-                  <i class="fas fa-play"></i> Play
-                </a>
-                <a class="btn btn-app">
-                  <i class="fas fa-pause"></i> Pause
-                </a>
-                <a class="btn btn-app">
-                  <i class="fas fa-save"></i> Save
-                </a>
-                <a class="btn btn-app">
-                  <span class="badge bg-warning">3</span>
-                  <i class="fas fa-bullhorn"></i> Notifications
-                </a>
-                <a class="btn btn-app">
-                  <span class="badge bg-success">300</span>
-                  <i class="fas fa-barcode"></i> Products
-                </a>
-                <a class="btn btn-app">
-                  <span class="badge bg-purple">891</span>
-                  <i class="fas fa-users"></i> Users
-                </a>
-                <a class="btn btn-app">
-                  <span class="badge bg-teal">67</span>
-                  <i class="fas fa-inbox"></i> Orders
-                </a>
-                <a class="btn btn-app">
-                  <span class="badge bg-info">12</span>
-                  <i class="fas fa-envelope"></i> Inbox
-                </a>
-                <a class="btn btn-app">
-                  <span class="badge bg-danger">531</span>
-                  <i class="fas fa-heart"></i> Likes
-                </a>
+                <!-- Date -->
+                <div class="form-group">
+                  <label>Date:</label>
+                    <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                        <input type="text" class="form-control datetimepicker-input" data-target="#reservationdate"/>
+                        <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.form group -->
+                <!-- Date range -->
+                <div class="form-group">
+                  <label>Date range:</label>
 
-                <p>Application Buttons with Custom Colors</p>
-                <a class="btn btn-app bg-secondary">
-                  <span class="badge bg-success">300</span>
-                  <i class="fas fa-barcode"></i> Products
-                </a>
-                <a class="btn btn-app bg-success">
-                  <span class="badge bg-purple">891</span>
-                  <i class="fas fa-users"></i> Users
-                </a>
-                <a class="btn btn-app bg-danger">
-                  <span class="badge bg-teal">67</span>
-                  <i class="fas fa-inbox"></i> Orders
-                </a>
-                <a class="btn btn-app bg-warning">
-                  <span class="badge bg-info">12</span>
-                  <i class="fas fa-envelope"></i> Inbox
-                </a>
-                <a class="btn btn-app bg-info">
-                  <span class="badge bg-danger">531</span>
-                  <i class="fas fa-heart"></i> Likes
-                </a>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="far fa-calendar-alt"></i>
+                      </span>
+                    </div>
+                    <input type="text" class="form-control float-right" id="reservation">
+                  </div>
+                  <!-- /.input group -->
+                </div>
+                <!-- /.form group -->
+
+                <!-- Date and time range -->
+                <div class="form-group">
+                  <label>Date and time range:</label>
+
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="far fa-clock"></i></span>
+                    </div>
+                    <input type="text" class="form-control float-right" id="reservationtime">
+                  </div>
+                  <!-- /.input group -->
+                </div>
+                <!-- /.form group -->
+
+                <!-- Date and time range -->
+                <div class="form-group">
+                  <label>Date range button:</label>
+
+                  <div class="input-group">
+                    <button type="button" class="btn btn-default float-right" id="daterange-btn">
+                      <i class="far fa-calendar-alt"></i> Date range picker
+                      <i class="fas fa-caret-down"></i>
+                    </button>
+                  </div>
+                </div>
+                <!-- /.form group -->
               </div>
+                <div class="card-footer">
+                  Visit <a href="https://tempusdominus.github.io/bootstrap-4/Usage/">tempusdominus </a> for more examples and information about
+                  the plugin.
+                </div>
               <!-- /.card-body -->
             </div>
             <!-- /.card -->
 
-            <!-- Vertical grouping -->
-            <div class="card">
+            <!-- iCheck -->
+            <div class="card card-success">
               <div class="card-header">
-                <h3 class="card-title">Vertical Button Group</h3>
+                <h3 class="card-title">iCheck Bootstrap - Checkbox &amp; Radio Inputs</h3>
               </div>
-              <div class="card-body table-responsive pad">
-
-                <p>
-                  Vertical button groups are easy to create with bootstrap. Just add your buttons
-                  inside <code>&lt;div class="btn-group-vertical"&gt;&lt;/div&gt;</code>
-                </p>
-
-                <table class="table table-bordered">
-                  <tr>
-                    <th>Button</th>
-                    <th>Icons</th>
-                    <th>Flat</th>
-                    <th>Dropdown</th>
-                  </tr>
-                  <!-- Default -->
-                  <tr>
-                    <td>
-                      <div class="btn-group-vertical">
-                        <button type="button" class="btn btn-default">Top</button>
-                        <button type="button" class="btn btn-default">Middle</button>
-                        <button type="button" class="btn btn-default">Bottom</button>
+              <div class="card-body">
+                <!-- Minimal style -->
+                <div class="row">
+                  <div class="col-sm-6">
+                    <!-- checkbox -->
+                    <div class="form-group clearfix">
+                      <div class="icheck-primary d-inline">
+                        <input type="checkbox" id="checkboxPrimary1" checked>
+                        <label for="checkboxPrimary1">
+                        </label>
                       </div>
-                    </td>
-                    <td>
-                      <div class="btn-group-vertical">
-                        <button type="button" class="btn btn-default">
-                          <i class="fas fa-align-left"></i>
-                        </button>
-                        <button type="button" class="btn btn-default">
-                          <i class="fas fa-align-center"></i>
-                        </button>
-                        <button type="button" class="btn btn-default">
-                          <i class="fas fa-align-right"></i>
-                        </button>
+                      <div class="icheck-primary d-inline">
+                        <input type="checkbox" id="checkboxPrimary2">
+                        <label for="checkboxPrimary2">
+                        </label>
                       </div>
-                    </td>
-                    <td>
-                      <div class="btn-group-vertical">
-                        <button type="button" class="btn btn-default btn-flat">
-                          <i class="fas fa-align-left"></i>
-                        </button>
-                        <button type="button" class="btn btn-default btn-flat">
-                          <i class="fas fa-align-center"></i>
-                        </button>
-                        <button type="button" class="btn btn-default btn-flat">
-                          <i class="fas fa-align-right"></i>
-                        </button>
+                      <div class="icheck-primary d-inline">
+                        <input type="checkbox" id="checkboxPrimary3" disabled>
+                        <label for="checkboxPrimary3">
+                          Primary checkbox
+                        </label>
                       </div>
-                    </td>
-                    <td>
-                      <div class="btn-group-vertical">
-                        <button type="button" class="btn btn-default">1</button>
-                        <button type="button" class="btn btn-default">2</button>
-
-                        <div class="btn-group">
-                          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                          </button>
-                          <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Dropdown link</a></li>
-                            <li><a class="dropdown-item" href="#">Dropdown link</a></li>
-                          </ul>
-                        </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <!-- radio -->
+                    <div class="form-group clearfix">
+                      <div class="icheck-primary d-inline">
+                        <input type="radio" id="radioPrimary1" name="r1" checked>
+                        <label for="radioPrimary1">
+                        </label>
                       </div>
-                    </td>
-                  </tr>
-                  <!-- ./default -->
-                  <!-- Info -->
-                  <tr>
-                    <td>
-                      <div class="btn-group-vertical">
-                        <button type="button" class="btn btn-info">Top</button>
-                        <button type="button" class="btn btn-info">Middle</button>
-                        <button type="button" class="btn btn-info">Bottom</button>
+                      <div class="icheck-primary d-inline">
+                        <input type="radio" id="radioPrimary2" name="r1">
+                        <label for="radioPrimary2">
+                        </label>
                       </div>
-                    </td>
-                    <td>
-                      <div class="btn-group-vertical">
-                        <button type="button" class="btn btn-info">
-                          <i class="fas fa-align-left"></i>
-                        </button>
-                        <button type="button" class="btn btn-info">
-                          <i class="fas fa-align-center"></i>
-                        </button>
-                        <button type="button" class="btn btn-info">
-                          <i class="fas fa-align-right"></i>
-                        </button>
+                      <div class="icheck-primary d-inline">
+                        <input type="radio" id="radioPrimary3" name="r1" disabled>
+                        <label for="radioPrimary3">
+                          Primary radio
+                        </label>
                       </div>
-                    </td>
-                    <td>
-                      <div class="btn-group-vertical">
-                        <button type="button" class="btn btn-info btn-flat">
-                          <i class="fas fa-align-left"></i>
-                        </button>
-                        <button type="button" class="btn btn-info btn-flat">
-                          <i class="fas fa-align-center"></i>
-                        </button>
-                        <button type="button" class="btn btn-info btn-flat">
-                          <i class="fas fa-align-right"></i>
-                        </button>
+                    </div>
+                  </div>
+                </div>
+                <!-- Minimal red style -->
+                <div class="row">
+                  <div class="col-sm-6">
+                    <!-- checkbox -->
+                    <div class="form-group clearfix">
+                      <div class="icheck-danger d-inline">
+                        <input type="checkbox" checked id="checkboxDanger1">
+                        <label for="checkboxDanger1">
+                        </label>
                       </div>
-                    </td>
-                    <td>
-                      <div class="btn-group-vertical">
-                        <button type="button" class="btn btn-info">1</button>
-                        <button type="button" class="btn btn-info">2</button>
-
-                        <div class="btn-group">
-                          <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
-                          </button>
-                          <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Dropdown link</a></li>
-                            <li><a class="dropdown-item" href="#">Dropdown link</a></li>
-                          </ul>
-                        </div>
+                      <div class="icheck-danger d-inline">
+                        <input type="checkbox" id="checkboxDanger2">
+                        <label for="checkboxDanger2">
+                        </label>
                       </div>
-                    </td>
-                  </tr>
-                  <!-- /. info -->
-                  <!-- /.danger -->
-                  <tr>
-                    <td>
-                      <div class="btn-group-vertical">
-                        <button type="button" class="btn btn-danger">Top</button>
-                        <button type="button" class="btn btn-danger">Middle</button>
-                        <button type="button" class="btn btn-danger">Bottom</button>
+                      <div class="icheck-danger d-inline">
+                        <input type="checkbox" disabled id="checkboxDanger3">
+                        <label for="checkboxDanger3">
+                          Danger checkbox
+                        </label>
                       </div>
-                    </td>
-                    <td>
-                      <div class="btn-group-vertical">
-                        <button type="button" class="btn btn-danger">
-                          <i class="fas fa-align-left"></i>
-                        </button>
-                        <button type="button" class="btn btn-danger">
-                          <i class="fas fa-align-center"></i>
-                        </button>
-                        <button type="button" class="btn btn-danger">
-                          <i class="fas fa-align-right"></i>
-                        </button>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <!-- radio -->
+                    <div class="form-group clearfix">
+                      <div class="icheck-danger d-inline">
+                        <input type="radio" name="r2" checked id="radioDanger1">
+                        <label for="radioDanger1">
+                        </label>
                       </div>
-                    </td>
-                    <td>
-                      <div class="btn-group-vertical">
-                        <button type="button" class="btn btn-danger btn-flat">
-                          <i class="fas fa-align-left"></i>
-                        </button>
-                        <button type="button" class="btn btn-danger btn-flat">
-                          <i class="fas fa-align-center"></i>
-                        </button>
-                        <button type="button" class="btn btn-danger btn-flat">
-                          <i class="fas fa-align-right"></i>
-                        </button>
+                      <div class="icheck-danger d-inline">
+                        <input type="radio" name="r2" id="radioDanger2">
+                        <label for="radioDanger2">
+                        </label>
                       </div>
-                    </td>
-                    <td>
-                      <div class="btn-group-vertical">
-                        <button type="button" class="btn btn-danger">1</button>
-                        <button type="button" class="btn btn-danger">2</button>
-
-                        <div class="btn-group">
-                          <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
-                          </button>
-                          <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Dropdown link</a></li>
-                            <li><a class="dropdown-item" href="#">Dropdown link</a></li>
-                          </ul>
-                        </div>
+                      <div class="icheck-danger d-inline">
+                        <input type="radio" name="r2" disabled id="radioDanger3">
+                        <label for="radioDanger3">
+                          Danger radio
+                        </label>
                       </div>
-                    </td>
-                  </tr>
-                  <!-- /.danger -->
-                  <!-- warning -->
-                  <tr>
-                    <td>
-                      <div class="btn-group-vertical">
-                        <button type="button" class="btn btn-warning">Top</button>
-                        <button type="button" class="btn btn-warning">Middle</button>
-                        <button type="button" class="btn btn-warning">Bottom</button>
+                    </div>
+                  </div>
+                </div>
+                <!-- Minimal red style -->
+                <div class="row">
+                  <div class="col-sm-6">
+                    <!-- checkbox -->
+                    <div class="form-group clearfix">
+                      <div class="icheck-success d-inline">
+                        <input type="checkbox" checked id="checkboxSuccess1">
+                        <label for="checkboxSuccess1">
+                        </label>
                       </div>
-                    </td>
-                    <td>
-                      <div class="btn-group-vertical">
-                        <button type="button" class="btn btn-warning">
-                          <i class="fas fa-align-left"></i>
-                        </button>
-                        <button type="button" class="btn btn-warning">
-                          <i class="fas fa-align-center"></i>
-                        </button>
-                        <button type="button" class="btn btn-warning">
-                          <i class="fas fa-align-right"></i>
-                        </button>
+                      <div class="icheck-success d-inline">
+                        <input type="checkbox" id="checkboxSuccess2">
+                        <label for="checkboxSuccess2">
+                        </label>
                       </div>
-                    </td>
-                    <td>
-                      <div class="btn-group-vertical">
-                        <button type="button" class="btn btn-warning btn-flat">
-                          <i class="fas fa-align-left"></i>
-                        </button>
-                        <button type="button" class="btn btn-warning btn-flat">
-                          <i class="fas fa-align-center"></i>
-                        </button>
-                        <button type="button" class="btn btn-warning btn-flat">
-                          <i class="fas fa-align-right"></i>
-                        </button>
+                      <div class="icheck-success d-inline">
+                        <input type="checkbox" disabled id="checkboxSuccess3">
+                        <label for="checkboxSuccess3">
+                          Success checkbox
+                        </label>
                       </div>
-                    </td>
-                    <td>
-                      <div class="btn-group-vertical">
-                        <button type="button" class="btn btn-warning">1</button>
-                        <button type="button" class="btn btn-warning">2</button>
-
-                        <div class="btn-group">
-                          <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">
-                          </button>
-                          <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Dropdown link</a></li>
-                            <li><a class="dropdown-item" href="#">Dropdown link</a></li>
-                          </ul>
-                        </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <!-- radio -->
+                    <div class="form-group clearfix">
+                      <div class="icheck-success d-inline">
+                        <input type="radio" name="r3" checked id="radioSuccess1">
+                        <label for="radioSuccess1">
+                        </label>
                       </div>
-                    </td>
-                  </tr>
-                  <!-- /.warning -->
-                  <!-- success -->
-                  <tr>
-                    <td>
-                      <div class="btn-group-vertical">
-                        <button type="button" class="btn btn-success">Top</button>
-                        <button type="button" class="btn btn-success">Middle</button>
-                        <button type="button" class="btn btn-success">Bottom</button>
+                      <div class="icheck-success d-inline">
+                        <input type="radio" name="r3" id="radioSuccess2">
+                        <label for="radioSuccess2">
+                        </label>
                       </div>
-                    </td>
-                    <td>
-                      <div class="btn-group-vertical">
-                        <button type="button" class="btn btn-success">
-                          <i class="fas fa-align-left"></i>
-                        </button>
-                        <button type="button" class="btn btn-success">
-                          <i class="fas fa-align-center"></i>
-                        </button>
-                        <button type="button" class="btn btn-success">
-                          <i class="fas fa-align-right"></i>
-                        </button>
+                      <div class="icheck-success d-inline">
+                        <input type="radio" name="r3" disabled id="radioSuccess3">
+                        <label for="radioSuccess3">
+                          Success radio
+                        </label>
                       </div>
-                    </td>
-                    <td>
-                      <div class="btn-group-vertical">
-                        <button type="button" class="btn btn-success btn-flat">
-                          <i class="fas fa-align-left"></i>
-                        </button>
-                        <button type="button" class="btn btn-success btn-flat">
-                          <i class="fas fa-align-center"></i>
-                        </button>
-                        <button type="button" class="btn btn-success btn-flat">
-                          <i class="fas fa-align-right"></i>
-                        </button>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="btn-group-vertical">
-                        <button type="button" class="btn btn-success">1</button>
-                        <button type="button" class="btn btn-success">2</button>
-
-                        <div class="btn-group">
-                          <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
-                          </button>
-                          <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Dropdown link</a></li>
-                            <li><a class="dropdown-item" href="#">Dropdown link</a></li>
-                          </ul>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  <!-- /.success -->
-                </table>
+                    </div>
+                  </div>
+                </div>
               </div>
               <!-- /.card-body -->
+              <div class="card-footer">
+                Many more skins available. <a href="https://bantikyan.github.io/icheck-bootstrap/">Documentation</a>
+              </div>
             </div>
             <!-- /.card -->
 
-            <!-- Radio Buttons -->
-            <div class="card">
+            <!-- Bootstrap Switch -->
+            <div class="card card-secondary">
               <div class="card-header">
-                <h3 class="card-title">Radio Button Group</h3>
+                <h3 class="card-title">Bootstrap Switch</h3>
               </div>
-              <div class="card-body table-responsive pad">
-                <p class="mb-1">Radio Button Group with <code>.btn-secondary</code></p>
-                <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                  <label class="btn btn-secondary active">
-                    <input type="radio" name="options" id="option_a1" autocomplete="off" checked> Active
-                  </label>
-                  <label class="btn btn-secondary">
-                    <input type="radio" name="options" id="option_a2" autocomplete="off"> Radio
-                  </label>
-                  <label class="btn btn-secondary">
-                    <input type="radio" name="options" id="option_a3" autocomplete="off"> Radio
-                  </label>
-                </div>
-
-                <p class="mt-3 mb-1">Radio Button Group with <code>.bg-olive</code></p>
-                <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                  <label class="btn bg-olive active">
-                    <input type="radio" name="options" id="option_b1" autocomplete="off" checked> Active
-                  </label>
-                  <label class="btn bg-olive">
-                    <input type="radio" name="options" id="option_b2" autocomplete="off"> Radio
-                  </label>
-                  <label class="btn bg-olive">
-                    <input type="radio" name="options" id="option_b3" autocomplete="off"> Radio
-                  </label>
-                </div>
+              <div class="card-body">
+                <input type="checkbox" name="my-checkbox" checked data-bootstrap-switch>
+                <input type="checkbox" name="my-checkbox" checked data-bootstrap-switch data-off-color="danger" data-on-color="success">
               </div>
-              <!-- /.card-body -->
             </div>
             <!-- /.card -->
           </div>
-          <!-- /.col -->
+          <!-- /.col (right) -->
         </div>
-        <!-- /. row -->
+        <!-- /.row -->
       </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
@@ -2304,9 +1349,10 @@
   <!-- /.content-wrapper -->
   <footer class="main-footer">
     <div class="float-right d-none d-sm-block">
-      <b>Version</b> 3.1.0
+      <b>Version</b> 3.0.5
     </div>
-    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+    <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong> All rights
+    reserved.
   </footer>
 
   <!-- Control Sidebar -->
@@ -2321,9 +1367,98 @@
 <script src="../../plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Select2 -->
+<script src="../../plugins/select2/js/select2.full.min.js"></script>
+<!-- Bootstrap4 Duallistbox -->
+<script src="../../plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
+<!-- InputMask -->
+<script src="../../plugins/moment/moment.min.js"></script>
+<script src="../../plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>
+<!-- date-range-picker -->
+<script src="../../plugins/daterangepicker/daterangepicker.js"></script>
+<!-- bootstrap color picker -->
+<script src="../../plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="../../plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+<!-- Bootstrap Switch -->
+<script src="../../plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
+<!-- Page script -->
+<script>
+  $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
+
+    //Datemask dd/mm/yyyy
+    $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
+    //Datemask2 mm/dd/yyyy
+    $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
+    //Money Euro
+    $('[data-mask]').inputmask()
+
+    //Date range picker
+    $('#reservationdate').datetimepicker({
+        format: 'L'
+    });
+    //Date range picker
+    $('#reservation').daterangepicker()
+    //Date range picker with time picker
+    $('#reservationtime').daterangepicker({
+      timePicker: true,
+      timePickerIncrement: 30,
+      locale: {
+        format: 'MM/DD/YYYY hh:mm A'
+      }
+    })
+    //Date range as a button
+    $('#daterange-btn').daterangepicker(
+      {
+        ranges   : {
+          'Today'       : [moment(), moment()],
+          'Yesterday'   : [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+          'Last 7 Days' : [moment().subtract(6, 'days'), moment()],
+          'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+          'This Month'  : [moment().startOf('month'), moment().endOf('month')],
+          'Last Month'  : [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        },
+        startDate: moment().subtract(29, 'days'),
+        endDate  : moment()
+      },
+      function (start, end) {
+        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
+      }
+    )
+
+    //Timepicker
+    $('#timepicker').datetimepicker({
+      format: 'LT'
+    })
+    
+    //Bootstrap Duallistbox
+    $('.duallistbox').bootstrapDualListbox()
+
+    //Colorpicker
+    $('.my-colorpicker1').colorpicker()
+    //color picker with addon
+    $('.my-colorpicker2').colorpicker()
+
+    $('.my-colorpicker2').on('colorpickerChange', function(event) {
+      $('.my-colorpicker2 .fa-square').css('color', event.color.toString());
+    });
+
+    $("input[data-bootstrap-switch]").each(function(){
+      $(this).bootstrapSwitch('state', $(this).prop('checked'));
+    });
+
+  })
+</script>
 </body>
 </html>
