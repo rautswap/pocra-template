@@ -17,68 +17,40 @@ import GeoJSON from 'ol/format/GeoJSON';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import DropDown from './DropDown';
+import Select from 'react-select';
+import "./DBTDashboard.css"
 var view = "";
-export default class DBTDashboard extends Component {
+export default class DBTFarmerDashboard extends Component {
+
 	constructor(props) {
 		super(props)
 
 		this.state = {
 			activity: [
-				{
-					label: 'Select Activity Group',
-					items: [
-						{ value: 'frm', name: 'Farmer' },
-						{ value: 'nrm', name: 'NRM' },
-					],
-				},
 			],
 			district: [
-				{
-					label: 'Select District',
-					items: [],
-				},
+
 			],
 			taluka: [
-				{
-					label: 'Select Taluka',
-					items: [],
-				},
+
 			],
 			village: [
-				{
-					label: 'Select Village',
-					items: [],
-				},
+
 			],
 			gender: [
-				{
-					label: 'Select Gender',
-					items: [
-						{ value: 'm', name: 'Male' },
-						{ value: 'f', name: 'Female' },
-						{ value: 'o', name: 'Other' },
-					],
-				},
+				{ value: 'm', label: 'Male' },
+				{ value: 'f', label: 'Female' },
+				{ value: 'o', label: 'Other' },
 			],
 			social_category: [
-				{
-					label: 'Select Social Category',
-					items: [
-						{ value: 'sc', name: 'SC' },
-						{ value: 'st', name: 'ST' },
-						{ value: 'other', name: 'Other' },
-					],
-				},
+				{ value: 'sc', label: 'SC' },
+				{ value: 'st', label: 'ST' },
+				{ value: 'other', label: 'Other' },
 			],
 			farm_type: [
-				{
-					label: 'Select Farm Type',
-					items: [
-						{ value: 'sc', name: 'Land Less' },
-						{ value: 'st', name: 'Marginal' },
-						{ value: 'other', name: 'Small' },
-					],
-				},
+				{ value: 'sc', label: 'Land Less' },
+				{ value: 'st', label: 'Marginal' },
+				{ value: 'other', label: 'Small' },
 			]
 		}
 
@@ -154,10 +126,12 @@ export default class DBTDashboard extends Component {
 		this.getTaluka = this.getTaluka.bind(this)
 		this.getVillage = this.getVillage.bind(this)
 	}
+
 	componentDidMount() {
 
 		this.map.setTarget("map");
 		this.getDistrict();
+		this.getFarmerActivity();
 
 		// this.getForecastData();
 		// const overlay = new Overlay({
@@ -201,6 +175,35 @@ export default class DBTDashboard extends Component {
 
 	}
 
+	getFarmerActivity(){
+		let initialActivity = [];
+		fetch('http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/dbtActivityMaster?activity=Farmer')
+			.then(response => {
+				return response.json();
+			}).then(data => {
+				// console.log(data)
+				initialActivity = data.activity.map((activities) => {
+					return activities = {
+						label: activities.ActivityGroupName,
+						value: activities.ActivityGroupID,
+						TotalNoOfApplications:activities.TotalNoOfApplications,
+						TotalNoOfDisbursement:activities.TotalNoOfDisbursement,
+						TotalNoOfPreSanction:activities.TotalNoOfPreSanction
+
+					}
+				});
+				console.log(initialActivity)
+				this.setState({
+					activity: [
+						initialActivity
+					]
+				});
+
+			});
+		
+
+	}
+
 
 	getDistrict() {
 		let initialDistrict = [];
@@ -210,22 +213,25 @@ export default class DBTDashboard extends Component {
 			}).then(data => {
 				// console.log(data)
 				initialDistrict = data.district.map((district) => {
-					return district
+					return district = {
+						label: district.dtnname,
+						value: district.dtncode,
+					}
 				});
-				// console.log(initialPlanets);
 				this.setState({
 					district: [
-						{
-							label: 'Select District',
-							items: initialDistrict,
-						},
+						initialDistrict
 					]
 				});
+
 			});
+
 	}
 
-	getTaluka = () => {
-		var districtCode = document.getElementById("district").value;
+	getTaluka = (districtCode) => {
+		// var districtCode = document.getElementById("district").value;
+		// console.log(districtCode)
+		// console.log(districtCode)
 		let initialTaluka = [];
 
 		fetch('http://gis.mahapocra.gov.in/weatherservices/meta/dtaluka?dtncode=' + districtCode)
@@ -233,24 +239,23 @@ export default class DBTDashboard extends Component {
 				return response.json();
 			}).then(data => {
 				initialTaluka = data.taluka.map((taluka) => {
-					return taluka
+					return taluka = {
+						label: taluka.thnname,
+						value: taluka.thncode,
+					}
 				});
-				console.log(initialTaluka);
 				this.setState({
 					...this.state,
 					taluka: [
-						{
-							label: 'Select Taluka',
-							items: initialTaluka,
-						},
+						initialTaluka
 					],
-					
+
 				});
 			});
 	}
 
-	getVillage = () => {
-		var talukaCode = document.getElementById("taluka").value;
+	getVillage = (talukaCode) => {
+
 		let initialVillage = [];
 
 		fetch('http://gis.mahapocra.gov.in/weatherservices/meta/village?thncode=' + talukaCode)
@@ -258,20 +263,22 @@ export default class DBTDashboard extends Component {
 				return response.json();
 			}).then(data => {
 				initialVillage = data.village.map((village) => {
-					return village
+					console.log(data)
+					return village = {
+						label: village.vinname,
+						value: village.vincode,
+					}
 				});
 				console.log(initialVillage);
 				this.setState({
 					...this.state,
 					village: [
-						{
-							label: 'Select Taluka',
-							items: initialVillage,
-						},
+						initialVillage
 					],
-					
+
 				});
 			});
+
 	}
 
 	render() {
@@ -284,9 +291,9 @@ export default class DBTDashboard extends Component {
 						<section className="content">
 							<div className="container-fluid">
 								{/* SELECT2 EXAMPLE */}
-								<div className="card card-default">
+								<div className="card card-default" style={{marginTop:"0.5%"}}>
 									<div className="card-header">
-										<h3 className="card-title">DBT Dashboard</h3>
+										<h3 className="card-title">DBT Farmer Dashboard</h3>
 										{/* <div className="card-tools">
 											<button type="button" className="btn btn-tool" data-card-widget="collapse"><i className="fas fa-minus" /></button>
 											<button type="button" className="btn btn-tool" data-card-widget="remove"><i className="fas fa-times" /></button>
@@ -302,121 +309,47 @@ export default class DBTDashboard extends Component {
 													{/* <DropDown activity_props={this.state} /> */}
 
 													<div className="form-group" >
-														{this.state.activity.map(({ label, items: subItems, ...rest }) => (
-															<>
-																{Array.isArray(subItems) ? (
-																	<>
-																		<label>{label}</label>
-																		<select className="form-control select2" style={{ width: '90%' }}>
-																			{subItems.map((subItem) => (
-																				<option value={subItem.value}>{subItem.name}</option>
-																			))}
-																		</select>
-																	</>
-																) : ""}
-															</>
-														))}
+														<Select className="selectlabel-lg" placeholder="Select Activity" 
+															options={this.state.activity[0]}
+														/>
+
 													</div>
 													<div className="form-group" >
-														{
-															this.state.district.map(({ label, items: subItems, ...rest }) => (
-																<>
-																	{Array.isArray(subItems) ? (
-																		<>
-																			<label>{label}</label>
-																			<select className="form-control select2" id="district" style={{ width: '90%' }} onChange={this.getTaluka}>
-																				<option value="-1">Select District</option>
-																				{subItems.map((subItem) => (
-																					<option value={subItem.dtncode}>{subItem.dtnname}</option>
-																				))}
-																			</select>
-																		</>
-																	) : ""}
-																</>
-															))
-														}
+														<Select className="selectlabel" placeholder="Select District"
+															options={this.state.district[0]}
+															onChange={district => this.getTaluka(district.value)}
+														/>
 													</div>
 													<div className="form-group" >
-														{this.state.taluka.map(({ label, items: subItems, ...rest }) => (
-															<>
-																{Array.isArray(subItems) ? (
-																	<>
-																		<label>{label}</label>
-																		<select className="form-control select2" id="taluka" style={{ width: '90%' }} onChange={this.getVillage}>
-																			<option value="-1">Select Taluka</option>
-																			{subItems.map((subItem) => (
-																				<option value={subItem.thncode}>{subItem.thnname}</option>
-																			))}
-																		</select>
-																	</>
-																) : ""}
-															</>
-														))}
+														<Select className="selectlabel" placeholder="Select Taluka"
+															options={this.state.taluka[0]}
+															onChange={taluka => this.getVillage(taluka.value)}
+														/>
+
 													</div>
 													<div className="form-group" >
-														{this.state.village.map(({ label, items: subItems, ...rest }) => (
-															<>
-																{Array.isArray(subItems) ? (
-																	<>
-																		<label>{label}</label>
-																		<select className="form-control select2" style={{ width: '90%' }}>
-																		<option value="-1">Select Village</option>
-																			{subItems.map((subItem) => (
-																				<option value={subItem.vincode}>{subItem.vinname}</option>
-																			))}
-																		</select>
-																	</>
-																) : ""}
-															</>
-														))}
+														<Select className="selectlabel" placeholder="Select Village"
+															options={this.state.village[0]}
+														/>
+
 													</div>
 													<div className="form-group" >
-														{this.state.gender.map(({ label, items: subItems, ...rest }) => (
-															<>
-																{Array.isArray(subItems) ? (
-																	<>
-																		<label>{label}</label>
-																		<select className="form-control select2" style={{ width: '90%' }}>
-																			{subItems.map((subItem) => (
-																				<option value={subItem.value}>{subItem.name}</option>
-																			))}
-																		</select>
-																	</>
-																) : ""}
-															</>
-														))}
+														<Select className="selectlabel" placeholder="Select Gender"
+															options={this.state.gender}
+														/>
+
 													</div>
 													<div className="form-group" >
-														{this.state.social_category.map(({ label, items: subItems, ...rest }) => (
-															<>
-																{Array.isArray(subItems) ? (
-																	<>
-																		<label>{label}</label>
-																		<select className="form-control select2" style={{ width: '90%' }}>
-																			{subItems.map((subItem) => (
-																				<option value={subItem.value}>{subItem.name}</option>
-																			))}
-																		</select>
-																	</>
-																) : ""}
-															</>
-														))}
+														<Select className="selectlabel" placeholder="Select Category"
+															options={this.state.social_category}
+														/>
+
 													</div>
 													<div className="form-group" >
-														{this.state.farm_type.map(({ label, items: subItems, ...rest }) => (
-															<>
-																{Array.isArray(subItems) ? (
-																	<>
-																		<label>{label}</label>
-																		<select className="form-control select2" style={{ width: '90%' }}>
-																			{subItems.map((subItem) => (
-																				<option value={subItem.value}>{subItem.name}</option>
-																			))}
-																		</select>
-																	</>
-																) : ""}
-															</>
-														))}
+														<Select className="selectlabel" placeholder="Select Farm Type"
+															options={this.state.farm_type}
+														/>
+
 													</div>
 												</form>
 											</div>
@@ -443,7 +376,7 @@ export default class DBTDashboard extends Component {
 						<div className="card card-solid">
 							<div className="card-body">
 								<div className="row">
-									<div className="col-12 col-sm-12" id="map" style={{ height: "60vh", width: "100%" }}>
+									<div className="col-12 col-sm-12" id="map" style={{ height: "80vh", width: "100%" }}>
 									</div>
 
 

@@ -13,7 +13,7 @@ export default class Sidebar extends Component {
                 label: 'PoCRA DBT',
                 css: 'nav-icon fas fa-tachometer-alt',
                 items: [
-                    { name: 'dbt', label: 'Farmer' },
+                    { name: 'dbtfarmer', label: 'Farmer' },
                     { name: 'nrm', label: 'NRM' },
                     { name: 'fpc_fpo', label: 'FPC/FPO' },
                 ],

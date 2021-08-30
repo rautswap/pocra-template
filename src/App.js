@@ -7,7 +7,7 @@ import Footer from './Components/Dashboard/Footer';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Forecast from './Components/ForecastComponent/Forecast';
 import NoFound from './Components/NoFound';
-import DBTDashboard from './Components/DBTComponent/DBTDashboard';
+import DBTFarmerDashboard from './Components/DBTComponent/DBTFarmerDashboard';
 function App() {
   return (
     <div class="wrapper">
@@ -18,7 +18,7 @@ function App() {
           <Route exact path="/" component={MainContent} />
           <Route path="/forecast" component={Forecast} />
           <Route exact path="/home" component={MainContent} />
-          <Route exact path="/dbt" component={DBTDashboard} />
+          <Route exact path="/dbtfarmer" component={DBTFarmerDashboard} />
           <Route component={NoFound} />
         </Switch>
         <Footer />
