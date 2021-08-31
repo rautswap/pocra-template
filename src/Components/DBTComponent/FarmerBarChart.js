@@ -13,41 +13,40 @@ export default class FarmerBarChart extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			farmer_activity: [],
-			farmer_group: []
+			ActivityGroupName: [],
+			TotalAmountDisbursed: [],
+			TotalNoOfApplications: [],
+			TotalNoOfDisbursement: [],
+			TotalNoOfPreSanction: []
 		}
 	}
 
-	componentDidMount(){
+	componentDidMount() {
 		this.getFarmerActivity();
 	}
 
 	getFarmerActivity() {
 		let initialActivity = [];
-		 let groupname=[];
+		let activityGroupName = [], totalAmountDisbursed = [], totalNoOfApplications = [], totalNoOfDisbursement = [], totalNoOfPreSanction = [];
 		fetch('http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/dbtActivityMaster?activity=Farmer')
 			.then(response => {
 				return response.json();
 			}).then(data => {
 				// console.log(data)
-				initialActivity = data.activity.map((activities) => {
-
-					groupname.push(activities.ActivityGroupName)
-
-
-					// return activities = {
-
-					// 	// label: activities.ActivityGroupName,
-					// 	// value: activities.ActivityGroupID,
-					// 	// TotalNoOfApplications: activities.TotalNoOfApplications,
-					// 	// TotalNoOfDisbursement: activities.TotalNoOfDisbursement,
-					// 	// TotalNoOfPreSanction: activities.TotalNoOfPreSanction
-
-					// }
+				initialActivity = data.activity.map((farmers) => {
+					activityGroupName.push(farmers.ActivityGroupName);
+					totalAmountDisbursed.push(farmers.TotalAmountDisbursed);
+					totalNoOfApplications.push(farmers.TotalNoOfApplications);
+					totalNoOfDisbursement.push(farmers.TotalNoOfDisbursement);
+					totalNoOfPreSanction.push(farmers.TotalNoOfPreSanction);
 				});
-				console.log(groupname)
+
 				this.setState({
-					farmer_activity: groupname
+					ActivityGroupName: activityGroupName,
+					TotalAmountDisbursed: totalAmountDisbursed,
+					TotalNoOfApplications: totalNoOfApplications,
+					TotalNoOfDisbursement: totalNoOfDisbursement,
+					TotalNoOfPreSanction: totalNoOfPreSanction
 				});
 
 			});
@@ -56,6 +55,7 @@ export default class FarmerBarChart extends Component {
 	}
 
 	render() {
+
 		const options = {
 
 			chart: {
@@ -65,23 +65,10 @@ export default class FarmerBarChart extends Component {
 				text: 'Farmer Activity Report'
 			},
 			subtitle: {
-				text: ''
+				text: 'No of Applications'
 			},
 			xAxis: {
-				categories: [
-					'Jan',
-					'Feb',
-					'Mar',
-					'Apr',
-					'May',
-					'Jun',
-					'Jul',
-					'Aug',
-					'Sep',
-					'Oct',
-					'Nov',
-					'Dec'
-				],
+				categories: this.state.ActivityGroupName,
 				crosshair: true
 			},
 			yAxis: {
@@ -93,7 +80,7 @@ export default class FarmerBarChart extends Component {
 			tooltip: {
 				headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
 				pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-					'<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+					'<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
 				footerFormat: '</table>',
 				shared: true,
 				useHTML: true
@@ -104,22 +91,18 @@ export default class FarmerBarChart extends Component {
 					borderWidth: 0
 				}
 			},
-			series: [{
-				name: 'Tokyo',
-				data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
-		
+			series: [ {
+				name: 'Total No Of Applications',
+				data:this.state.TotalNoOfApplications
+
 			}, {
-				name: 'New York',
-				data: [83.6, 78.8, 98.5, 93.4, 106.0, 84.5, 105.0, 104.3, 91.2, 83.5, 106.6, 92.3]
-		
+				name: 'Total No Of Disbursement',
+				data: this.state.TotalNoOfDisbursement
+
 			}, {
-				name: 'London',
-				data: [48.9, 38.8, 39.3, 41.4, 47.0, 48.3, 59.0, 59.6, 52.4, 65.2, 59.3, 51.2]
-		
-			}, {
-				name: 'Berlin',
-				data: [42.4, 33.2, 34.5, 39.7, 52.6, 75.5, 57.4, 60.4, 47.6, 39.1, 46.8, 51.1]
-		
+				name: 'Total No Of PreSanction',
+				data: this.state.TotalNoOfPreSanction
+
 			}]
 		};
 		return (
