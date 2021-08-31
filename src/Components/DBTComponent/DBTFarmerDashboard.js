@@ -375,13 +375,9 @@ export default class DBTFarmerDashboard extends Component {
 						{/* Default box */}
 						<div className="card card-solid">
 							<div className="card-body">
-								<div className="row">
-									<div className="col-12 col-sm-12" id="map" style={{ height: "80vh", width: "100%" }}>
+								<div className="row mb-2" >
+									<div className="col-12" id="map" style={{ height: "80vh", width: "100%" }}>
 									</div>
-
-
-
-
 									{/* Legend:
 									<div><img id="legend" /></div> */}
 								</div>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import ChartExample from '../DBTComponent/ChartExample'
 import FarmerBarChart from '../DBTComponent/FarmerBarChart'
+import FarmerFPCChart from '../DBTComponent/FarmerFPCChart'
 
 export default class MainContent extends Component {
     render() {
@@ -93,12 +94,12 @@ export default class MainContent extends Component {
                             {/* Main row */}
                             <div className="row">
                                 {/* Left col */}
-                                <section className="col-lg-7 connectedSortable">
+                                <section className="col-lg-6 connectedSortable">
                                     {/* Custom tabs (Charts with tabs)*/}
                                     <div className="card">
                                         <div className="card-header">
                                             <h3 className="card-title">
-                                                <i className="fas fa-chart-pie mr-1" /> DBT Farmer
+                                            <i class="fas fa-chart-bar" /> DBT Farmer
                                             </h3>
                                             <div className="card-tools">
                                                 {/* <ul className="nav nav-pills ml-auto">
@@ -114,7 +115,12 @@ export default class MainContent extends Component {
                                         {/* /.card-header */}
                                         <div className="card-body">
                                             <div className="tab-content p-0">
-                                                <FarmerBarChart />
+                                                <FarmerBarChart chartProps={{
+                                                    activityLabel: "Farmer Report",
+                                                    activity: "Farmer",
+                                                    xlabel: "No of Applications",
+                                                    ylabel: "Total No of Applications"
+                                                }} />
 
                                             </div>
                                         </div>
@@ -123,27 +129,37 @@ export default class MainContent extends Component {
                                 </section>
                                 {/* /.Left col */}
                                 {/* right col (We are only adding the ID to make the widgets sortable)*/}
-                                <section className="col-lg-5 connectedSortable">
-                                    {/* Map card */}
-                                    <div className="card ">
-                                        <div className="card-header border-0">
+                                <section className="col-lg-6 connectedSortable">
+                                    {/* Custom tabs (Charts with tabs)*/}
+                                    <div className="card">
+                                        <div className="card-header">
                                             <h3 className="card-title">
-                                                <i className="fas fa-map-marker-alt mr-1" /> Chart Example
+                                            <i class="fas fa-chart-bar" /> FPC/NRM
                                             </h3>
-                                            {/* card tools */}
-                                            {/* <div className="card-tools">
-                                                <button type="button" className="btn btn-primary btn-sm daterange" title="Date range">
-                                                    <i className="far fa-calendar-alt" />
-                                                </button>
-                                                <button type="button" className="btn btn-primary btn-sm" data-card-widget="collapse" title="Collapse">
-                                                    <i className="fas fa-minus" />
-                                                </button>
-                                            </div> */}
-                                            {/* /.card-tools */}
+                                            <div className="card-tools">
+                                                {/* <ul className="nav nav-pills ml-auto">
+                                                    <li className="nav-item">
+                                                        <a className="nav-link active" href="#revenue-chart" data-toggle="tab">Area</a>
+                                                    </li>
+                                                    <li className="nav-item">
+                                                        <a className="nav-link" href="#sales-chart" data-toggle="tab">Donut</a>
+                                                    </li>
+                                                </ul> */}
+                                            </div>
                                         </div>
+                                        {/* /.card-header */}
                                         <div className="card-body">
-                                            <ChartExample />
+                                            <div className="tab-content p-0">
+                                                <FarmerBarChart chartProps={{
+                                                    activityLabel: "FPC/NRM Report",
+                                                    activity: "FPC",
+                                                    xlabel: "No of Applications",
+                                                    ylabel: "Total No of Applications"
+                                                }} />
+
+                                            </div>
                                         </div>
+                                        {/* /.card-body */}
                                     </div>
                                 </section>
                                 {/* right col */}

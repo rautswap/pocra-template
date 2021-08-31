@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
+import { toStringHDMS } from 'ol/coordinate'
 
 
 
@@ -9,9 +10,10 @@ import HighchartsReact from 'highcharts-react-official'
 
 
 
-export default class FarmerBarChart extends Component {
+export default class FarmerFPCChart extends Component {
 	constructor(props) {
 		super(props)
+
 		this.state = {
 			ActivityGroupName: [],
 			TotalAmountDisbursed: [],
@@ -28,7 +30,7 @@ export default class FarmerBarChart extends Component {
 	getFarmerActivity() {
 		let initialActivity = [];
 		let activityGroupName = [], totalAmountDisbursed = [], totalNoOfApplications = [], totalNoOfDisbursement = [], totalNoOfPreSanction = [];
-		fetch('http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/dbtActivityMaster?activity='+ this.props.chartProps.activity)
+		fetch('http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/dbtActivityMaster?activity=' + this.props.chartProps.activity)
 			.then(response => {
 				return response.json();
 			}).then(data => {
@@ -88,12 +90,12 @@ export default class FarmerBarChart extends Component {
 			plotOptions: {
 				column: {
 					pointPadding: 0.2,
-					borderWidth: 0.5
+					borderWidth: 0
 				}
 			},
-			series: [ {
+			series: [{
 				name: 'Total No Of Applications',
-				data:this.state.TotalNoOfApplications
+				data: this.state.TotalNoOfApplications
 
 			}, {
 				name: 'Total No Of Disbursement',
