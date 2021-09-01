@@ -80,7 +80,7 @@ export default class DBTPieChart extends Component {
 					color: '#FF0000',
 					fontWeight: 'bold'
 				},
-				text: 'DBT Distribution as per Gender'
+				text: ''
 			},
 			subtitle: {
 				style: {

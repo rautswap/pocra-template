@@ -305,7 +305,7 @@ export default class DBTFarmerDashboard extends Component {
 									<div className="card-body">
 										<div className="row">
 											<div className="col-md-12">
-												<form class="form-inline">
+												<form className="form-inline">
 
 													{/* <label>Select Activity Group</label> */}
 													{/* <DropDown activity_props={this.state} /> */}
@@ -385,12 +385,12 @@ export default class DBTFarmerDashboard extends Component {
 										<div className="card" style={{ width: "50%", right: "-50%" }}>
 											<div className="card-header">
 												<h3 className="card-title">
-													<i class="fas fa-chart-bar" /> FPC/NRM
+													<i className="fas fa-chart-bar" /> FPC/NRM
 												</h3>
-												<div class="card-tools ">
-													<button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+												<div className="card-tools ">
+													<button type="button" className="btn btn-tool" data-card-widget="collapse"><i className="fas fa-minus"></i>
 													</button>
-													{/* <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button> */}
+													{/* <button type="button" className="btn btn-tool" data-card-widget="remove"><i className="fas fa-times"></i></button> */}
 												</div>
 											</div>
 											{/* /.card-header */}
@@ -410,81 +410,83 @@ export default class DBTFarmerDashboard extends Component {
 						</div>
 						{/* /.card */}
 					</section>
-					<div className="row">
-						<section className="col-lg-4 connectedSortable">
-							{/* Custom tabs (Charts with tabs)*/}
-							<div className="card">
-								<div className="card-header">
-									<h3 className="card-title">
-										<i class="fas fa-chart-bar" /> FPC/NRM
-									</h3>
-									<div class="card-tools">
-										<button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-										</button>
-										{/* <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button> */}
-									</div>
-								</div>
-								{/* /.card-header */}
-								<div className="card-body">
-									<div className="tab-content p-0">
-										<DBTPieChart />
+					<section className="content"  >
+						<div className="card card-solid">
+							<div className="card-body">
+								<div className="row mb-2" >
+									<section className="col-lg-4 connectedSortable">
+										{/* Custom tabs (Charts with tabs)*/}
+										<div className="card">
+											<div className="card-header">
+												<h3 className="card-title">
+													<i className="fas fa-restroom"></i> DBT Distribution as per Gender
+												</h3>
+												<div className="card-tools">
+													<button type="button" className="btn btn-tool" data-card-widget="collapse"><i className="fas fa-minus"></i>
+													</button>
+													{/* <button type="button" className="btn btn-tool" data-card-widget="remove"><i className="fas fa-times"></i></button> */}
+												</div>
+											</div>
+											{/* /.card-header */}
+											<div className="card-body">
+												<div className="tab-content p-0">
+													<DBTPieChart />
 
-									</div>
+												</div>
+											</div>
+											{/* /.card-body */}
+										</div>
+									</section>
+									<section className="col-lg-4 connectedSortable">
+										{/* Custom tabs (Charts with tabs)*/}
+										<div className="card">
+											<div className="card-header">
+												<h3 className="card-title">
+													<i className="fas fa-users"> </i> Social Category
+												</h3>
+												<div className="card-tools">
+													<button type="button" className="btn btn-tool" data-card-widget="collapse"><i className="fas fa-minus"></i>
+													</button>
+													{/* <button type="button" className="btn btn-tool" data-card-widget="remove"><i className="fas fa-times"></i></button> */}
+												</div>
+											</div>
+											{/* /.card-header */}
+											<div className="card-body">
+												<div className="tab-content p-0">
+													<DBTPieChart />
+
+												</div>
+											</div>
+											{/* /.card-body */}
+										</div>
+									</section>
+									<section className="col-lg-4 connectedSortable">
+										{/* Custom tabs (Charts with tabs)*/}
+										<div className="card">
+											<div className="card-header">
+												<h3 className="card-title">
+													<i className="fas fa-user-friends"></i> Farmer Type
+												</h3>
+												<div className="card-tools">
+													<button type="button" className="btn btn-tool" data-card-widget="collapse"><i className="fas fa-minus"></i>
+													</button>
+													{/* <button type="button" className="btn btn-tool" data-card-widget="remove"><i className="fas fa-times"></i></button> */}
+												</div>
+											</div>
+											{/* /.card-header */}
+											<div className="card-body">
+												<div className="tab-content p-0">
+													<DBTPieChart />
+
+												</div>
+											</div>
+											{/* /.card-body */}
+										</div>
+									</section>
 								</div>
-								{/* /.card-body */}
 							</div>
-						</section>
-						<section className="col-lg-4 connectedSortable">
-							{/* Custom tabs (Charts with tabs)*/}
-							<div className="card">
-								<div className="card-header">
-									<h3 className="card-title">
-										<i class="fas fa-chart-bar" /> FPC/NRM
-									</h3>
-									<div class="card-tools">
-										<button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-										</button>
-										{/* <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button> */}
-									</div>
-								</div>
-								{/* /.card-header */}
-								<div className="card-body">
-									<div className="tab-content p-0">
-										<DBTPieChart />
-
-									</div>
-								</div>
-								{/* /.card-body */}
-							</div>
-						</section>
-						<section className="col-lg-4 connectedSortable">
-							{/* Custom tabs (Charts with tabs)*/}
-							<div className="card">
-								<div className="card-header">
-									<h3 className="card-title">
-										<i class="fas fa-chart-bar" /> FPC/NRM
-									</h3>
-									<div class="card-tools">
-										<button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-										</button>
-										{/* <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button> */}
-									</div>
-								</div>
-								{/* /.card-header */}
-								<div className="card-body">
-									<div className="tab-content p-0">
-										<DBTPieChart />
-
-									</div>
-								</div>
-								{/* /.card-body */}
-							</div>
-						</section>
-						
-					</div>
-
-
-
+						</div>
+					</section>
 					{/* /.content */}
 				</div>
 
