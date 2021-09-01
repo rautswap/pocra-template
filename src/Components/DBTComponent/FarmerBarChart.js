@@ -72,7 +72,11 @@ export default class FarmerBarChart extends Component {
 				crosshair: true
 			},
 			yAxis: {
-				min: 0,
+				type: 'logarithmic',
+				minorTickInterval: 0.1,
+				accessibility: {
+					rangeDescription: 'Range: 0.1 to 1000'
+				},
 				title: {
 					text: this.props.chartProps.ylabel
 				}

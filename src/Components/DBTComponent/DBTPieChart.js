@@ -69,11 +69,13 @@ export default class DBTPieChart extends Component {
 		const options = {
 
 			chart: {
-				plotBackgroundColor: null,
-				plotBorderColor: null,
-				plotBorderWidth: 2,
-				plotShadow: false,
-				type: 'pie'
+				plotBackgroundColor: "#ebebe0",
+				plotBorderWidth: "#8c8c5a",
+				plotShadow: true,
+				type: 'pie',
+				margin: 0,
+				padding: 0,
+				height: '50%'
 			},
 			title: {
 				style: {
@@ -94,17 +96,21 @@ export default class DBTPieChart extends Component {
 			},
 			accessibility: {
 				point: {
-					valueSuffix: '%'
+					valueSuffix: ''
 				}
 			},
 			plotOptions: {
 				pie: {
 					allowPointSelect: true,
 					cursor: 'pointer',
+					size: '30%',
+					height: '30%',
+					allowPointSelect: true,
+					cursor: 'pointer',
 					// colors: pieColors,
 					dataLabels: {
 						enabled: true,
-						format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+						format: '<b>{point.name}</b>: {point.percentage:.1f}'
 					},
 					showInLegend: true
 				}
@@ -129,7 +135,7 @@ export default class DBTPieChart extends Component {
 		};
 		return (
 			<div>
-				<HighchartsReact highcharts={Highcharts} options={options} style={{ height: "100px" }} />
+				<HighchartsReact highcharts={Highcharts} options={options} />
 			</div>
 		)
 	}
