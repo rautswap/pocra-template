@@ -175,7 +175,7 @@ export default class DBTFarmerDashboard extends Component {
 
 	}
 
-	getFarmerActivity(){
+	getFarmerActivity() {
 		let initialActivity = [];
 		fetch('http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/dbtActivityMaster?activity=Farmer')
 			.then(response => {
@@ -186,9 +186,9 @@ export default class DBTFarmerDashboard extends Component {
 					return activities = {
 						label: activities.ActivityGroupName,
 						value: activities.ActivityGroupID,
-						TotalNoOfApplications:activities.TotalNoOfApplications,
-						TotalNoOfDisbursement:activities.TotalNoOfDisbursement,
-						TotalNoOfPreSanction:activities.TotalNoOfPreSanction
+						TotalNoOfApplications: activities.TotalNoOfApplications,
+						TotalNoOfDisbursement: activities.TotalNoOfDisbursement,
+						TotalNoOfPreSanction: activities.TotalNoOfPreSanction
 
 					}
 				});
@@ -200,7 +200,7 @@ export default class DBTFarmerDashboard extends Component {
 				});
 
 			});
-		
+
 
 	}
 
@@ -291,7 +291,7 @@ export default class DBTFarmerDashboard extends Component {
 						<section className="content">
 							<div className="container-fluid">
 								{/* SELECT2 EXAMPLE */}
-								<div className="card card-default" style={{marginTop:"0.5%"}}>
+								<div className="card card-default" style={{ marginTop: "0.5%" }}>
 									<div className="card-header">
 										<h3 className="card-title">DBT Farmer Dashboard</h3>
 										{/* <div className="card-tools">
@@ -309,7 +309,7 @@ export default class DBTFarmerDashboard extends Component {
 													{/* <DropDown activity_props={this.state} /> */}
 
 													<div className="form-group" >
-														<Select className="selectlabel-lg" placeholder="Select Activity" 
+														<Select className="selectlabel-lg" placeholder="Select Activity"
 															options={this.state.activity[0]}
 														/>
 
@@ -378,11 +378,7 @@ export default class DBTFarmerDashboard extends Component {
 								<div className="row mb-2" >
 									<div className="col-12" id="map" style={{ height: "80vh", width: "100%" }}>
 									</div>
-									{/* Legend:
-									<div><img id="legend" /></div> */}
 								</div>
-
-
 							</div>
 
 							{/* /.card-body */}

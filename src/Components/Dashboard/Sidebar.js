@@ -4,18 +4,19 @@ export default class Sidebar extends Component {
 
     render() {
         const items = [
-            { name: 'home', css: 'nav-icon fas fa-tachometer-alt', label: 'होम' },
-            { name: 'forecast', css: 'nav-icon fas fa-th', label: 'हवामान अंदाज' },
+            { name: 'home', css: 'nav-icon fas fa-tachometer-alt', label: ' होम' },
+            { name: 'forecast', css: 'fas fa-cloud-moon-rain', label: ' हवामान अंदाज' },
             // { name: 'soilcard', css: 'nav-icon fas fa-copy', label: 'मृद आरोग्य पत्रिका ' },
             // { name: 'dbt', css: 'nav-icon fas fa-tachometer-alt', label: 'PoCRA DBT' },
             {
                 name: 'dbt',
-                label: 'PoCRA DBT',
-                css: 'nav-icon fas fa-tachometer-alt',
+                label: ' PoCRA DBT',
+                css: 'fab fa-nutritionix',
                 items: [
-                    { name: 'dbtfarmer', label: 'Farmer' },
-                    { name: 'nrm', label: 'NRM' },
-                    { name: 'fpc_fpo', label: 'FPC/FPO' },
+                    { name: 'dbtfarmer', label: ' Farmer', css: 'fas fa-tractor' },
+                    { name: 'crm', label: ' Community', css: 'fas fa-users' },
+                    { name: 'fpc_fpo', label: ' FPC/FPO', css: 'fas fa-users' },
+                    
                 ],
             },
             // {
@@ -35,7 +36,7 @@ export default class Sidebar extends Component {
                     {/* Sidebar */}
                     <div className="sidebar">
                         {/* Sidebar user panel (optional) */}
-                        <div className="form-inline" style={{paddingTop:5}} >
+                        <div className="form-inline" style={{ paddingTop: 5 }} >
                             <div className="input-group" data-widget="sidebar-search">
                                 <input className="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search" />
                                 <div className="input-group-append">
@@ -53,7 +54,7 @@ export default class Sidebar extends Component {
                                         {Array.isArray(subItems) ? (
                                             <li className="nav-item">
                                                 <a href={"/" + name} className="nav-link">
-                                                    <i className="nav-icon fas fa-copy"></i>
+                                                    <i className={css}></i>
                                                     <p>
                                                         {label}
                                                         <i className="fas fa-angle-left right"></i>
@@ -63,7 +64,7 @@ export default class Sidebar extends Component {
                                                     <ul className="nav nav-treeview">
                                                         <li className="nav-item">
                                                             <a href={subItem.name} className="nav-link">
-                                                                <i className="far fa-circle nav-icon"></i>
+                                                                <i className={subItem.css}></i>
                                                                 <p>{subItem.label}</p>
                                                             </a>
                                                         </li>
