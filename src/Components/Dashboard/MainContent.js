@@ -118,7 +118,7 @@ export default class MainContent extends Component {
                                                 <FarmerBarChart chartProps={{
                                                     activityLabel: "Farmer Report",
                                                     activity: "Farmer",
-                                                    xlabel: "No of Applications",
+                                                    xlabel: "Source : PoCRA DBT",
                                                     ylabel: "Total No of Applications"
                                                 }} />
 
@@ -153,7 +153,7 @@ export default class MainContent extends Component {
                                                 <FarmerBarChart chartProps={{
                                                     activityLabel: "FPC/NRM Report",
                                                     activity: "FPC",
-                                                    xlabel: "No of Applications",
+                                                    xlabel: "Source : PoCRA DBT",
                                                     ylabel: "Total No of Applications"
                                                 }} />
 

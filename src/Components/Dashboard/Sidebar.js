@@ -4,18 +4,18 @@ export default class Sidebar extends Component {
 
     render() {
         const items = [
-            { name: 'home', css: 'nav-icon fas fa-tachometer-alt', label: ' होम' },
-            { name: 'forecast', css: 'fas fa-cloud-moon-rain', label: ' हवामान अंदाज' },
+            { name: 'home', css: 'nav-icon fas fa-home', label: 'होम' },
+            { name: 'forecast', css: 'nav-icon fas fa-cloud-moon-rain', label: 'हवामान अंदाज' },
             // { name: 'soilcard', css: 'nav-icon fas fa-copy', label: 'मृद आरोग्य पत्रिका ' },
             // { name: 'dbt', css: 'nav-icon fas fa-tachometer-alt', label: 'PoCRA DBT' },
             {
                 name: 'dbt',
-                label: ' PoCRA DBT',
-                css: 'fab fa-nutritionix',
+                label: 'DBT',
+                css: 'nav-icon fab fa-nutritionix',
                 items: [
-                    { name: 'dbtfarmer', label: ' Farmer', css: 'fas fa-tractor' },
-                    { name: 'crm', label: ' Community', css: 'fas fa-users' },
-                    { name: 'fpc_fpo', label: ' FPC/FPO', css: 'fas fa-users' },
+                    { name: 'dbtfarmer', label: 'Farmer', css: 'nav-icon fas fa-tractor' },
+                    { name: 'crm', label: 'Community', css: 'nav-icon fas fa-users' },
+                    { name: 'fpc_fpo', label: 'FPC/FPO', css: 'nav-icon fas fa-users' },
                     
                 ],
             },
