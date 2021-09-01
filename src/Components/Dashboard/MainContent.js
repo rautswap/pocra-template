@@ -99,17 +99,12 @@ export default class MainContent extends Component {
                                     <div className="card">
                                         <div className="card-header">
                                             <h3 className="card-title">
-                                            <i class="fas fa-chart-bar" /> DBT Farmer
+                                                <i class="fas fa-chart-bar" /> DBT Farmer
                                             </h3>
-                                            <div className="card-tools">
-                                                {/* <ul className="nav nav-pills ml-auto">
-                                                    <li className="nav-item">
-                                                        <a className="nav-link active" href="#revenue-chart" data-toggle="tab">Area</a>
-                                                    </li>
-                                                    <li className="nav-item">
-                                                        <a className="nav-link" href="#sales-chart" data-toggle="tab">Donut</a>
-                                                    </li>
-                                                </ul> */}
+                                            <div class="card-tools">
+                                                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                                                </button>
+                                                {/* <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button> */}
                                             </div>
                                         </div>
                                         {/* /.card-header */}
@@ -134,17 +129,12 @@ export default class MainContent extends Component {
                                     <div className="card">
                                         <div className="card-header">
                                             <h3 className="card-title">
-                                            <i class="fas fa-chart-bar" /> FPC/NRM
+                                                <i class="fas fa-chart-bar" /> FPC/NRM
                                             </h3>
-                                            <div className="card-tools">
-                                                {/* <ul className="nav nav-pills ml-auto">
-                                                    <li className="nav-item">
-                                                        <a className="nav-link active" href="#revenue-chart" data-toggle="tab">Area</a>
-                                                    </li>
-                                                    <li className="nav-item">
-                                                        <a className="nav-link" href="#sales-chart" data-toggle="tab">Donut</a>
-                                                    </li>
-                                                </ul> */}
+                                            <div class="card-tools">
+                                                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                                                </button>
+                                                {/* <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button> */}
                                             </div>
                                         </div>
                                         {/* /.card-header */}

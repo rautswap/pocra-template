@@ -11,11 +11,11 @@ export default class Sidebar extends Component {
             {
                 name: 'dbt',
                 label: 'DBT',
-                css: 'nav-icon fab fa-nutritionix',
+                css: 'nav-icon fas fa-seedling',
                 items: [
                     { name: 'dbtfarmer', label: 'Farmer', css: 'nav-icon fas fa-tractor' },
                     { name: 'crm', label: 'Community', css: 'nav-icon fas fa-users' },
-                    { name: 'fpc_fpo', label: 'FPC/FPO', css: 'nav-icon fas fa-users' },
+                    { name: 'fpc_fpo', label: 'FPC/FPO', css: 'nav-icon fas fa-store-alt' },
                     
                 ],
             },
