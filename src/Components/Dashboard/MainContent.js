@@ -152,6 +152,30 @@ export default class MainContent extends Component {
                                         {/* /.card-body */}
                                     </div>
                                 </section>
+                                <section className="col-lg-6 connectedSortable">
+                                    {/* Custom tabs (Charts with tabs)*/}
+                                    <div className="card">
+                                        <div className="card-header">
+                                            <h3 className="card-title">
+                                                <i class="fas fa-chart-bar" /> FPC/NRM
+                                            </h3>
+                                            <div class="card-tools">
+                                                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                                                </button>
+                                                {/* <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button> */}
+                                            </div>
+                                        </div>
+                                        {/* /.card-header */}
+                                        <div className="card-body">
+                                            <div className="tab-content p-0">
+                                                <FarmerFPCChart />
+
+                                            </div>
+                                        </div>
+                                        {/* /.card-body */}
+                                    </div>
+                                </section>
+
                                 {/* right col */}
                             </div>
                             {/* /.row (main row) */}

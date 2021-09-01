@@ -1,11 +1,6 @@
 import React, { Component } from 'react'
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
-import { toStringHDMS } from 'ol/coordinate'
-
-
-
-
 
 
 
@@ -24,7 +19,7 @@ export default class FarmerFPCChart extends Component {
 	}
 
 	componentDidMount() {
-		this.getFarmerActivity();
+		// this.getFarmerActivity();
 	}
 
 	getFarmerActivity() {
@@ -61,55 +56,62 @@ export default class FarmerFPCChart extends Component {
 		const options = {
 
 			chart: {
-				type: 'column'
+				plotBackgroundColor: '#afa',
+				plotBorderColor: '#f0f',
+				plotBorderWidth: 2,
+				plotShadow: false,
+				type: 'pie'
 			},
 			title: {
-				text: this.props.chartProps.activityLabel
-			},
-			subtitle: {
-				text: this.props.chartProps.xlabel
-			},
-			xAxis: {
-				categories: this.state.ActivityGroupName,
-				crosshair: true
-			},
-			yAxis: {
-				min: 0,
-				title: {
-					text: this.props.chartProps.ylabel
-				}
+				text: 'Browser market shares in January, 2018'
 			},
 			tooltip: {
-				headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-				pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-					'<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
-				footerFormat: '</table>',
-				shared: true,
-				useHTML: true
+				pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+			},
+			accessibility: {
+				point: {
+					valueSuffix: '%'
+				}
 			},
 			plotOptions: {
-				column: {
-					pointPadding: 0.2,
-					borderWidth: 0
+				pie: {
+					allowPointSelect: true,
+					cursor: 'pointer',
+					dataLabels: {
+						enabled: false
+					},
+					showInLegend: true
 				}
 			},
 			series: [{
-				name: 'Total No Of Applications',
-				data: this.state.TotalNoOfApplications
-
-			}, {
-				name: 'Total No Of Disbursement',
-				data: this.state.TotalNoOfDisbursement
-
-			}, {
-				name: 'Total No Of PreSanction',
-				data: this.state.TotalNoOfPreSanction
-
+				name: 'Brands',
+				colorByPoint: true,
+				data: [{
+					name: 'Chrome',
+					y: 61.41,
+					sliced: true,
+					selected: true
+				}, {
+					name: 'Internet Explorer',
+					y: 11.84
+				}, {
+					name: 'Firefox',
+					y: 10.85
+				}, {
+					name: 'Edge',
+					y: 4.67
+				}, {
+					name: 'Safari',
+					y: 4.18
+				}, {
+					name: 'Other',
+					y: 7.05
+				}]
 			}]
 		};
 		return (
 			<div >
-				<HighchartsReact highcharts={Highcharts} options={options} />
+				<HighchartsReact highcharts={Highcharts} options={options} style={{height:"100px"}} />
 			</div>
 		)
 	}

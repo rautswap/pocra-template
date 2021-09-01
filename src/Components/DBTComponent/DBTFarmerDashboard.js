@@ -19,6 +19,9 @@ import VectorSource from 'ol/source/Vector';
 import DropDown from './DropDown';
 import Select from 'react-select';
 import "./DBTDashboard.css"
+import FarmerFPCChart from './FarmerFPCChart';
+import DBTPieChart from './DBTPieChart';
+
 var view = "";
 export default class DBTFarmerDashboard extends Component {
 
@@ -192,7 +195,6 @@ export default class DBTFarmerDashboard extends Component {
 
 					}
 				});
-				console.log(initialActivity)
 				this.setState({
 					activity: [
 						initialActivity
@@ -377,6 +379,29 @@ export default class DBTFarmerDashboard extends Component {
 							<div className="card-body">
 								<div className="row mb-2" >
 									<div className="col-12" id="map" style={{ height: "80vh", width: "100%" }}>
+									</div>
+									<div className="box stack-top">
+										{/* Custom tabs (Charts with tabs)*/}
+										<div className="card" style={{ width: "50%", right: "-50%" }}>
+											<div className="card-header">
+												<h3 className="card-title">
+													<i class="fas fa-chart-bar" /> FPC/NRM
+												</h3>
+												<div class="card-tools">
+													<button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+													</button>
+													{/* <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button> */}
+												</div>
+											</div>
+											{/* /.card-header */}
+											<div className="card-body">
+												<div className="tab-content p-0" >
+													{/* <FarmerFPCChart  /> */}
+													<DBTPieChart />
+												</div>
+											</div>
+											{/* /.card-body */}
+										</div>
 									</div>
 								</div>
 							</div>
