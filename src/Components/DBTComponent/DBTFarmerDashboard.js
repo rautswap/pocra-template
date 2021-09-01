@@ -392,8 +392,7 @@ export default class DBTFarmerDashboard extends Component {
 						<div className="card card-solid">
 							<div className="card-body">
 								<div className="row" >
-									<section className="col-md-4">
-										{/* Custom tabs (Charts with tabs)*/}
+									{/* <section className="col-md-4">
 										<div className="card">
 											<div className="card-header">
 												<h3 className="card-title">
@@ -402,38 +401,18 @@ export default class DBTFarmerDashboard extends Component {
 												<div className="card-tools">
 													<button type="button" className="btn btn-tool" data-card-widget="collapse"><i className="fas fa-minus"></i>
 													</button>
-													{/* <button type="button" className="btn btn-tool" data-card-widget="remove"><i className="fas fa-times"></i></button> */}
 												</div>
 											</div>
-											{/* /.card-header */}
+											
 											<div className="card-body">
 												<DBTPieChart />
 											</div>
-											{/* /.card-body */}
 										</div>
-									</section>
-									<section className="col-lg-4 connectedSortable">
-										{/* Custom tabs (Charts with tabs)*/}
-										<div className="card">
-											<div className="card-header">
-												<h3 className="card-title">
-													<i className="fas fa-users"> </i> Social Category
-												</h3>
-												<div className="card-tools">
-													<button type="button" className="btn btn-tool" data-card-widget="collapse"><i className="fas fa-minus"></i>
-													</button>
-													{/* <button type="button" className="btn btn-tool" data-card-widget="remove"><i className="fas fa-times"></i></button> */}
-												</div>
-											</div>
-											{/* /.card-header */}
-											<div className="card-body">
-												<DBTPieChart />
-											</div>
-											{/* /.card-body */}
-										</div>
-									</section>
-									<section className="col-lg-4 connectedSortable">
-										{/* Custom tabs (Charts with tabs)*/}
+									</section> */}
+									<DBTPieChart  />
+									<DBTPieChart />
+									<DBTPieChart />
+									{/* <section className="col-lg-4 connectedSortable">
 										<div className="card">
 											<div className="card-header">
 												<h3 className="card-title">
@@ -442,16 +421,13 @@ export default class DBTFarmerDashboard extends Component {
 												<div className="card-tools">
 													<button type="button" className="btn btn-tool" data-card-widget="collapse"><i className="fas fa-minus"></i>
 													</button>
-													{/* <button type="button" className="btn btn-tool" data-card-widget="remove"><i className="fas fa-times"></i></button> */}
 												</div>
 											</div>
-											{/* /.card-header */}
 											<div className="card-body">
 												<DBTPieChart />
 											</div>
-											{/* /.card-body */}
 										</div>
-									</section>
+									</section> */}
 								</div>
 							</div>
 						</div>
