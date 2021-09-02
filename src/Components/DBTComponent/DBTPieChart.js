@@ -88,7 +88,7 @@ export default class DBTPieChart extends Component {
 						fontWeight: 'bold'
 					},
 					text: ''
-				},credits: {
+				}, credits: {
 					enabled: false
 				},
 				subtitle: {
@@ -117,7 +117,9 @@ export default class DBTPieChart extends Component {
 						// colors: pieColors,
 						dataLabels: {
 							enabled: true,
-							format: '<b>{point.name}</b>: {point.y:.0f}'
+							format: '<b>{point.name}</b>: {point.y:.0f}',
+							connectorShape: 'straight',
+							crookDistance: '5%'
 						},
 						showInLegend: true
 					}
@@ -139,7 +141,7 @@ export default class DBTPieChart extends Component {
 						{ name: 'Other', y: this.state.g_other }
 					]
 				}],
-				
+
 			};
 			return (
 				<>
@@ -180,7 +182,7 @@ export default class DBTPieChart extends Component {
 						fontWeight: 'bold'
 					},
 					text: ''
-				},credits: {
+				}, credits: {
 					enabled: false
 				},
 				subtitle: {
@@ -209,7 +211,9 @@ export default class DBTPieChart extends Component {
 						// colors: pieColors,
 						dataLabels: {
 							enabled: true,
-							format: '<b>{point.name}</b>: {point.y:.0f}'
+							format: '<b>{point.name}</b>: {point.y:.0f}',
+							connectorShape: 'straight',
+							crookDistance: '5%'
 						},
 						showInLegend: true
 					}
@@ -272,7 +276,7 @@ export default class DBTPieChart extends Component {
 						fontWeight: 'bold'
 					},
 					text: ''
-				},credits: {
+				}, credits: {
 					enabled: false
 				},
 				subtitle: {
@@ -301,7 +305,9 @@ export default class DBTPieChart extends Component {
 						// colors: pieColors,
 						dataLabels: {
 							enabled: true,
-							format: '<b>{point.name}</b>: {point.y:.0f}'
+							format: '<b>{point.name}</b>: {point.y:.0f}',
+							connectorShape: 'straight',
+							crookDistance: '5%'
 						},
 						showInLegend: true
 					}
