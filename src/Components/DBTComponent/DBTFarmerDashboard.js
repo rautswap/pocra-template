@@ -371,24 +371,7 @@ export default class DBTFarmerDashboard extends Component {
 					</section>
 
 
-
-					{/* Main content */}
-					<section className="content" style={{marginTop:"-24px"}} >
-						{/* Default box */}
-						<div className="card card-solid">
-							<div className="card-body">
-								<div className="row mb-2" >
-									<div className="col-12" id="map" style={{ height: "60vh", width: "100%" }}>
-									</div>
-
-								</div>
-							</div>
-
-							{/* /.card-body */}
-						</div>
-						{/* /.card */}
-					</section>
-					<section className="content"  >
+					<section className="content" style={{ marginTop: "-24px" }} >
 						<div className="card card-solid">
 							<div className="card-body">
 								<div className="row" >
@@ -409,29 +392,39 @@ export default class DBTFarmerDashboard extends Component {
 											</div>
 										</div>
 									</section> */}
-									<DBTPieChart  />
-									<DBTPieChart />
-									<DBTPieChart />
-									{/* <section className="col-lg-4 connectedSortable">
-										<div className="card">
-											<div className="card-header">
-												<h3 className="card-title">
-													<i className="fas fa-user-friends"></i> Farmer Type
-												</h3>
-												<div className="card-tools">
-													<button type="button" className="btn btn-tool" data-card-widget="collapse"><i className="fas fa-minus"></i>
-													</button>
-												</div>
-											</div>
-											<div className="card-body">
-												<DBTPieChart />
-											</div>
-										</div>
-									</section> */}
+									<DBTPieChart pieChartProps={{
+										activityLabel: "Gender Wise Distribution",
+										activity: "Farmer",
+									}} />
+									<DBTPieChart pieChartProps={{
+										activityLabel: "Social Category Wise Distribution",
+										activity: "Social",
+									}} />
+									<DBTPieChart pieChartProps={{
+										activityLabel: "Farm Type Wise Distribution",
+										activity: "Farm",
+									}} />
 								</div>
 							</div>
 						</div>
 					</section>
+					{/* Main content */}
+					<section className="content"  >
+						{/* Default box */}
+						<div className="card card-solid">
+							<div className="card-body">
+								<div className="row mb-2" >
+									<div className="col-12" id="map" style={{ height: "60vh", width: "100%" }}>
+									</div>
+
+								</div>
+							</div>
+
+							{/* /.card-body */}
+						</div>
+						{/* /.card */}
+					</section>
+
 					{/* /.content */}
 				</div>
 
