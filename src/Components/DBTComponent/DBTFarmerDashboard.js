@@ -371,6 +371,23 @@ export default class DBTFarmerDashboard extends Component {
 					</section>
 
 
+
+					{/* Main content */}
+					<section className="content"  >
+						{/* Default box */}
+						<div className="card card-solid">
+							<div className="card-body">
+								<div className="row mb-2" >
+									<div className="col-12" id="map" style={{ height: "60vh", width: "100%" }}>
+									</div>
+
+								</div>
+							</div>
+
+							{/* /.card-body */}
+						</div>
+						{/* /.card */}
+					</section>
 					<section className="content" style={{ marginTop: "-24px" }} >
 						<div className="card card-solid">
 							<div className="card-body">
@@ -408,23 +425,6 @@ export default class DBTFarmerDashboard extends Component {
 							</div>
 						</div>
 					</section>
-					{/* Main content */}
-					<section className="content"  >
-						{/* Default box */}
-						<div className="card card-solid">
-							<div className="card-body">
-								<div className="row mb-2" >
-									<div className="col-12" id="map" style={{ height: "60vh", width: "100%" }}>
-									</div>
-
-								</div>
-							</div>
-
-							{/* /.card-body */}
-						</div>
-						{/* /.card */}
-					</section>
-
 					{/* /.content */}
 				</div>
 

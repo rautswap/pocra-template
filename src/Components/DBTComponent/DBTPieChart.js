@@ -78,8 +78,7 @@ export default class DBTPieChart extends Component {
 					plotBorderWidth: "#8c8c5a",
 					plotShadow: true,
 					type: 'pie',
-					margin: 0,
-					padding: 0,
+					margin: 50,
 					height: '50%'
 				},
 				title: {
@@ -96,7 +95,7 @@ export default class DBTPieChart extends Component {
 						fontWeight: 'bold'
 					},
 					text: 'District : ' + this.state.districtName +
-						"<br/>Total Application recieved : " + this.state.total
+						"<br/>Total Application  : " + this.state.total
 				},
 				tooltip: {
 					pointFormat: '{series.name}: <b>{point.y:.0f}</b>'
@@ -110,8 +109,8 @@ export default class DBTPieChart extends Component {
 					pie: {
 						allowPointSelect: true,
 						cursor: 'pointer',
-						size: '30%',
-						height: '30%',
+						size: '40%',
+						height: '40%',
 						allowPointSelect: true,
 						cursor: 'pointer',
 						// colors: pieColors,
@@ -119,26 +118,31 @@ export default class DBTPieChart extends Component {
 							enabled: true,
 							format: '<b>{point.name}</b>: {point.y:.0f}',
 							connectorShape: 'straight',
-							crookDistance: '5%'
+							crookDistance: '5%',
+							x: -10
 						},
 						showInLegend: true
 					}
 				},
 				series: [{
-					name: 'Total',
+					name: '',
 					colorByPoint: true,
 					data: [
 						{
 							name: 'Male',
 							y: this.state.male,
-							color: '#22A8DB',
+							color: '#33D7FF'
 						},
 						{
 							name: 'Female',
 							y: this.state.female,
-							color: '#FC0F3A'
+							color: 'pink'
 						},
-						{ name: 'Other', y: this.state.g_other }
+						{
+							name: 'Other',
+							y: this.state.g_other,
+							color: '#FFB833'
+						}
 					]
 				}],
 
@@ -172,8 +176,7 @@ export default class DBTPieChart extends Component {
 					plotBorderWidth: "#8c8c5a",
 					plotShadow: true,
 					type: 'pie',
-					margin: 0,
-					padding: 0,
+					margin: 50,
 					height: '50%'
 				},
 				title: {
@@ -190,7 +193,7 @@ export default class DBTPieChart extends Component {
 						fontWeight: 'bold'
 					},
 					text: 'District : ' + this.state.districtName +
-						"<br/>Total Application recieved : " + this.state.total
+						"<br/>Total Application  : " + this.state.total
 				},
 				tooltip: {
 					pointFormat: '{series.name}: <b>{point.y:.0f}</b>'
@@ -204,11 +207,10 @@ export default class DBTPieChart extends Component {
 					pie: {
 						allowPointSelect: true,
 						cursor: 'pointer',
-						size: '30%',
-						height: '30%',
+						size: '40%',
+						height: '40%',
 						allowPointSelect: true,
 						cursor: 'pointer',
-						// colors: pieColors,
 						dataLabels: {
 							enabled: true,
 							format: '<b>{point.name}</b>: {point.y:.0f}',
@@ -225,14 +227,18 @@ export default class DBTPieChart extends Component {
 						{
 							name: 'SC',
 							y: this.state.sc,
-							color: '#22A8DB',
+							color: '#33D7FF'
 						},
 						{
 							name: 'ST',
 							y: this.state.st,
-							color: '#FC0F3A'
+							color: '#FF6833'
 						},
-						{ name: 'Other', y: this.state.c_others }
+						{
+							name: 'Other',
+							y: this.state.c_others,
+							color: '#FFB833'
+						}
 					]
 				}]
 			};
@@ -266,8 +272,7 @@ export default class DBTPieChart extends Component {
 					plotBorderWidth: "#8c8c5a",
 					plotShadow: true,
 					type: 'pie',
-					margin: 0,
-					padding: 0,
+					margin: 50,
 					height: '50%'
 				},
 				title: {
@@ -284,7 +289,7 @@ export default class DBTPieChart extends Component {
 						fontWeight: 'bold'
 					},
 					text: 'District : ' + this.state.districtName +
-						"<br/>Total Application recieved : " + this.state.total
+						"<br/>Total Application  : " + this.state.total
 				},
 				tooltip: {
 					pointFormat: '{series.name}: <b>{point.y:.0f}</b>'
@@ -298,8 +303,8 @@ export default class DBTPieChart extends Component {
 					pie: {
 						allowPointSelect: true,
 						cursor: 'pointer',
-						size: '30%',
-						height: '30%',
+						size: '40%',
+						height: '40%',
 						allowPointSelect: true,
 						cursor: 'pointer',
 						// colors: pieColors,
