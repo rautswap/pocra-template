@@ -393,15 +393,15 @@ export default class DBTFarmerDashboard extends Component {
 										</div>
 									</section> */}
 									<DBTPieChart pieChartProps={{
-										activityLabel: "Gender Wise Distribution",
+										activityLabel: "Gender",
 										activity: "Farmer",
 									}} />
 									<DBTPieChart pieChartProps={{
-										activityLabel: "Social Category Wise Distribution",
+										activityLabel: "Social Category",
 										activity: "Social",
 									}} />
 									<DBTPieChart pieChartProps={{
-										activityLabel: "Farm Type Wise Distribution",
+										activityLabel: "Farm Type",
 										activity: "Farm",
 									}} />
 								</div>
