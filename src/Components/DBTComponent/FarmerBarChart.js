@@ -80,6 +80,8 @@ export default class FarmerBarChart extends Component {
 				title: {
 					text: this.props.chartProps.ylabel
 				}
+			},credits: {
+				enabled: false
 			},
 			tooltip: {
 				headerFormat: '<span style="font-size:10px">{point.key}</span><table>',

@@ -88,6 +88,8 @@ export default class DBTPieChart extends Component {
 						fontWeight: 'bold'
 					},
 					text: ''
+				},credits: {
+					enabled: false
 				},
 				subtitle: {
 					style: {
@@ -136,7 +138,8 @@ export default class DBTPieChart extends Component {
 						},
 						{ name: 'Other', y: this.state.g_other }
 					]
-				}]
+				}],
+				
 			};
 			return (
 				<>
@@ -177,6 +180,8 @@ export default class DBTPieChart extends Component {
 						fontWeight: 'bold'
 					},
 					text: ''
+				},credits: {
+					enabled: false
 				},
 				subtitle: {
 					style: {
@@ -267,6 +272,8 @@ export default class DBTPieChart extends Component {
 						fontWeight: 'bold'
 					},
 					text: ''
+				},credits: {
+					enabled: false
 				},
 				subtitle: {
 					style: {
