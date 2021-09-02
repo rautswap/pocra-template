@@ -78,7 +78,6 @@ export default class DBTPieChart extends Component {
 					plotBorderWidth: "#8c8c5a",
 					plotShadow: true,
 					type: 'pie',
-					margin: 50,
 					height: '50%'
 				},
 				title: {
@@ -109,8 +108,8 @@ export default class DBTPieChart extends Component {
 					pie: {
 						allowPointSelect: true,
 						cursor: 'pointer',
-						size: '40%',
-						height: '40%',
+						size: '50%',
+						height: '100%',
 						allowPointSelect: true,
 						cursor: 'pointer',
 						// colors: pieColors,
@@ -119,10 +118,20 @@ export default class DBTPieChart extends Component {
 							format: '<b>{point.name}</b>: {point.y:.0f}',
 							connectorShape: 'straight',
 							crookDistance: '5%',
-							x: -10
 						},
 						showInLegend: true
 					}
+				},
+				legend: {
+					backgroundColor: '#FCFFC5',
+					borderRadius: 5,
+					borderColor: '#C98657',
+					borderWidth: 1,
+					align: 'right',
+					verticalAlign: 'top',
+					layout: 'vertical',
+					x: 0,
+					y: 50
 				},
 				series: [{
 					name: '',
@@ -176,7 +185,6 @@ export default class DBTPieChart extends Component {
 					plotBorderWidth: "#8c8c5a",
 					plotShadow: true,
 					type: 'pie',
-					margin: 50,
 					height: '50%'
 				},
 				title: {
@@ -219,6 +227,17 @@ export default class DBTPieChart extends Component {
 						},
 						showInLegend: true
 					}
+				},
+				legend: {
+					backgroundColor: '#FCFFC5',
+					borderColor: '#C98657',
+					borderWidth: 1,
+					borderRadius: 5,
+					align: 'right',
+					verticalAlign: 'top',
+					layout: 'vertical',
+					x: 0,
+					y: 50
 				},
 				series: [{
 					name: 'Total',
@@ -272,7 +291,7 @@ export default class DBTPieChart extends Component {
 					plotBorderWidth: "#8c8c5a",
 					plotShadow: true,
 					type: 'pie',
-					margin: 50,
+					size: '100%',
 					height: '50%'
 				},
 				title: {
@@ -312,10 +331,22 @@ export default class DBTPieChart extends Component {
 							enabled: true,
 							format: '<b>{point.name}</b>: {point.y:.0f}',
 							connectorShape: 'straight',
-							crookDistance: '5%'
+							crookDistance: '5%',
+							inside: true
 						},
 						showInLegend: true
 					}
+				},
+				legend: {
+					backgroundColor: '#FCFFC5',
+					borderColor: '#C98657',
+					borderWidth: 1,
+					borderRadius: 5,
+					align: 'right',
+					verticalAlign: 'top',
+					layout: 'vertical',
+					x: 0,
+					y: 50
 				},
 				series: [{
 					name: 'Total',
