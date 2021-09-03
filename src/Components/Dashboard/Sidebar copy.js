@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import "./Sidebar.css"
+import Content from '../content'
 export default class Sidebar extends Component {
 
     render() {
@@ -16,18 +17,14 @@ export default class Sidebar extends Component {
                     { name: 'dbtfarmer', label: 'Farmer', css: 'nav-icon fas fa-tractor' },
                     { name: 'crm', label: 'Community', css: 'nav-icon fas fa-users' },
                     { name: 'fpc_fpo', label: 'FPC/FPO', css: 'nav-icon fas fa-store-alt' },
-
+                    
                 ],
             },
-            {
-                name: 'forecast',
-                label: 'Forecast',
-                items: [{ name: 'profile', label: 'Profile' },
-                {
-                    name: 'profile', label: 'Profile1', items: [{ name: 'profile', label: 'Profile' },
-                    { name: 'profile', label: 'Profile1' }]
-                }],
-            },
+            // {
+            //     name: 'forecast',
+            //     label: 'Forecast',
+            //     items: [{ name: 'profile', label: 'Profile' }],
+            // },
         ]
         return (
             <div>
@@ -53,26 +50,48 @@ export default class Sidebar extends Component {
 
                         <nav className="mt-2">
                             <ul className="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                                {items.map(({ label, name, css, items: subItems, ...rest }, index) => (
-                                    Array.isArray(subItems) ?
-                                        <>{
-                                            console.log(label + index)
-                                        }
-                                        </> : <li class="nav-item">
-                                            <a href="#" class="nav-link">
-                                                <i className={css}></i>
-                                                <p>{label}</p>
-                                            </a>
-                                        </li>
+                                {items.map(({ label, name, css, items: subItems, ...rest }) => (
+                                    <li className="nav-item">
+                                        {Array.isArray(subItems) ? (
+                                            <li className="nav-item">
+                                                <a href={"/" + name} className="nav-link">
+                                                    <i className={css}></i>
+                                                    <p>
+                                                        {label}
+                                                        <i className="fas fa-angle-left right"></i>
+                                                    </p>
+                                                </a>
+                                                {subItems.map((subItem) => (
+                                                    <ul className="nav nav-treeview">
+                                                        <li className="nav-item">
+                                                            <a href={subItem.name} className="nav-link">
+                                                                <i className={subItem.css}></i>
+                                                                <p>{subItem.label}</p>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+
+                                                ))}
+                                            </li>
+
+                                        ) : <a href={name} className="nav-link">
+                                            <i className={css}></i>
+                                            <p>
+                                                {label}
+                                            </p>
+                                        </a>}
+                                    </li>
                                 ))}
+                                <Content />
                             </ul>
+                            
                         </nav>
                         {/* /.sidebar-menu */}
                     </div>
                     {/* /.sidebar */}
                 </aside>
 
-            </div >
+            </div>
         )
     }
 }
