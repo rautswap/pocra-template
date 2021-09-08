@@ -14,7 +14,7 @@ const LEGEND_GRADIENT_BAR_HEIGHT = 150;
 
 
 export const MapLegendButton = ({layer, new_layer_legend, view_pane_dispatch}) => {
-	console.log(layer !== null ? layer.legend.breaks : null);
+	// console.log(layer !== null ? layer.legend.breaks : null);
 
 	const [breaks, setBreaks] = useState(
 		/*using JSON to achieve the required deep-copy*/
@@ -84,7 +84,7 @@ export const MapLegendButton = ({layer, new_layer_legend, view_pane_dispatch}) =
 							type="primary"
 							style={{marginLeft: 10}}
 							onClick={e => {
-								console.log('here1');
+								// console.log('here1');
 								let sorted_breaks = [...breaks].sort((b1, b2) => b1[0]-b2[0]);
 								view_pane_dispatch({
 									type: 'restyle-layer',
@@ -148,7 +148,7 @@ export const MapLegendButton = ({layer, new_layer_legend, view_pane_dispatch}) =
 
 
 export const MapLegend = ({specifications}) => {
-	console.log(specifications);
+	// console.log(specifications);
 	// return null;
 	return (
 

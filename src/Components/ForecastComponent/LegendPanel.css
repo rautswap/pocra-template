@@ -1,5 +1,5 @@
 .box {
-	width: 15%;
+	width: 15% !important;
 	height: 30%;
 	position: absolute;
 	top: 5%;

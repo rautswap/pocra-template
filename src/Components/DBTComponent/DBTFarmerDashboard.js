@@ -373,7 +373,7 @@ export default class DBTFarmerDashboard extends Component {
 
 
 					{/* Main content */}
-					<section className="content"  >
+					<section className="content" style={{ marginTop: "-24px" }} >
 						{/* Default box */}
 						<div className="card card-solid">
 							<div className="card-body">
@@ -388,7 +388,7 @@ export default class DBTFarmerDashboard extends Component {
 						</div>
 						{/* /.card */}
 					</section>
-					<section className="content" style={{ marginTop: "-24px" }} >
+					<section className="content"  >
 						<div className="card card-solid">
 							<div className="card-body">
 								<div className="row" >

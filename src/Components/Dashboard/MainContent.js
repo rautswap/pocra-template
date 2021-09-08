@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Content1 from '../Content1'
 import ChartExample from '../DBTComponent/ChartExample'
 import FarmerBarChart from '../DBTComponent/FarmerBarChart'
 import FarmerFPCChart from '../DBTComponent/FarmerFPCChart'
@@ -184,7 +185,7 @@ export default class MainContent extends Component {
                     </section>
                     {/* /.content */}
                 </div>
-
+                <Content1 />
             </div>
         )
     }

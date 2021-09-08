@@ -1,7 +1,7 @@
 // import { GEOSERVER_BASE_URL } from '../../../constants';
 export const GEOSERVER_BASE_URL = process.env.REACT_APP_GEOSERVER_BASE_URL;
 export const GEOSERVER_WORKSPACE_NAME = process.env.REACT_APP_GEOSERVER_WORKSPACE_NAME;
-console.log(process.env.REACT_APP_GEOSERVER_BASE_URL);
+// console.log(process.env.REACT_APP_GEOSERVER_BASE_URL);
 export const GEOSERVER_POCRAGIS_WMS_BASE_URL = (new URL(`/geoserver/${GEOSERVER_WORKSPACE_NAME}/wms`, GEOSERVER_BASE_URL)).toString();
 export const GEOSERVER_POCRAGIS_WMS_MAP_COMMON_PARAMS = {
 	service: 'WMS', version: '1.1.0', request: 'GetMap',

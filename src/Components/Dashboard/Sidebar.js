@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import "./Sidebar.css"
+import Content from '../content'
 export default class Sidebar extends Component {
 
     render() {
@@ -18,16 +19,7 @@ export default class Sidebar extends Component {
                     { name: 'fpc_fpo', label: 'FPC/FPO', css: 'nav-icon fas fa-store-alt' },
 
                 ],
-            },
-            {
-                name: 'forecast',
-                label: 'Forecast',
-                items: [{ name: 'profile', label: 'Profile' },
-                {
-                    name: 'profile', label: 'Profile1', items: [{ name: 'profile', label: 'Profile' },
-                    { name: 'profile', label: 'Profile1' }]
-                }],
-            },
+            }
         ]
         return (
             <div>
@@ -54,21 +46,78 @@ export default class Sidebar extends Component {
                         <nav className="mt-2">
                             <ul className="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                                 {items.map(({ label, name, css, items: subItems, ...rest }, index) => (
-                                    Array.isArray(subItems) ?
-                                        <>{
-                                            console.log(label + index)
+                                    <li className="nav-item" key={index + name}>
+                                        {
+                                            Array.isArray(subItems) ? (
+
+                                                <li class="nav-item has-treeview" >
+                                                    <a href={"/" + name} class="nav-link">
+                                                        <i class={css}></i>
+                                                        <p>
+                                                            {label}
+                                                            <i class="right fas fa-angle-left"></i>
+                                                        </p>
+                                                    </a>
+
+                                                    {subItems.map(({ label, name, css, items: itm, ...rest }, index) => (
+                                                        <ul class="nav nav-treeview" key={index + name}>
+                                                            {
+                                                                Array.isArray(itm) ? (<>
+                                                                    <li class="nav-item has-treeview">
+                                                                        <a href={"/" + name} class="nav-link">
+                                                                            <i class={css}></i>
+                                                                            <p>
+                                                                                {label}
+                                                                                <i class="right fas fa-angle-left"></i>
+                                                                            </p>
+                                                                        </a>
+                                                                        <ul class="nav nav-treeview">
+                                                                            {itm.map((itmn, index) => (
+                                                                                <li class="nav-item" key={index + itmn.name}>
+                                                                                    <a href={"/" + name} class="nav-link">
+                                                                                        <i class={css}></i>
+                                                                                        <p>{itmn.label}</p>
+                                                                                    </a>
+                                                                                </li>
+
+                                                                            ))}
+                                                                        </ul>
+                                                                    </li>
+                                                                </>) : <>
+                                                                    <li class="nav-item" key={index + name}>
+                                                                        <a href={"/" + name} class="nav-link">
+                                                                            <i class={css}></i>
+                                                                            <p>{label}</p>
+                                                                        </a>
+                                                                    </li>
+
+
+                                                                </>
+                                                            }
+                                                        </ul>
+                                                    ))}
+                                                </li>) :
+                                                <>
+                                                    <li class="nav-item has-treeview" key={index + name}>
+                                                        <a href={"/" + name} class="nav-link">
+                                                            <i class={css}></i>
+                                                            <p>
+                                                                {label}
+                                                                <i class="right fas"></i>
+                                                            </p>
+                                                        </a>
+                                                    </li>
+                                                </>
                                         }
-                                        </> : <li class="nav-item">
-                                            <a href="#" class="nav-link">
-                                                <i className={css}></i>
-                                                <p>{label}</p>
-                                            </a>
-                                        </li>
+                                    </li>
                                 ))}
+                                <Content />
                             </ul>
                         </nav>
                         {/* /.sidebar-menu */}
                     </div>
+
+
                     {/* /.sidebar */}
                 </aside>
 

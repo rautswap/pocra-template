@@ -114,7 +114,7 @@ const PoCRAMapComponent = ({
 			// if (l.ol_layer_index === undefined)
 			// 	return;
 			// console.log(l);
-			console.log('here');
+			// console.log('here');
 			mapInstanceRef.current.set_layer_visibility({
 				type: 'requested',
 				title: l.title
@@ -214,7 +214,7 @@ const PoCRAMapComponent = ({
 	}, [data.layer_restyled]);
 	
 	useEffect(() => {
-		console.log(map_click_coordinate);
+		// console.log(map_click_coordinate);
 		const fetchDetails = async () => {
 			const response = await fetch('/datasets/feature_details', {
 				method: 'POST',
