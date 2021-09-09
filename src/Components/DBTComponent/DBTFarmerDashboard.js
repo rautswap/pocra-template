@@ -265,13 +265,11 @@ export default class DBTFarmerDashboard extends Component {
 				return response.json();
 			}).then(data => {
 				initialVillage = data.village.map((village) => {
-					console.log(data)
 					return village = {
 						label: village.vinname,
 						value: village.vincode,
 					}
 				});
-				console.log(initialVillage);
 				this.setState({
 					...this.state,
 					village: [
@@ -281,6 +279,29 @@ export default class DBTFarmerDashboard extends Component {
 				});
 			});
 
+	}
+	changeActivity(event) {
+		let initialVillage = [];
+
+		fetch('http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/dbtAllActivitybyID?activityID=7')
+			.then(response => {
+				return response.json();
+			}).then(data => {
+				console.log(data)
+			// 	initialVillage = data.village.map((village) => {
+			// 		return village = {
+			// 			label: village.vinname,
+			// 			value: village.vincode,
+			// 		}
+			// 	});
+			// 	this.setState({
+			// 		...this.state,
+			// 		village: [
+			// 			initialVillage
+			// 		],
+
+			// 	});
+			});
 	}
 
 	render() {
@@ -311,7 +332,7 @@ export default class DBTFarmerDashboard extends Component {
 													{/* <DropDown activity_props={this.state} /> */}
 
 													<div className="form-group" >
-														<Select className="selectlabel-lg" placeholder="Select Activity"
+														<Select className="selectlabel-lg" placeholder="Select Activity" onChange={this.changeActivity}
 															options={this.state.activity[0]}
 														/>
 

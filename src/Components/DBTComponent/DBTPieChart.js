@@ -261,7 +261,6 @@ export default class DBTPieChart extends Component {
 					]
 				}]
 			};
-			console.log(this.state.st)
 			return (
 				<>
 					<section className="col-lg-4 connectedSortable">

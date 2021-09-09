@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import "./Sidebar.css"
 import Content from '../content'
+import { Link } from 'react-router-dom'
 export default class Sidebar extends Component {
 
     render() {
@@ -10,7 +11,7 @@ export default class Sidebar extends Component {
             // { name: 'soilcard', css: 'nav-icon fas fa-copy', label: 'मृद आरोग्य पत्रिका ' },
             // { name: 'dbt', css: 'nav-icon fas fa-tachometer-alt', label: 'PoCRA DBT' },
             {
-                name: 'dbt',
+                name: '',
                 label: 'DBT',
                 css: 'nav-icon fas fa-seedling',
                 items: [
@@ -51,33 +52,33 @@ export default class Sidebar extends Component {
                                             Array.isArray(subItems) ? (
 
                                                 <li class="nav-item has-treeview" >
-                                                    <a href={"/" + name} class="nav-link">
+                                                    <Link to={"/" + name} class="nav-link">
                                                         <i class={css}></i>
                                                         <p>
                                                             {label}
                                                             <i class="right fas fa-angle-left"></i>
                                                         </p>
-                                                    </a>
+                                                    </Link>
 
                                                     {subItems.map(({ label, name, css, items: itm, ...rest }, index) => (
                                                         <ul class="nav nav-treeview" key={index + name}>
                                                             {
                                                                 Array.isArray(itm) ? (<>
                                                                     <li class="nav-item has-treeview">
-                                                                        <a href={"/" + name} class="nav-link">
+                                                                        <Link to={"/" + name} class="nav-link">
                                                                             <i class={css}></i>
                                                                             <p>
                                                                                 {label}
                                                                                 <i class="right fas fa-angle-left"></i>
                                                                             </p>
-                                                                        </a>
+                                                                        </Link>
                                                                         <ul class="nav nav-treeview">
                                                                             {itm.map((itmn, index) => (
                                                                                 <li class="nav-item" key={index + itmn.name}>
-                                                                                    <a href={"/" + name} class="nav-link">
+                                                                                    <Link to={"/" + name} class="nav-link">
                                                                                         <i class={css}></i>
                                                                                         <p>{itmn.label}</p>
-                                                                                    </a>
+                                                                                    </Link>
                                                                                 </li>
 
                                                                             ))}
@@ -85,10 +86,11 @@ export default class Sidebar extends Component {
                                                                     </li>
                                                                 </>) : <>
                                                                     <li class="nav-item" key={index + name}>
-                                                                        <a href={"/" + name} class="nav-link">
-                                                                            <i class={css}></i>
-                                                                            <p>{label}</p>
-                                                                        </a>
+                                                                    <Link to={"/" + name} class="nav-link"><i class={css}></i>
+                                                                            <p>{label}</p></Link>
+                                                                        {/* <Link to={"/" + name} class="nav-link">
+                                                                            
+                                                                        </Link> */}
                                                                     </li>
 
 
@@ -99,13 +101,13 @@ export default class Sidebar extends Component {
                                                 </li>) :
                                                 <>
                                                     <li class="nav-item has-treeview" key={index + name}>
-                                                        <a href={"/" + name} class="nav-link">
+                                                        <Link to={"/" + name} class="nav-link">
                                                             <i class={css}></i>
                                                             <p>
                                                                 {label}
                                                                 <i class="right fas"></i>
                                                             </p>
-                                                        </a>
+                                                        </Link>
                                                     </li>
                                                 </>
                                         }
