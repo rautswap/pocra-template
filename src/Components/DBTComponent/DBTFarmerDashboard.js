@@ -27,9 +27,9 @@ export default class DBTFarmerDashboard extends Component {
 
 	constructor(props) {
 		super(props)
-
 		this.state = {
 			activity: [
+
 			],
 			district: [
 
@@ -54,7 +54,16 @@ export default class DBTFarmerDashboard extends Component {
 				{ value: 'sc', label: 'Land Less' },
 				{ value: 'st', label: 'Marginal' },
 				{ value: 'other', label: 'Small' },
-			]
+			],
+			gender: {
+
+			},
+			farmerType: {
+
+			},
+			category: {
+
+			}
 		}
 
 
@@ -128,6 +137,7 @@ export default class DBTFarmerDashboard extends Component {
 		//function binding
 		this.getTaluka = this.getTaluka.bind(this)
 		this.getVillage = this.getVillage.bind(this)
+		this.getCategoryApplicationCount=this.getCategoryApplicationCount.bind(this)
 	}
 
 	componentDidMount() {
@@ -135,6 +145,9 @@ export default class DBTFarmerDashboard extends Component {
 		this.map.setTarget("map");
 		this.getDistrict();
 		this.getFarmerActivity();
+		this.getCategoryApplicationCount({
+			value: 'All'
+		});
 
 		// this.getForecastData();
 		// const overlay = new Overlay({
@@ -180,7 +193,7 @@ export default class DBTFarmerDashboard extends Component {
 
 	getFarmerActivity() {
 		let initialActivity = [];
-		fetch('http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/dbtActivityMaster?activity=Farmer')
+		fetch('http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/dbtActivityMaster?activity=Farmer&activityId=""')
 			.then(response => {
 				return response.json();
 			}).then(data => {
@@ -192,13 +205,13 @@ export default class DBTFarmerDashboard extends Component {
 						TotalNoOfApplications: activities.TotalNoOfApplications,
 						TotalNoOfDisbursement: activities.TotalNoOfDisbursement,
 						TotalNoOfPreSanction: activities.TotalNoOfPreSanction
-
 					}
 				});
 				this.setState({
+
 					activity: [
-						initialActivity
-					]
+						initialActivity,
+					],
 				});
 
 			});
@@ -231,9 +244,7 @@ export default class DBTFarmerDashboard extends Component {
 	}
 
 	getTaluka = (districtCode) => {
-		// var districtCode = document.getElementById("district").value;
-		// console.log(districtCode)
-		// console.log(districtCode)
+	
 		let initialTaluka = [];
 
 		fetch('http://gis.mahapocra.gov.in/weatherservices/meta/dtaluka?dtncode=' + districtCode)
@@ -280,30 +291,53 @@ export default class DBTFarmerDashboard extends Component {
 			});
 
 	}
-	changeActivity(event) {
-		let initialVillage = [];
 
-		fetch('http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/dbtAllActivitybyID?activityID=7')
+	getCategoryApplicationCount(event) {
+
+		let activityValue = event.value;
+
+
+		var genderData = [], categoryData = [], farmerTypeData = [];
+		fetch('http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/dbtAllActivitybyID_All?activityID=' + activityValue)
 			.then(response => {
 				return response.json();
 			}).then(data => {
 				console.log(data)
-			// 	initialVillage = data.village.map((village) => {
-			// 		return village = {
-			// 			label: village.vinname,
-			// 			value: village.vincode,
-			// 		}
-			// 	});
-			// 	this.setState({
-			// 		...this.state,
-			// 		village: [
-			// 			initialVillage
-			// 		],
+				data.activitySummar.gender.map(gender => {
+					genderData.push({
+						name: gender.gender,
+						y: parseInt(gender.no_of_application)
+					})
+				})
 
-			// 	});
+				data.activitySummar.category.map(category => {
+					categoryData.push({
+						name: category.category,
+						y: parseInt(category.no_of_application)
+					})
+
+				})
+				data.activitySummar.farmer_type.map(farmer_type => {
+					farmerTypeData.push({
+						name: farmer_type.farmer_type,
+						y: parseInt(farmer_type.no_of_application)
+					})
+				})
+
+				// console.log(genderData);
+				// console.log(categoryData);
+				// console.log(farmerTypeData);
+				this.setState({
+					gender: genderData,
+					category: categoryData,
+					farmerType: farmerTypeData
+				});
+
 			});
 	}
 
+
+	
 	render() {
 
 		return (
@@ -332,7 +366,7 @@ export default class DBTFarmerDashboard extends Component {
 													{/* <DropDown activity_props={this.state} /> */}
 
 													<div className="form-group" >
-														<Select className="selectlabel-lg" placeholder="Select Activity" onChange={this.changeActivity}
+														<Select className="selectlabel-lg" ref={this.myRef} placeholder="Select Activity" onChange={this.getCategoryApplicationCount}
 															options={this.state.activity[0]}
 														/>
 
@@ -369,7 +403,7 @@ export default class DBTFarmerDashboard extends Component {
 
 													</div>
 													<div className="form-group" >
-														<Select className="selectlabel" placeholder="Select Farm Type"
+														<Select className="selectlabel" placeholder="Select Farmer Type"
 															options={this.state.farm_type}
 														/>
 
@@ -413,6 +447,8 @@ export default class DBTFarmerDashboard extends Component {
 						<div className="card card-solid">
 							<div className="card-body">
 								<div className="row" >
+
+
 									{/* <section className="col-md-4">
 										<div className="card">
 											<div className="card-header">
@@ -433,14 +469,17 @@ export default class DBTFarmerDashboard extends Component {
 									<DBTPieChart pieChartProps={{
 										activityLabel: "Gender",
 										activity: "Farmer",
+										data: this.state.gender
 									}} />
 									<DBTPieChart pieChartProps={{
 										activityLabel: "Social Category",
 										activity: "Social",
+										data: this.state.category
 									}} />
 									<DBTPieChart pieChartProps={{
-										activityLabel: "Farm Type",
-										activity: "Farm",
+										activityLabel: "Farmer Type",
+										activity: "Farmer",
+										data: this.state.farmerType
 									}} />
 								</div>
 							</div>

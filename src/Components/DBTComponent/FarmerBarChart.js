@@ -28,7 +28,8 @@ export default class FarmerBarChart extends Component {
 	getFarmerActivity() {
 		let initialActivity = [];
 		let activityGroupName = [], totalAmountDisbursed = [], totalNoOfApplications = [], totalNoOfDisbursement = [], totalNoOfPreSanction = [];
-		fetch('http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/dbtActivityMaster?activity='+ this.props.chartProps.activity)
+		// http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/dbtActivityMaster?activity=Farmer&activityId=All
+		fetch('http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/dbtActivityMaster?activity='+ this.props.chartProps.activity+'&activityId=""')
 			.then(response => {
 				return response.json();
 			}).then(data => {
