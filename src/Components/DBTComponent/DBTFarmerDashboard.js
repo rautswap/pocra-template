@@ -137,7 +137,7 @@ export default class DBTFarmerDashboard extends Component {
 		//function binding
 		this.getTaluka = this.getTaluka.bind(this)
 		this.getVillage = this.getVillage.bind(this)
-		this.getCategoryApplicationCount=this.getCategoryApplicationCount.bind(this)
+		this.getCategoryApplicationCount = this.getCategoryApplicationCount.bind(this)
 	}
 
 	componentDidMount() {
@@ -244,7 +244,7 @@ export default class DBTFarmerDashboard extends Component {
 	}
 
 	getTaluka = (districtCode) => {
-	
+
 		let initialTaluka = [];
 
 		fetch('http://gis.mahapocra.gov.in/weatherservices/meta/dtaluka?dtncode=' + districtCode)
@@ -337,7 +337,7 @@ export default class DBTFarmerDashboard extends Component {
 	}
 
 
-	
+
 	render() {
 
 		return (
@@ -361,12 +361,9 @@ export default class DBTFarmerDashboard extends Component {
 										<div className="row">
 											<div className="col-md-12">
 												<form className="form-inline">
-
-													{/* <label>Select Activity Group</label> */}
-													{/* <DropDown activity_props={this.state} /> */}
-
 													<div className="form-group" >
-														<Select className="selectlabel-lg" ref={this.myRef} placeholder="Select Activity" onChange={this.getCategoryApplicationCount}
+														<Select className="selectlabel-lg" placeholder="Select Activity"
+															onChange={this.getCategoryApplicationCount}
 															options={this.state.activity[0]}
 														/>
 
@@ -403,7 +400,7 @@ export default class DBTFarmerDashboard extends Component {
 
 													</div>
 													<div className="form-group" >
-														<Select className="selectlabel" placeholder="Select Farmer Type"
+														<Select className="selectlabel-lg" placeholder="Select Farmer Type"
 															options={this.state.farm_type}
 														/>
 
