@@ -70,7 +70,6 @@ export default class DBTPieChart extends Component {
 			});
 	}
 	render() {
-		console.log(this.props.pieChartProps.data)
 		const options = {
 
 			chart: {

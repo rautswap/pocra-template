@@ -296,6 +296,7 @@ class Forecast extends Component {
 			rain_class5 = this.state.tempmax4;
 			propertyName = this.propname;
 		}
+		console.log("propname:" + this.propname + ";title:" + rain_class2 + ";rain1:" + (parseInt(rain_class2)) + ";rain2:" + (parseInt(rain_class2) + 0.1) + ";rain3:" + (parseInt(rain_class3)) + ";rain4:" + (parseInt(rain_class3) + 0.1) + ";rain5:" + (parseInt(rain_class4)) + ";rain6:" + (parseInt(rain_class4) + 0.1))
 
 		var indate = "forecast_date IN('" + Moment(forecatdate).format('YYYY-MM-DD') + "')";
 		imdlayer = new ImageLayer({
