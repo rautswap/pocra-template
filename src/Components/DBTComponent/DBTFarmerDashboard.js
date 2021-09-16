@@ -37,7 +37,13 @@ export default class DBTFarmerDashboard extends Component {
 		super(props)
 		this.state = {
 
-			classValues: "",
+			classValues: {
+				appl_1: 0,
+				appl_2: 0,
+				appl_3: 0,
+				appl_4: 0,
+				appl_5: 0,
+			},
 			activity: [
 
 			],
@@ -251,12 +257,23 @@ export default class DBTFarmerDashboard extends Component {
 				// console.log(data)
 				initialActivity = data.activity.map((activities) => {
 					// console.log(activities.appl_1)
+					this.setState(prev => ({
+						classValues: {
+							appl_1: activities.appl_1,
+							appl_2: activities.appl_2,
+							appl_3: activities.appl_3,
+							appl_4: activities.appl_4,
+							appl_5: activities.appl_5,
+						}
+					}));
 					return activities;
+
 				});
 				this.loadMap(initialActivity)
-				this.setState(prev => ({
-					classValues: initialActivity
-				}));
+				console.log(initialActivity)
+				// this.setState(prev => ({
+				// 	classValues: initialActivity
+				// }));
 			});
 
 	}
@@ -538,7 +555,8 @@ export default class DBTFarmerDashboard extends Component {
 									<div className="col-12" id="map" style={{ height: "60vh", width: "100%" }}>
 									</div>
 									<div id={"legend"} className="box stack-top">
-										{/* <LegendPanelDashboard props={this.state.classValues} /> */}
+										
+										<LegendPanelDashboard props={this.state.classValues} />
 									</div>
 								</div>
 							</div>
