@@ -2,13 +2,13 @@ import React, { Component } from 'react'
 import '../MapComponents/Map.css';
 import "ol/ol.css";
 import "ol-ext/dist/ol-ext.css";
-import { Map, View } from "ol";
+import { Feature, Map, View } from "ol";
 import Overlay from 'ol/Overlay';
 import XYZ from 'ol/source/XYZ';
 import { ScaleLine, MousePosition, defaults as defaultControls } from 'ol/control';
 import { format } from 'ol/coordinate';
 import { transform } from 'ol/proj';
-import { Image as ImageLayer, Tile as TileLayer } from 'ol/layer';
+import { Image as ImageLayer, Tile as TileLayer, Vector } from 'ol/layer';
 import TileWMS from 'ol/source/TileWMS'
 import ImageWMS from 'ol/source/ImageWMS'
 import Moment from 'moment';
@@ -21,14 +21,23 @@ import Select from 'react-select';
 import "./DBTDashboard.css"
 import FarmerFPCChart from './FarmerFPCChart';
 import DBTPieChart from './DBTPieChart';
+import Point from 'ol/geom/Point';
+import { Fill, Stroke, RegularShape, Circle, Style, Icon } from 'ol/style';
+import LegendPanelDashboard from './LegendPanelDashboard';
 
-var view = "";
+var view = "", map;
 let pocraDBTLayer;
+var vectorSource = new VectorSource({});
+var featurelayer; var a = new Array();
+var thing;
+
 export default class DBTFarmerDashboard extends Component {
 
 	constructor(props) {
 		super(props)
 		this.state = {
+
+			classValues: "",
 			activity: [
 
 			],
@@ -64,8 +73,7 @@ export default class DBTFarmerDashboard extends Component {
 			},
 			category: {
 
-			},
-			appl_1: ''
+			}
 		}
 
 
@@ -126,35 +134,40 @@ export default class DBTFarmerDashboard extends Component {
 
 
 
+		// 
 
 		view = new View({
-			zoom: 7,
+			zoom: 7.5,
 			center: transform([77.50, 18.95], 'EPSG:4326', 'EPSG:3857'),
 		});
 
 
-		this.map = new Map({
+		map = new Map({
 			// overlays: [this.overlay],
 			target: null,
 			view: view,
 			controls: defaultControls().extend([this.mouse, this.scaleLineControl]),
-			layers: [topo, this.pocraDistrict]
+			layers: [topo]
 		});
+
 		//function binding
 		this.getTaluka = this.getTaluka.bind(this)
 		this.getVillage = this.getVillage.bind(this)
 		this.getCategoryApplicationCount = this.getCategoryApplicationCount.bind(this)
-		this.loadMap = this.loadMap.bind(this)
+		this.loadMap = this.loadMap.bind(this);
+		this.getDBTVectorLayer = this.getDBTVectorLayer.bind(this);
 	}
 
 	componentDidMount() {
 		this.getDBTLayerClassValues();
-		this.map.setTarget("map");
+		map.setTarget("map");
 		this.getDistrict();
 		this.getFarmerActivity();
 		this.getCategoryApplicationCount({
 			value: 'All'
 		});
+		this.getDBTVectorLayer();
+
 
 		// this.getForecastData();
 		// const overlay = new Overlay({
@@ -163,9 +176,9 @@ export default class DBTFarmerDashboard extends Component {
 		// 	stopEvent: false
 		// });
 
-		// this.map.addOverlay(overlay);
+		// map.addOverlay(overlay);
 
-		// this.map.on('click', evt => {
+		// map.on('click', evt => {
 		// 	overlay.setPosition(undefined)
 		// 	const coordinate = evt.coordinate;
 
@@ -197,7 +210,38 @@ export default class DBTFarmerDashboard extends Component {
 		// })
 
 	}
+	getDBTVectorLayer() {
+		fetch('http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/dbtDistrict')
+			.then(response => {
+				return response.json();
+			}).then(data => {
+				console.log(data)
+				data.activity.map((activities) => {
+					var element = document.createElement('div');
+					element.innerHTML = '<div class="circle">' + activities.no_of_application + '</div>';
+					var marker = new Overlay({
+						position: transform([parseFloat(activities.lat) + 0.1, parseFloat(activities.lon) + 0.1], 'EPSG:4326', 'EPSG:3857'),
+						// position: [parseFloat(activities.lon), parseFloat(activities.lat)],
+						positioning: 'center-center',
+						element: element,
+						stopEvent: false
+					});
+					map.addOverlay(marker);
+					// var feature = new Feature({
+					// 	geometry: new Point(transform([(parseFloat(activities.lon)), (parseFloat(activities.lat))], 'EPSG:4326', 'EPSG:3857')),
+					// 	// dtncode: activities.district_code,
+					// 	dtnname: activities.district,
+					// 	// no_of_application: activities.no_of_application,
+					// 	// no_of_paymentdone: activities.no_of_paymentdone,
+					// 	// no_of_registration: activities.no_of_registration
+					// });
+					// console.log(feature)
+					// feature.setStyle(iconStyle);
+					// vectorSource.addFeature(feature);
 
+				});
+			});
+	}
 	getDBTLayerClassValues() {
 		let initialActivity = [];
 		fetch('http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/dbtNumApplications')
@@ -210,6 +254,9 @@ export default class DBTFarmerDashboard extends Component {
 					return activities;
 				});
 				this.loadMap(initialActivity)
+				this.setState(prev => ({
+					classValues: initialActivity
+				}));
 			});
 
 	}
@@ -217,16 +264,16 @@ export default class DBTFarmerDashboard extends Component {
 
 	loadMap = (initialActivity) => {
 
-		let viewMap = this.map.getView();
-		let extent = viewMap.calculateExtent(this.map.getSize());
+		let viewMap = map.getView();
+		let extent = viewMap.calculateExtent(map.getSize());
 		//hold the current resolution
 		let res = viewMap.getResolution();
-		viewMap.fit(extent, this.map.getSize());
+		viewMap.fit(extent, map.getSize());
 		view.setResolution(res);
 		if (pocraDBTLayer) {
-			this.map.removeLayer(pocraDBTLayer);
+			map.removeLayer(pocraDBTLayer);
 		}
-		
+
 		pocraDBTLayer = new ImageLayer({
 			title: "DBT PoCRA",
 			source: new ImageWMS({
@@ -244,7 +291,9 @@ export default class DBTFarmerDashboard extends Component {
 			})
 		});
 
-		this.map.addLayer(pocraDBTLayer);
+		map.addLayer(pocraDBTLayer);
+		// console.log(map.getLayers())
+		// map.addLayer(featurelayer)
 	}
 
 	getFarmerActivity() {
@@ -358,7 +407,7 @@ export default class DBTFarmerDashboard extends Component {
 			.then(response => {
 				return response.json();
 			}).then(data => {
-				console.log(data)
+				// console.log(data)
 				data.activitySummar.gender.map(gender => {
 					genderData.push({
 						name: gender.gender,
@@ -488,7 +537,9 @@ export default class DBTFarmerDashboard extends Component {
 								<div className="row mb-2" >
 									<div className="col-12" id="map" style={{ height: "60vh", width: "100%" }}>
 									</div>
-
+									<div id={"legend"} className="box stack-top">
+										{/* <LegendPanelDashboard props={this.state.classValues} /> */}
+									</div>
 								</div>
 							</div>
 

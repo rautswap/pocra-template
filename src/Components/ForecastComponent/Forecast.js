@@ -22,7 +22,7 @@ import LegendPanel from './LegendPanel';
 let startDate = "", sdate = "";
 let frameRate = 0.5; // frames per second
 let animationId = null, imdlayer, MahaDist, minimumDate;
-var view = "";
+var view = "",map;
 let rain_class1, rain_class2, rain_class3, rain_class4, rain_class5, maxrainfall;
 var geojson;
 var propertyName;
@@ -101,7 +101,7 @@ class Forecast extends Component {
 		});
 
 
-		this.map = new Map({
+		map = new Map({
 			// overlays: [this.overlay],
 			target: null,
 			view: view,
@@ -131,7 +131,7 @@ class Forecast extends Component {
 
 	componentDidMount() {
 
-		this.map.setTarget("map");
+		map.setTarget("map");
 
 		this.getForecastData();
 		const overlay = new Overlay({
@@ -140,9 +140,9 @@ class Forecast extends Component {
 			stopEvent: false
 		});
 
-		this.map.addOverlay(overlay);
+		map.addOverlay(overlay);
 
-		this.map.on('click', evt => {
+		map.on('click', evt => {
 			overlay.setPosition(undefined)
 			const coordinate = evt.coordinate;
 
@@ -216,7 +216,7 @@ class Forecast extends Component {
 	onFitMapHandler() {
 
 		if (geojson) {
-			this.map.removeLayer(geojson);
+			map.removeLayer(geojson);
 		}
 
 		var url = "http://gis.mahapocra.gov.in/geoserver/PoCRA_Dashboard/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=District&outputFormat=application/json";
@@ -229,35 +229,35 @@ class Forecast extends Component {
 		});
 		// const feature = geojson.getSource().getFeatures();
 		// console.log(feature);
-		this.map.getView().fit(geojson.getSource().getExtent())
+		map.getView().fit(geojson.getSource().getExtent())
 		// const polygon = feature.getGeometry()
 		// geojson.getSource().on('addfeature', function () {
 		//     //alert(geojson.getSource().getExtent());
-		//     this.map.getView().fit(
-		//         geojson.getSource().getExtent(), { duration: 1590, size: this.map.getSize() - 100 }
+		//     map.getView().fit(
+		//         geojson.getSource().getExtent(), { duration: 1590, size: map.getSize() - 100 }
 		//     );
 		// });
-		this.map.addLayer(geojson);
+		map.addLayer(geojson);
 
 	}
 
 	loadForecastMap = (forecatdate) => {
 
-		let viewMap = this.map.getView();
-		let extent = viewMap.calculateExtent(this.map.getSize());
+		let viewMap = map.getView();
+		let extent = viewMap.calculateExtent(map.getSize());
 		//hold the current resolution
 		let res = viewMap.getResolution();
 		//if you use older versions of ol3 use `fitExtent` istead of `fit`
-		viewMap.fit(extent, this.map.getSize());
+		viewMap.fit(extent, map.getSize());
 		//apply the resolution back 
 		view.setResolution(res);
 		// ((document.getElementById("mapselect")||{}).value)||"";
 		let elevalue = ((document.getElementById("mapselect") || {}).value) || "";
 		if (imdlayer) {
-			this.map.removeLayer(imdlayer);
+			map.removeLayer(imdlayer);
 		}
 		if (this.pocraDistrict) {
-			this.map.removeLayer(this.pocraDistrict);
+			map.removeLayer(this.pocraDistrict);
 		}
 
 
@@ -316,12 +316,12 @@ class Forecast extends Component {
 			})
 		});
 
-		this.map.addLayer(imdlayer);
-		this.map.addLayer(this.pocraDistrict);
+		map.addLayer(imdlayer);
+		map.addLayer(this.pocraDistrict);
 
 
 
-		// const resolution = this.map.getView().getResolution();
+		// const resolution = map.getView().getResolution();
 		// // this.updateLegend(resolution);
 		// let graphicUrl = imdlayer.getSource().getLegendUrl(resolution);
 		// // console.log(graphicUrl)
