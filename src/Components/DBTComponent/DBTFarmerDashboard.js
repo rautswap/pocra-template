@@ -22,21 +22,20 @@ import "./DBTDashboard.css"
 import FarmerFPCChart from './FarmerFPCChart';
 import DBTPieChart from './DBTPieChart';
 import Point from 'ol/geom/Point';
-import { Fill, Stroke, RegularShape, Circle, Style, Icon } from 'ol/style';
+import { Fill, Stroke, RegularShape, Circle, Icon, Text, Style } from 'ol/style';
 import LegendPanelDashboard from './LegendPanelDashboard';
 
 var view = "", map;
 let pocraDBTLayer;
-var vectorSource = new VectorSource({});
 var featurelayer; var a = new Array();
 var thing;
-
+var vectorSource;
 export default class DBTFarmerDashboard extends Component {
 
 	constructor(props) {
 		super(props)
 		this.state = {
-
+			lat: 0, lon: 0, no_of_application: 0,
 			classValues: {
 				appl_1: 0,
 				appl_2: 0,
@@ -156,6 +155,7 @@ export default class DBTFarmerDashboard extends Component {
 			layers: [topo]
 		});
 
+
 		//function binding
 		this.getTaluka = this.getTaluka.bind(this)
 		this.getVillage = this.getVillage.bind(this)
@@ -172,8 +172,11 @@ export default class DBTFarmerDashboard extends Component {
 		this.getCategoryApplicationCount({
 			value: 'All'
 		});
-		
 
+		// this.styleFunction = (feature) => {
+		// 	this.style.getText().setText(feature.get('no_of_application'));
+		// 	return this.style;
+		// }
 
 		// this.getForecastData();
 		// const overlay = new Overlay({
@@ -216,38 +219,96 @@ export default class DBTFarmerDashboard extends Component {
 		// })
 
 	}
-	getDBTVectorLayer() {
-		fetch('http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/dbtDistrict')
+
+	getDBTVectorLayer(activityId) {
+		// console.log('http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/dbtDistrict?activityId=' + activityId)
+
+
+
+		if (vectorSource) {
+
+		}
+		fetch('http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/dbtDistrict?activityId=' + activityId)
 			.then(response => {
 				return response.json();
 			}).then(data => {
-				// console.log(data)
+
+				vectorSource = new VectorSource({})
 				data.activity.map((activities) => {
-					var element = document.createElement('div');
-					element.innerHTML = '<div class="circle">' + activities.no_of_application + '</div>';
-					var marker = new Overlay({
-						position: transform([parseFloat(activities.lat) + 0.1, parseFloat(activities.lon) + 0.1], 'EPSG:4326', 'EPSG:3857'),
-						// position: [parseFloat(activities.lon), parseFloat(activities.lat)],
-						positioning: 'center-center',
-						element: element,
-						stopEvent: false
+					this.setState({
+						lat: activities.lat,
+						lon: activities.lon,
+						no_of_application: activities.no_of_application
+					})
+
+					var feature = new Feature({
+						geometry: new Point(transform([parseFloat(this.state.lat) + 0.1, parseFloat(this.state.lon) + 0.1], 'EPSG:4326', 'EPSG:3857')),
+						no_of_application: this.state.no_of_application
 					});
-					map.addOverlay(marker);
+
+					vectorSource.addFeature(feature);
+					// var element = document.createElement('div');
+					// element.innerHTML = '<div class="circle">' + this.state.no_of_application+ '</div>';
+					// var marker = new Overlay({
+					// 	position: transform([parseFloat(this.state.lat) + 0.1, parseFloat(this.state.lon) + 0.1], 'EPSG:4326', 'EPSG:3857'),
+					// 	// position: [parseFloat(activities.lon), parseFloat(activities.lat)],
+					// 	positioning: 'center-center',
+					// 	element: element,
+					// 	stopEvent: false
+					// });
+					// map.addOverlay(marker);
 				});
+
+				var style = new Style({
+					image: new Circle({
+						radius: 7,
+						stroke: new Stroke({
+							color: 'rgba(200,200,200,1.0)',
+							width: 3,
+						}),
+						fill: new Fill({
+							color: 'rgba(255,0,0,1.0)'
+						})
+					}),
+					text: new Text({
+						font: 'bold 11px "Open Sans", "Arial Unicode MS", "sans-serif"',
+						placement: 'point',
+						fill: new Fill({ color: '#fff' }),
+						stroke: new Stroke({ color: '#000', width: 2 }),
+					}),
+				});
+				if (featurelayer) {
+					map.removeLayer(featurelayer)
+				}
+				featurelayer = new Vector({
+					source: vectorSource,
+					style: (feature) => {
+						return new Style({
+							text: new Text({
+								font: '12px "Open Sans", "Arial Unicode MS", "sans-serif"',
+								fill: new Fill({ color: '#fff' }),
+								stroke: new Stroke({ color: '#808080', width: 1 }),
+								text: '' + feature.get('no_of_application') + ''
+							}),
+						});
+					}
+				})
+				map.addLayer(featurelayer)
 			});
+
 	}
-	getDBTLayerClassValues(value) {
-		// alert(value)
+	getDBTLayerClassValues(activityId) {
+
 		var url = "", layerName = "";
-		if (value === "All") {
-			url = "http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/dbtNumApplications";
+		if (activityId === "All") {
+			// url = "http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/dbtNumApplications?activityId=7&summary_for=application";
 			layerName = "dbtDistrict";
-			this.getDBTVectorLayer();
+
 		}
 
 		let initialActivity = [];
 
-		fetch(url)
+		fetch('http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/dbtNumApplications?activityId=' + activityId + '&summary_for=application')
 			.then(response => {
 				return response.json();
 			}).then(data => {
@@ -266,7 +327,7 @@ export default class DBTFarmerDashboard extends Component {
 					return activities;
 
 				});
-				this.loadMap(initialActivity, layerName)
+				this.loadMap(initialActivity, layerName, activityId)
 				// this.setState(prev => ({
 				// 	classValues: initialActivity
 				// }));
@@ -275,7 +336,7 @@ export default class DBTFarmerDashboard extends Component {
 	}
 
 
-	loadMap = (initialActivity, layerName) => {
+	loadMap = (initialActivity, layerName, activityId) => {
 
 		let viewMap = map.getView();
 		let extent = viewMap.calculateExtent(map.getSize());
@@ -300,11 +361,13 @@ export default class DBTFarmerDashboard extends Component {
 					'TILED': true,
 					'env': "propname:no_of_application;appl_1:" + (parseInt(initialActivity[0].appl_1)) + ";appl_2:" + (parseInt(initialActivity[0].appl_2)) + ";appl_3:" + (parseInt(initialActivity[0].appl_3)) + ";appl_4:" + (parseInt(initialActivity[0].appl_4)) + ";appl_5:" + (parseInt(initialActivity[0].appl_5)),
 					// 'CQL_FILTER': indate
+					// viewparams: 'district:Barnet'
 				},
 			})
 		});
 
 		map.addLayer(pocraDBTLayer);
+		this.getDBTVectorLayer(activityId);
 		// console.log(map.getLayers())
 		// map.addLayer(featurelayer)
 	}
