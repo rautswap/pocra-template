@@ -87,8 +87,8 @@ export default class DBTFarmerDashboard extends Component {
 			units: 'metric',
 			type: 'scalebar',
 			bar: true,
-			steps: 4,
-			minWidth: 150
+			steps: 2,
+			minWidth: 80
 		});
 		this.mouse = new MousePosition({
 			projection: 'EPSG:4326',

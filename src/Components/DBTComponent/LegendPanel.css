@@ -22,13 +22,14 @@
 }
 
 #legend table, th {
+	font-size: 14px;
 	padding-left: 2%;
 	border: 1px solid black;
 }
 
 #legend table, tr, td {
 	padding-left: 2%;
-	font-weight: 500;
+	font-size: 12px;
 }
 
 #legend table {

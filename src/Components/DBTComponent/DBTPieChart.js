@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
+import "./DBTDashboard.css"
 let cat = "";
 export default class DBTPieChart extends Component {
 	constructor(props) {
@@ -92,7 +93,7 @@ export default class DBTPieChart extends Component {
 				style: {
 					fontWeight: 'bold'
 				},
-				text:'Application on DBT Portal in '+this.props.pieChartProps.activityLabel+' wise'
+				// text:'Application on DBT Portal in '+this.props.pieChartProps.activityLabel+' wise'
 				// text: 'District : ' + this.state.districtName +
 				// 	"<br/>Total Application  : " + this.state.total
 			},
@@ -159,9 +160,9 @@ export default class DBTPieChart extends Component {
 				<section className="col-lg-4 connectedSortable">
 					<div className="card">
 						<div className="card-header">
-							<h3 className="card-title">
+							<h6 className="card-title">
 								<i className="fas fa-users"> </i> {this.props.pieChartProps.activityLabel}
-							</h3>
+							</h6>
 							<div className="card-tools">
 								<button type="button" className="btn btn-tool" data-card-widget="collapse"><i className="fas fa-minus"></i>
 								</button>
