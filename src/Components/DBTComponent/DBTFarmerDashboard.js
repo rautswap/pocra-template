@@ -165,14 +165,14 @@ export default class DBTFarmerDashboard extends Component {
 	}
 
 	componentDidMount() {
-		this.getDBTLayerClassValues();
+		// this.getDBTLayerClassValues();
 		map.setTarget("map");
 		this.getDistrict();
 		this.getFarmerActivity();
 		this.getCategoryApplicationCount({
 			value: 'All'
 		});
-		this.getDBTVectorLayer();
+		
 
 
 		// this.getForecastData();
@@ -221,7 +221,7 @@ export default class DBTFarmerDashboard extends Component {
 			.then(response => {
 				return response.json();
 			}).then(data => {
-				console.log(data)
+				// console.log(data)
 				data.activity.map((activities) => {
 					var element = document.createElement('div');
 					element.innerHTML = '<div class="circle">' + activities.no_of_application + '</div>';
@@ -233,24 +233,21 @@ export default class DBTFarmerDashboard extends Component {
 						stopEvent: false
 					});
 					map.addOverlay(marker);
-					// var feature = new Feature({
-					// 	geometry: new Point(transform([(parseFloat(activities.lon)), (parseFloat(activities.lat))], 'EPSG:4326', 'EPSG:3857')),
-					// 	// dtncode: activities.district_code,
-					// 	dtnname: activities.district,
-					// 	// no_of_application: activities.no_of_application,
-					// 	// no_of_paymentdone: activities.no_of_paymentdone,
-					// 	// no_of_registration: activities.no_of_registration
-					// });
-					// console.log(feature)
-					// feature.setStyle(iconStyle);
-					// vectorSource.addFeature(feature);
-
 				});
 			});
 	}
-	getDBTLayerClassValues() {
+	getDBTLayerClassValues(value) {
+		// alert(value)
+		var url = "", layerName = "";
+		if (value === "All") {
+			url = "http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/dbtNumApplications";
+			layerName = "dbtDistrict";
+			this.getDBTVectorLayer();
+		}
+
 		let initialActivity = [];
-		fetch('http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/dbtNumApplications')
+
+		fetch(url)
 			.then(response => {
 				return response.json();
 			}).then(data => {
@@ -269,8 +266,7 @@ export default class DBTFarmerDashboard extends Component {
 					return activities;
 
 				});
-				this.loadMap(initialActivity)
-				console.log(initialActivity)
+				this.loadMap(initialActivity, layerName)
 				// this.setState(prev => ({
 				// 	classValues: initialActivity
 				// }));
@@ -279,7 +275,7 @@ export default class DBTFarmerDashboard extends Component {
 	}
 
 
-	loadMap = (initialActivity) => {
+	loadMap = (initialActivity, layerName) => {
 
 		let viewMap = map.getView();
 		let extent = viewMap.calculateExtent(map.getSize());
@@ -300,7 +296,7 @@ export default class DBTFarmerDashboard extends Component {
 				visible: true,
 				url: "http://gis.mahapocra.gov.in/geoserver/PoCRA_Dashboard/wms?",
 				params: {
-					'LAYERS': 'PoCRA_Dashboard:dbtDistrict',
+					'LAYERS': 'PoCRA_Dashboard:' + layerName,
 					'TILED': true,
 					'env': "propname:no_of_application;appl_1:" + (parseInt(initialActivity[0].appl_1)) + ";appl_2:" + (parseInt(initialActivity[0].appl_2)) + ";appl_3:" + (parseInt(initialActivity[0].appl_3)) + ";appl_4:" + (parseInt(initialActivity[0].appl_4)) + ";appl_5:" + (parseInt(initialActivity[0].appl_5)),
 					// 'CQL_FILTER': indate
@@ -418,7 +414,7 @@ export default class DBTFarmerDashboard extends Component {
 
 		let activityValue = event.value;
 
-
+		this.getDBTLayerClassValues(activityValue);
 		var genderData = [], categoryData = [], farmerTypeData = [];
 		fetch('http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/dbtAllActivitybyID_All?activityID=' + activityValue)
 			.then(response => {
@@ -456,6 +452,7 @@ export default class DBTFarmerDashboard extends Component {
 				});
 
 			});
+
 	}
 
 
@@ -555,7 +552,7 @@ export default class DBTFarmerDashboard extends Component {
 									<div className="col-12" id="map" style={{ height: "60vh", width: "100%" }}>
 									</div>
 									<div id={"legend"} className="box stack-top">
-										
+
 										<LegendPanelDashboard props={this.state.classValues} />
 									</div>
 								</div>
