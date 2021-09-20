@@ -35,7 +35,7 @@ export default class DBTFarmerDashboard extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			lat: 0, lon: 0, no_of_application: 0,
+			lat: 0, lon: 0, no_of_application: 0, districtName: "",
 			classValues: {
 				appl_1: 0,
 				appl_2: 0,
@@ -55,7 +55,7 @@ export default class DBTFarmerDashboard extends Component {
 			village: [
 
 			],
-			gender: [
+			genderSelect: [
 				{ value: 'm', label: 'Male' },
 				{ value: 'f', label: 'Female' },
 				{ value: 'o', label: 'Other' },
@@ -108,19 +108,19 @@ export default class DBTFarmerDashboard extends Component {
 				crossOrigin: 'Anonymous',
 			})
 		});
-		this.pocra = new TileLayer({
-			title: "Base Layer",
-			source: new TileWMS({
-				url: 'http://gis.mahapocra.gov.in/geoserver/PoCRA_Dashboard/wms',
-				crossOrigin: 'Anonymous',
-				serverType: 'geoserver',
-				visible: true,
-				params: {
-					'LAYERS': 'PoCRA_Dashboard:District',
-					'TILED': true,
-				}
-			})
-		});
+		// this.pocra = new TileLayer({
+		// 	title: "Base Layer",
+		// 	source: new TileWMS({
+		// 		url: 'http://gis.mahapocra.gov.in/geoserver/PoCRA_Dashboard/wms',
+		// 		crossOrigin: 'Anonymous',
+		// 		serverType: 'geoserver',
+		// 		visible: true,
+		// 		params: {
+		// 			'LAYERS': 'PoCRA_Dashboard:District',
+		// 			'TILED': true,
+		// 		}
+		// 	})
+		// });
 
 		this.pocraDistrict = new TileLayer({
 			title: "Base Layer",
@@ -221,8 +221,6 @@ export default class DBTFarmerDashboard extends Component {
 	}
 
 	getDBTVectorLayer(activityId) {
-		// console.log('http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/dbtDistrict?activityId=' + activityId)
-
 
 
 		if (vectorSource) {
@@ -238,12 +236,13 @@ export default class DBTFarmerDashboard extends Component {
 					this.setState({
 						lat: activities.lat,
 						lon: activities.lon,
-						no_of_application: activities.no_of_application
+						no_of_application: activities.no_of_application,
+						districtName: activities.district
 					})
-
 					var feature = new Feature({
-						geometry: new Point(transform([parseFloat(this.state.lat) + 0.1, parseFloat(this.state.lon) + 0.1], 'EPSG:4326', 'EPSG:3857')),
-						no_of_application: this.state.no_of_application
+						geometry: new Point(transform([parseFloat(this.state.lat) , parseFloat(this.state.lon)], 'EPSG:4326', 'EPSG:3857')),
+						no_of_application: this.state.no_of_application,
+						district: this.state.districtName
 					});
 
 					vectorSource.addFeature(feature);
@@ -259,24 +258,24 @@ export default class DBTFarmerDashboard extends Component {
 					// map.addOverlay(marker);
 				});
 
-				var style = new Style({
-					image: new Circle({
-						radius: 7,
-						stroke: new Stroke({
-							color: 'rgba(200,200,200,1.0)',
-							width: 3,
-						}),
-						fill: new Fill({
-							color: 'rgba(255,0,0,1.0)'
-						})
-					}),
-					text: new Text({
-						font: 'bold 11px "Open Sans", "Arial Unicode MS", "sans-serif"',
-						placement: 'point',
-						fill: new Fill({ color: '#fff' }),
-						stroke: new Stroke({ color: '#000', width: 2 }),
-					}),
-				});
+				// var style = new Style({
+				// 	image: new Circle({
+				// 		radius: 7,
+				// 		stroke: new Stroke({
+				// 			color: 'rgba(200,200,200,1.0)',
+				// 			width: 3,
+				// 		}),
+				// 		fill: new Fill({
+				// 			color: 'rgba(255,0,0,1.0)'
+				// 		})
+				// 	}),
+				// 	text: new Text({
+				// 		font: 'bold 11px "Open Sans", "Arial Unicode MS", "sans-serif"',
+				// 		placement: 'point',
+				// 		fill: new Fill({ color: '#fff' }),
+				// 		stroke: new Stroke({ color: '#000', width: 2 }),
+				// 	}),
+				// });
 				if (featurelayer) {
 					map.removeLayer(featurelayer)
 				}
@@ -285,10 +284,21 @@ export default class DBTFarmerDashboard extends Component {
 					style: (feature) => {
 						return new Style({
 							text: new Text({
-								font: '12px "Open Sans", "Arial Unicode MS", "sans-serif"',
-								fill: new Fill({ color: '#fff' }),
-								stroke: new Stroke({ color: '#808080', width: 1 }),
-								text: '' + feature.get('no_of_application') + ''
+								
+								text: '' + feature.get('no_of_application') + '',
+								font: '12px Calibri,sans-serif',
+								offsetY: -10,
+								offsetX: 15,
+								// align: 'center',
+								scale:1,
+								textBaseline: 'bottom',
+								fill: new Fill({
+									color: 'rgba(0,0,0,2)'
+								}),
+								stroke: new Stroke({
+									color: 'rgba(255,255,255,2)',
+									width: 3
+								})
 							}),
 						});
 					}
@@ -303,8 +313,8 @@ export default class DBTFarmerDashboard extends Component {
 		if (activityId === "All") {
 			// url = "http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/dbtNumApplications?activityId=7&summary_for=application";
 			layerName = "dbtDistrict";
-		}else{
-			layerName="dbtAcivityGroup";
+		} else {
+			layerName = "dbtAcivityGroup";
 		}
 
 		let initialActivity = [];
@@ -361,8 +371,6 @@ export default class DBTFarmerDashboard extends Component {
 					'LAYERS': 'PoCRA_Dashboard:' + layerName,
 					'TILED': true,
 					'env': "propname:no_of_application;appl_1:" + (parseInt(initialActivity[0].appl_1)) + ";appl_2:" + (parseInt(initialActivity[0].appl_2)) + ";appl_3:" + (parseInt(initialActivity[0].appl_3)) + ";appl_4:" + (parseInt(initialActivity[0].appl_4)) + ";appl_5:" + (parseInt(initialActivity[0].appl_5)),
-					// 'CQL_FILTER': indate
-					// viewparams: 'district:Barnet'
 				},
 			})
 			pocraDBTLayer = new ImageLayer({
@@ -372,8 +380,8 @@ export default class DBTFarmerDashboard extends Component {
 			map.addLayer(pocraDBTLayer);
 			this.getDBTVectorLayer(activityId);
 		} else {
-			
-			imgSource=new ImageWMS({
+			console.log("propname:no_of_application;appl_1:" + (parseInt(initialActivity[0].appl_1)) + ";appl_2:" + (parseInt(initialActivity[0].appl_2)) + ";appl_3:" + (parseInt(initialActivity[0].appl_3)) + ";appl_4:" + (parseInt(initialActivity[0].appl_4)) + ";appl_5:" + (parseInt(initialActivity[0].appl_5)))
+			imgSource = new ImageWMS({
 				attributions: ['&copy; DBT PoCRA'],
 				crossOrigin: 'Anonymous',
 				serverType: 'geoserver',
@@ -384,7 +392,7 @@ export default class DBTFarmerDashboard extends Component {
 					'TILED': true,
 					'env': "propname:no_of_application;appl_1:" + (parseInt(initialActivity[0].appl_1)) + ";appl_2:" + (parseInt(initialActivity[0].appl_2)) + ";appl_3:" + (parseInt(initialActivity[0].appl_3)) + ";appl_4:" + (parseInt(initialActivity[0].appl_4)) + ";appl_5:" + (parseInt(initialActivity[0].appl_5)),
 					// 'CQL_FILTER': indate
-					'viewparams': "groupID:6"
+					'viewparams': "groupID:" + activityId
 				},
 			})
 			pocraDBTLayer = new ImageLayer({
@@ -603,7 +611,7 @@ export default class DBTFarmerDashboard extends Component {
 													</div>
 													<div className="form-group" >
 														<Select className="selectlabel" placeholder="Select Gender"
-															options={this.state.gender}
+															options={this.state.genderSelect}
 														/>
 
 													</div>
