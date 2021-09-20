@@ -303,7 +303,8 @@ export default class DBTFarmerDashboard extends Component {
 		if (activityId === "All") {
 			// url = "http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/dbtNumApplications?activityId=7&summary_for=application";
 			layerName = "dbtDistrict";
-
+		}else{
+			layerName="dbtAcivityGroup";
 		}
 
 		let initialActivity = [];
@@ -347,10 +348,10 @@ export default class DBTFarmerDashboard extends Component {
 		if (pocraDBTLayer) {
 			map.removeLayer(pocraDBTLayer);
 		}
+		var imgSource = new ImageWMS({})
 
-		pocraDBTLayer = new ImageLayer({
-			title: "DBT PoCRA",
-			source: new ImageWMS({
+		if (activityId === 'All') {
+			imgSource = new ImageWMS({
 				attributions: ['&copy; DBT PoCRA'],
 				crossOrigin: 'Anonymous',
 				serverType: 'geoserver',
@@ -364,10 +365,41 @@ export default class DBTFarmerDashboard extends Component {
 					// viewparams: 'district:Barnet'
 				},
 			})
-		});
+			pocraDBTLayer = new ImageLayer({
+				title: "DBT PoCRA",
+				source: imgSource
+			});
+			map.addLayer(pocraDBTLayer);
+			this.getDBTVectorLayer(activityId);
+		} else {
+			
+			imgSource=new ImageWMS({
+				attributions: ['&copy; DBT PoCRA'],
+				crossOrigin: 'Anonymous',
+				serverType: 'geoserver',
+				visible: true,
+				url: "http://gis.mahapocra.gov.in/geoserver/PoCRA_Dashboard/wms?",
+				params: {
+					'LAYERS': 'PoCRA_Dashboard:' + layerName,
+					'TILED': true,
+					'env': "propname:no_of_application;appl_1:" + (parseInt(initialActivity[0].appl_1)) + ";appl_2:" + (parseInt(initialActivity[0].appl_2)) + ";appl_3:" + (parseInt(initialActivity[0].appl_3)) + ";appl_4:" + (parseInt(initialActivity[0].appl_4)) + ";appl_5:" + (parseInt(initialActivity[0].appl_5)),
+					// 'CQL_FILTER': indate
+					'viewparams': "groupID:6"
+				},
+			})
+			pocraDBTLayer = new ImageLayer({
+				title: "DBT PoCRA",
+				source: imgSource
+			});
+			// imgSource.updateParams({ viewparams: 'groupID:"6"' });
 
-		map.addLayer(pocraDBTLayer);
-		this.getDBTVectorLayer(activityId);
+			map.addLayer(pocraDBTLayer);
+			this.getDBTVectorLayer(activityId);
+			// wmsSource.updateParams({ENV:'key1:value1;key2:value2'});
+			// &viewparams=groupID:6
+		}
+
+
 		// console.log(map.getLayers())
 		// map.addLayer(featurelayer)
 	}
