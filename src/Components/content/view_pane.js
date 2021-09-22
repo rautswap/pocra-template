@@ -309,11 +309,11 @@ const getDataViewProps = state => ({
 const ViewPane = ({gis_data_sections, navigation_request, add_layer, clearGetMap, clearRequest}) => {
 
 	const [state, dispatch] = useReducer(reducer, initialState);
-	console.log(gis_data_sections);
-	console.log(navigation_request);
-	console.log(add_layer);
-	console.log(clearGetMap);
-	console.log(clearRequest);
+	// console.log(gis_data_sections);
+	// console.log(navigation_request);
+	// console.log(add_layer);
+	// console.log(clearGetMap);
+	// console.log(clearRequest);
 
 	useEffect(() => {
 		if (navigation_request === null)

@@ -28,7 +28,7 @@ const reducer = produce((draft, action) => {
 			draft.navigation_request = null;
 			return;
 		case 'get-map':
-			console.log(action);
+			// console.log(action);
 			draft.add_layer = action.payload;
 			return;
 		case 'clear-get-map':
@@ -46,7 +46,7 @@ const Content = () => {
 	const [state, dispatch] = useReducer(reducer, initialState);
 
 	function makeRequest(nav_req) {
-		// console.log(nav_req);
+		console.log(">>>>"+nav_req);
 		dispatch({ type: 'make-navigation-request', payload: nav_req });
 	}
 
@@ -73,7 +73,7 @@ const Content = () => {
 		const fetchGISDataSections = async () => {
 			const response = await fetch(`${process.env.REACT_APP_POCRAGIS_API_BASE_URL}/meta/datasets`);
 			const response_json = await response.json();
-			// console.log(response_json);
+			console.log(response_json);
 			dispatch({
 				type: 'add-gis-data-sections',
 				payload: response_json
@@ -85,6 +85,7 @@ const Content = () => {
 	return (
 		<>
 			<LeftSidebar
+
 				sections={getLeftSidebarProps(state)}
 				makeRequest={makeRequest}
 				content_dispatch={dispatch}

@@ -107,7 +107,6 @@ const DatasetsTreeNode = ({ dtn, hue, level, ancestors, content_dispatch }) => {
 																			<li className="nav-item" key={index + itmn.short_title}>
 
 																				<a onClick={e => {
-																					console.log(itmn);
 																					// content_dispatch({
 																					// 	type: 'get-map',
 																					// 	payload: {
@@ -135,7 +134,6 @@ const DatasetsTreeNode = ({ dtn, hue, level, ancestors, content_dispatch }) => {
 															) :
 																<li className="nav-item" key={index + title}>
 																	<a className="nav-link" onClick={e => {
-																		console.log(subItems);
 																		// content_dispatch({
 																		// 	type: 'get-map',
 																		// 	payload: {

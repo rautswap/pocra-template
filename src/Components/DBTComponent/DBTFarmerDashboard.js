@@ -293,10 +293,10 @@ export default class DBTFarmerDashboard extends Component {
 								scale:1,
 								textBaseline: 'bottom',
 								fill: new Fill({
-									color: 'rgba(0,0,0,2)'
+									color: '#ffffff'
 								}),
 								stroke: new Stroke({
-									color: 'rgba(255,255,255,2)',
+									color: '#5151c8',
 									width: 3
 								})
 							}),

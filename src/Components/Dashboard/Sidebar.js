@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import "./Sidebar.css"
 import Content from '../content'
-import { Link } from 'react-router-dom'
-export default class Sidebar extends Component {
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";export default class Sidebar extends Component {
 
     render() {
         const items = [
@@ -13,7 +12,7 @@ export default class Sidebar extends Component {
             {
                 name: '',
                 label: 'DBT',
-                css: 'nav-icon fas fa-seedling',
+                css: 'nav-icon fas fa-rupee-sign',
                 items: [
                     { name: 'dbtfarmer', label: 'Farmer', css: 'nav-icon fas fa-tractor' },
                     { name: 'crm', label: 'Community', css: 'nav-icon fas fa-users' },
@@ -87,13 +86,9 @@ export default class Sidebar extends Component {
                                                                 </>) : <>
                                                                     <li class="nav-item" key={index + name}>
                                                                     <Link to={"/" + name} class="nav-link"><i class={css}></i>
-                                                                            <p>{label}</p></Link>
-                                                                        {/* <Link to={"/" + name} class="nav-link">
-                                                                            
-                                                                        </Link> */}
+                                                                            <p>{label}</p>
+                                                                            </Link>
                                                                     </li>
-
-
                                                                 </>
                                                             }
                                                         </ul>

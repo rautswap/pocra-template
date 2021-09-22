@@ -19,6 +19,7 @@ function App() {
           <Route path="/forecast" component={Forecast} />
           <Route exact path="/home" component={MainContent} />
           <Route exact path="/dbtfarmer" component={DBTFarmerDashboard} />
+          <Route exact path="/pocra_dashboard" component={MainContent} />
           <Route component={NoFound} />
         </Switch>
         <Footer />

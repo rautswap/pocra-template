@@ -17,22 +17,22 @@ export default class LegendPanel extends Component {
 								<th colSpan={2}> Rainfall (mm)</th>
 							</tr>
 							<tr>
-								<td><img src="dist/legend/forcast1.jpg" height={'30px'} width={'50px'} />  </td>
+								<td><img src="pocra_dashboard/dist/legend/forcast1.jpg" height={'30px'} width={'50px'} />  </td>
 
 								<td>{this.props.props.rain1} - {this.props.props.rain2} </td>
 							</tr>
 							<tr>
-								<td><img src="dist/legend/forcast2.jpg" height={'30px'} width={'50px'} />  </td>
+								<td><img src="pocra_dashboard/dist/legend/forcast2.jpg" height={'30px'} width={'50px'} />  </td>
 
 								<td>{this.props.props.rain2 + 0.1} - {this.props.props.rain3} </td>
 							</tr>
 							<tr>
-								<td><img src="dist/legend/forcast3.jpg" height={'30px'} width={'50px'} />  </td>
+								<td><img src="pocra_dashboard/dist/legend/forcast3.jpg" height={'30px'} width={'50px'} />  </td>
 
 								<td>{this.props.props.rain3 + 0.1} - {this.props.props.rain4} </td>
 							</tr>
 							<tr>
-								<td><img src="dist/legend/forcast4.jpg" height={'30px'} width={'50px'} />  </td>
+								<td><img src="pocra_dashboard/dist/legend/forcast4.jpg" height={'30px'} width={'50px'} />  </td>
 
 								<td>{this.props.props.rain4 + 0.1} and above </td>
 							</tr>
