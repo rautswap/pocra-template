@@ -370,7 +370,7 @@ export default class DBTFarmerDashboard extends Component {
 				params: {
 					'LAYERS': 'PoCRA_Dashboard:' + layerName,
 					'TILED': true,
-					'env': "propname:no_of_application;appl_1:" + (parseInt(initialActivity[0].appl_1)) + ";appl_2:" + (parseInt(initialActivity[0].appl_2)) + ";appl_3:" + (parseInt(initialActivity[0].appl_3)) + ";appl_4:" + (parseInt(initialActivity[0].appl_4)) + ";appl_5:" + (parseInt(initialActivity[0].appl_5)),
+					'env': "propname:no_of_application;labelName:dtnname;appl_1:" + (parseInt(initialActivity[0].appl_1)) + ";appl_2:" + (parseInt(initialActivity[0].appl_2)) + ";appl_3:" + (parseInt(initialActivity[0].appl_3)) + ";appl_4:" + (parseInt(initialActivity[0].appl_4)) + ";appl_5:" + (parseInt(initialActivity[0].appl_5))
 				},
 			})
 			pocraDBTLayer = new ImageLayer({
@@ -380,7 +380,6 @@ export default class DBTFarmerDashboard extends Component {
 			map.addLayer(pocraDBTLayer);
 			this.getDBTVectorLayer(activityId);
 		} else {
-			console.log("propname:no_of_application;appl_1:" + (parseInt(initialActivity[0].appl_1)) + ";appl_2:" + (parseInt(initialActivity[0].appl_2)) + ";appl_3:" + (parseInt(initialActivity[0].appl_3)) + ";appl_4:" + (parseInt(initialActivity[0].appl_4)) + ";appl_5:" + (parseInt(initialActivity[0].appl_5)))
 			imgSource = new ImageWMS({
 				attributions: ['&copy; DBT PoCRA'],
 				crossOrigin: 'Anonymous',
@@ -390,7 +389,7 @@ export default class DBTFarmerDashboard extends Component {
 				params: {
 					'LAYERS': 'PoCRA_Dashboard:' + layerName,
 					'TILED': true,
-					'env': "propname:no_of_application;appl_1:" + (parseInt(initialActivity[0].appl_1)) + ";appl_2:" + (parseInt(initialActivity[0].appl_2)) + ";appl_3:" + (parseInt(initialActivity[0].appl_3)) + ";appl_4:" + (parseInt(initialActivity[0].appl_4)) + ";appl_5:" + (parseInt(initialActivity[0].appl_5)),
+					'env': "propname:no_of_application;labelName:dtnname;appl_1:" + (parseInt(initialActivity[0].appl_1)) + ";appl_2:" + (parseInt(initialActivity[0].appl_2)) + ";appl_3:" + (parseInt(initialActivity[0].appl_3)) + ";appl_4:" + (parseInt(initialActivity[0].appl_4)) + ";appl_5:" + (parseInt(initialActivity[0].appl_5)),
 					// 'CQL_FILTER': indate
 					'viewparams': "groupID:" + activityId
 				},
