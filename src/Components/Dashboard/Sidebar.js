@@ -10,7 +10,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
             // { name: 'soilcard', css: 'nav-icon fas fa-copy', label: 'मृद आरोग्य पत्रिका ' },
             // { name: 'dbt', css: 'nav-icon fas fa-tachometer-alt', label: 'PoCRA DBT' },
             {
-                name: '',
+                name: '#',
                 label: 'DBT',
                 css: 'nav-icon fas fa-rupee-sign',
                 items: [
@@ -64,7 +64,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
                                                             {
                                                                 Array.isArray(itm) ? (<>
                                                                     <li class="nav-item has-treeview">
-                                                                        <Link to={"/" + name} class="nav-link">
+                                                                        <Link  class="nav-link">
                                                                             <i class={css}></i>
                                                                             <p>
                                                                                 {label}

@@ -50,3 +50,10 @@
     flex: 1 1 auto;
     padding: 0.5rem 0.5rem !important; 
 }
+
+.select2-selection__rendered{
+	font-size: 14px;
+}
+.margin2{
+	margin-left: 1%;
+}

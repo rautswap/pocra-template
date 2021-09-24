@@ -24,18 +24,24 @@ import DBTPieChart from './DBTPieChart';
 import Point from 'ol/geom/Point';
 import { Fill, Stroke, RegularShape, Circle, Icon, Text, Style } from 'ol/style';
 import LegendPanelDashboard from './LegendPanelDashboard';
-
+import $ from 'jquery';
+import select from "select2";
+import { act } from 'react-dom/test-utils';
 var view = "", map;
 let pocraDBTLayer;
 var featurelayer; var a = new Array();
 var thing;
-var vectorSource;
+var vectorSource,geojson;
 export default class DBTFarmerDashboard extends Component {
 
 	constructor(props) {
 		super(props)
 		this.state = {
-			lat: 0, lon: 0, no_of_application: 0, districtName: "",
+			headerLabel: "",
+			lat: 0,
+			lon: 0,
+			no_of_application: 0,
+			districtName: "",
 			classValues: {
 				appl_1: 0,
 				appl_2: 0,
@@ -43,18 +49,38 @@ export default class DBTFarmerDashboard extends Component {
 				appl_4: 0,
 				appl_5: 0,
 			},
-			activity: [
+			// activity: [
 
+			// ],
+			activity: [
+				[{
+					label: 'Activity'
+				}]
 			],
 			district: [
-
+				[{
+					label: 'District'
+				}]
 			],
 			taluka: [
-
+				[{
+					label: 'Taluka'
+				}]
 			],
 			village: [
-
+				[{
+					label: 'Village'
+				}]
 			],
+			// district: [
+
+			// ],
+			// taluka: [
+
+			// ],
+			// village: [
+
+			// ],
 			genderSelect: [
 				{ value: 'm', label: 'Male' },
 				{ value: 'f', label: 'Female' },
@@ -79,6 +105,8 @@ export default class DBTFarmerDashboard extends Component {
 			category: {
 
 			}
+
+
 		}
 
 
@@ -142,7 +170,7 @@ export default class DBTFarmerDashboard extends Component {
 		// 
 
 		view = new View({
-			zoom: 7.5,
+			zoom: 7.2,
 			center: transform([77.50, 18.95], 'EPSG:4326', 'EPSG:3857'),
 		});
 
@@ -162,17 +190,23 @@ export default class DBTFarmerDashboard extends Component {
 		this.getCategoryApplicationCount = this.getCategoryApplicationCount.bind(this)
 		this.loadMap = this.loadMap.bind(this);
 		this.getDBTVectorLayer = this.getDBTVectorLayer.bind(this);
+		this.updateHeaderLabel = this.updateHeaderLabel.bind(this);
 	}
+
 
 	componentDidMount() {
 		// this.getDBTLayerClassValues();
 		map.setTarget("map");
+		this.loadMap1();
 		this.getDistrict();
 		this.getFarmerActivity();
-		this.getCategoryApplicationCount({
-			value: 'All'
-		});
+		this.updateHeaderLabel();
+		
 
+		// $(function () {
+		//Initialize Select2 Elements
+		// $('.select2').select2();
+		// })
 		// this.styleFunction = (feature) => {
 		// 	this.style.getText().setText(feature.get('no_of_application'));
 		// 	return this.style;
@@ -220,9 +254,9 @@ export default class DBTFarmerDashboard extends Component {
 
 	}
 
+
+
 	getDBTVectorLayer(activityId) {
-
-
 		if (vectorSource) {
 
 		}
@@ -240,7 +274,7 @@ export default class DBTFarmerDashboard extends Component {
 						districtName: activities.district
 					})
 					var feature = new Feature({
-						geometry: new Point(transform([parseFloat(this.state.lat) , parseFloat(this.state.lon)], 'EPSG:4326', 'EPSG:3857')),
+						geometry: new Point(transform([parseFloat(this.state.lat), parseFloat(this.state.lon)], 'EPSG:4326', 'EPSG:3857')),
 						no_of_application: this.state.no_of_application,
 						district: this.state.districtName
 					});
@@ -284,13 +318,13 @@ export default class DBTFarmerDashboard extends Component {
 					style: (feature) => {
 						return new Style({
 							text: new Text({
-								
+
 								text: '' + feature.get('no_of_application') + '',
 								font: '12px Calibri,sans-serif',
 								offsetY: -10,
 								offsetX: 15,
 								// align: 'center',
-								scale:1,
+								scale: 1,
 								textBaseline: 'bottom',
 								fill: new Fill({
 									color: '#ffffff'
@@ -346,7 +380,39 @@ export default class DBTFarmerDashboard extends Component {
 
 	}
 
+	// componentDidUpdate() {
+	// 	var activity="";
+	// 	activity=document.getElementById("activity").value;
+	// 	console.log(activity)
+	// }
+	 loadMap1() {
 
+		if (geojson) {
+			map.removeLayer(geojson);
+		}
+	
+		var url = "http://gis.mahapocra.gov.in/geoserver/PoCRA_Dashboard/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=Taluka&outputFormat=application/json";
+		geojson = new Vector({
+			title: "Taluka",
+			source: new VectorSource({
+				url: url,
+				format: new GeoJSON()
+			}),
+		});
+		geojson.getSource().on('addfeature', function() {
+			//alert(geojson.getSource().getExtent());
+			map.getView().fit(
+				geojson.getSource().getExtent(), { duration: 1590, size: map.getSize() - 100 }
+			);
+		});
+	
+	
+		map.addLayer(geojson);
+		this.getCategoryApplicationCount({
+			target: { value: 'All' }
+
+		});
+	}
 	loadMap = (initialActivity, layerName, activityId) => {
 
 		let viewMap = map.getView();
@@ -429,17 +495,18 @@ export default class DBTFarmerDashboard extends Component {
 				});
 				this.setState({
 
-					activity: [
-						initialActivity,
-					],
+					// activity: [
+					// 	initialActivity,
+					// ], 
+					activity: [initialActivity]
+
+
 				});
 
 			});
 
 
 	}
-
-
 	getDistrict() {
 		let initialDistrict = [];
 		fetch('http://gis.mahapocra.gov.in/weatherservices/meta/districts')
@@ -449,22 +516,25 @@ export default class DBTFarmerDashboard extends Component {
 				// console.log(data)
 				initialDistrict = data.district.map((district) => {
 					return district = {
-						label: district.dtnname,
+						label: district.dtename,
 						value: district.dtncode,
 					}
 				});
 				this.setState({
-					district: [
-						initialDistrict
-					]
+					// district: [
+					// 	initialDistrict
+					// ], 
+					district: [initialDistrict]
 				});
 
 			});
 
 	}
 
-	getTaluka = (districtCode) => {
 
+	getTaluka(event) {
+		this.updateHeaderLabel();
+		var districtCode = event.target.value;
 		let initialTaluka = [];
 
 		fetch('http://gis.mahapocra.gov.in/weatherservices/meta/dtaluka?dtncode=' + districtCode)
@@ -473,22 +543,22 @@ export default class DBTFarmerDashboard extends Component {
 			}).then(data => {
 				initialTaluka = data.taluka.map((taluka) => {
 					return taluka = {
-						label: taluka.thnname,
+						label: taluka.thename,
 						value: taluka.thncode,
 					}
 				});
 				this.setState({
 					...this.state,
+					// 
 					taluka: [
 						initialTaluka
-					],
-
+					]
 				});
 			});
 	}
 
-	getVillage = (talukaCode) => {
-
+	getVillage(event) {
+		var talukaCode = event.target.value;
 		let initialVillage = [];
 
 		fetch('http://gis.mahapocra.gov.in/weatherservices/meta/village?thncode=' + talukaCode)
@@ -497,24 +567,24 @@ export default class DBTFarmerDashboard extends Component {
 			}).then(data => {
 				initialVillage = data.village.map((village) => {
 					return village = {
-						label: village.vinname,
+						label: village.vinename,
 						value: village.vincode,
 					}
 				});
 				this.setState({
 					...this.state,
-					village: [
-						initialVillage
-					],
+					// village: [
+					// 	initialVillage
+					// ],
+					village: [initialVillage]
 
 				});
 			});
 
 	}
 
-	getCategoryApplicationCount(event) {
-
-		let activityValue = event.value;
+	getCategoryApplicationCount() {
+		let activityValue = document.getElementById("activity").value;
 
 		this.getDBTLayerClassValues(activityValue);
 		var genderData = [], categoryData = [], farmerTypeData = [];
@@ -554,13 +624,38 @@ export default class DBTFarmerDashboard extends Component {
 				});
 
 			});
+		this.updateHeaderLabel();
+	}
+
+	updateHeaderLabel() {
+		var activity = document.getElementById("activity").value;
+		console.log(activity)
+		var district = document.getElementById("district").value;
+		console.log(district)
+		var taluka = document.getElementById("taluka").value;
+		console.log(taluka)
+		var village = document.getElementById("village").value;
+		console.log(village)
+
+
+		this.setState({
+			headerLabel: "Total Application | Activity : " + activity + " District : " + district + " Taluka : " + taluka + " Village :" + village
+		})
+
+		if (activity === "All" && district === "All") {
+			console.log(activity + ">" + district)
+		} else if (activity != "All" && district === "All") {
+			console.log(activity + ">" + district)
+		} else if (activity === "All" && district != "All") {
+			console.log(activity + ">" + district)
+		} else if (activity != "All" && district != "All") {
+			console.log(activity + ">" + district)
+		}
 
 	}
 
 
-
 	render() {
-
 		return (
 			<div>
 				<div className="content-wrapper">
@@ -571,7 +666,7 @@ export default class DBTFarmerDashboard extends Component {
 								{/* SELECT2 EXAMPLE */}
 								<div className="card card-default" style={{ marginTop: "0.5%" }}>
 									<div className="card-header">
-										<h3 className="card-title">DBT Farmer Dashboard</h3>
+										<h3 className="card-title">Farmer Activity</h3>
 										{/* <div className="card-tools">
 											<button type="button" className="btn btn-tool" data-card-widget="collapse"><i className="fas fa-minus" /></button>
 											<button type="button" className="btn btn-tool" data-card-widget="remove"><i className="fas fa-times" /></button>
@@ -581,132 +676,119 @@ export default class DBTFarmerDashboard extends Component {
 									<div className="card-body">
 										<div className="row">
 											<div className="col-md-12">
-												<form className="form-inline">
-													<div className="form-group" >
-														<Select className="selectlabel-lg" placeholder="Select Activity"
-															onChange={this.getCategoryApplicationCount}
-															options={this.state.activity[0]}
-														/>
+												<div className="form-group form-inline">
+													<select className="form-control  select2" style={{ width: "15%", fontSize: "14px", wordWrap: "normal" }} onChange={this.getCategoryApplicationCount} id="activity" >
+														<option value="All">Activity</option>
+														{
+															this.state.activity[0].map(activity => {
+																return <option value={activity.value} >{activity.label}</option>
+															})
+														}
 
-													</div>
-													<div className="form-group" >
-														<Select className="selectlabel" placeholder="Select District"
-															options={this.state.district[0]}
-															onChange={district => this.getTaluka(district.value)}
-														/>
-													</div>
-													<div className="form-group" >
-														<Select className="selectlabel" placeholder="Select Taluka"
-															options={this.state.taluka[0]}
-															onChange={taluka => this.getVillage(taluka.value)}
-														/>
+													</select>
+													<select className="form-control  select2" style={{ width: "15%", fontSize: "14px", marginLeft: "0.2%" }} id="district" onChange={this.getTaluka} >
+														<option value="All" >District</option>
+														{
 
-													</div>
-													<div className="form-group" >
-														<Select className="selectlabel" placeholder="Select Village"
-															options={this.state.village[0]}
-														/>
+															this.state.district[0].map(district => {
+																return <option value={district.value} >{district.label}</option>
+															})
+														}
 
-													</div>
-													<div className="form-group" >
-														<Select className="selectlabel" placeholder="Select Gender"
-															options={this.state.genderSelect}
-														/>
+													</select>
+													<select className=" form-control select2" style={{ width: "15%", fontSize: "14px", marginLeft: "0.2%" }} onChange={this.getVillage} id="taluka">
+														<option value="All" >Taluka</option>
+														{
 
-													</div>
-													<div className="form-group" >
-														<Select className="selectlabel" placeholder="Select Category"
-															options={this.state.social_category}
-														/>
+															this.state.taluka[0].map(taluka => {
+																return <option value={taluka.value} >{taluka.label}</option>
+															})
+														}
 
-													</div>
-													<div className="form-group" >
-														<Select className="selectlabel-lg" placeholder="Select Farmer Type"
-															options={this.state.farm_type}
-														/>
+													</select>
+													<select className="margin2 form-control select2" style={{ width: "15%", fontSize: "14px", marginLeft: "0.2%" }} id="village" >
+														<option value="All" >Village</option>
+														{
+															this.state.village[0].map(village => {
+																return <option value={village.value} >{village.label}</option>
+															})
+														}
 
-													</div>
-												</form>
+													</select>
+												</div>
 											</div>
 										</div>
 									</div>
-									{/* /.card-body */}
-									{/* <div className="card-footer">
-										Visit <a href="https://select2.github.io/">Select2 documentation</a> for more examples and information about
-										the plugin.
-									</div> */}
+
 								</div>
+							</div>{/* /.container-fluid */}
+						</section>
+					</section>
+					<section className="content-header" style={{ marginTop: "-50px" }}>
+						<section className="content">
+							<div className="container-fluid">
+								{/* SELECT2 EXAMPLE */}
+								<div className="card card-default" style={{ marginTop: "0.5%" }}>
+									<div className="card-header">
+										<h3 className="card-title">{this.state.headerLabel}</h3>
+										<div className="card-tools">
+											<button type="button" className="btn btn-tool" data-card-widget="collapse"><i className="fas fa-minus" /></button>
+											{/* <button type="button" className="btn btn-tool" data-card-widget="remove"><i className="fas fa-times" /></button> */}
+										</div>
+									</div>
+									{/* /.card-header */}
+									<div className="card-body">
+										<div className="row">
+											<div className="col-md-12" id="map" style={{ height: "70vh", width: "100%" }}>
+											</div>
+											<div id={"legend"} className="box stack-top">
+												<LegendPanelDashboard props={this.state.classValues} />
+											</div>
+										</div>
+									</div>
 
+								</div>
+							</div>{/* /.container-fluid */}
+						</section>
+					</section>
+					<section className="content-header" style={{ marginTop: "-50px" }}>
+						<section className="content">
+							<div className="container-fluid">
+								{/* SELECT2 EXAMPLE */}
+								<div className="card card-default" style={{ marginTop: "0.5%" }}>
+									<div className="card-header">
+										<h3 className="card-title">Total No. of Application</h3>
+										<div className="card-tools">
+											<button type="button" className="btn btn-tool" data-card-widget="collapse"><i className="fas fa-minus" /></button>
+											{/* <button type="button" className="btn btn-tool" data-card-widget="remove"><i className="fas fa-times" /></button> */}
+										</div>
+									</div>
+									{/* /.card-header */}
+									<div className="card-body">
+										<div className="row">
+											<DBTPieChart pieChartProps={{
+												activityLabel: "Gender",
+												activity: "Farmer",
+												data: this.state.gender
+											}} />
+											<DBTPieChart pieChartProps={{
+												activityLabel: "Social Category",
+												activity: "Social",
+												data: this.state.category
+											}} />
+											<DBTPieChart pieChartProps={{
+												activityLabel: "Farmer Type",
+												activity: "Farmer",
+												data: this.state.farmerType
+											}} />
 
-
+										</div>
+									</div>
+								</div>
 							</div>{/* /.container-fluid */}
 						</section>
 					</section>
 
-
-
-					{/* Main content */}
-					<section className="content" style={{ marginTop: "-24px" }} >
-						{/* Default box */}
-						<div className="card card-solid">
-							<div className="card-body">
-								<div className="row mb-2" >
-									<div className="col-12" id="map" style={{ height: "60vh", width: "100%" }}>
-									</div>
-									<div id={"legend"} className="box stack-top">
-
-										<LegendPanelDashboard props={this.state.classValues} />
-									</div>
-								</div>
-							</div>
-
-							{/* /.card-body */}
-						</div>
-						{/* /.card */}
-					</section>
-					<section className="content"  >
-						<div className="card card-solid">
-							<div className="card-body">
-								<div className="row" >
-
-
-									{/* <section className="col-md-4">
-										<div className="card">
-											<div className="card-header">
-												<h3 className="card-title">
-													<i className="fas fa-restroom"></i> DBT Distribution as per Gender
-												</h3>
-												<div className="card-tools">
-													<button type="button" className="btn btn-tool" data-card-widget="collapse"><i className="fas fa-minus"></i>
-													</button>
-												</div>
-											</div>
-											
-											<div className="card-body">
-												<DBTPieChart />
-											</div>
-										</div>
-									</section> */}
-									<DBTPieChart pieChartProps={{
-										activityLabel: "Gender",
-										activity: "Farmer",
-										data: this.state.gender
-									}} />
-									<DBTPieChart pieChartProps={{
-										activityLabel: "Social Category",
-										activity: "Social",
-										data: this.state.category
-									}} />
-									<DBTPieChart pieChartProps={{
-										activityLabel: "Farmer Type",
-										activity: "Farmer",
-										data: this.state.farmerType
-									}} />
-								</div>
-							</div>
-						</div>
-					</section>
-					{/* /.content */}
 				</div>
 
 			</div>
