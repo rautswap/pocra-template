@@ -185,7 +185,7 @@ export default class MainContent extends Component {
                     </section>
                     {/* /.content */}
                 </div>
-                <Content1 />
+                {/* <Content1 /> */}
             </div>
         )
     }
