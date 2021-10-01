@@ -15,7 +15,7 @@ export default class LegendPanelDashboard extends Component {
 						<th colSpan={2} className="borber" > Legend</th>
 					</tr>
 					<tr>
-						<th colSpan={2}> No of Applications</th>
+						<th colSpan={2}> {this.props.props.legendLabel}</th>
 					</tr>
 					<tr>
 						<td><img src="pocra_dashboard/dist/legend/appl_1.png" height={'20px'} width={'25px'} />  </td>

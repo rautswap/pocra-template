@@ -98,6 +98,8 @@ export default class DBTPieChart extends Component {
 				// 	"<br/>Total Application  : " + this.state.total
 			},
 			tooltip: {
+				// pointFormat:
+				// 	"{series.name}: <b>{point.percentage:.1f}% <br>Count: {point.y}</b>",
 				pointFormat: '{series.name}: <b>{point.y:.0f}</b>'
 			},
 			accessibility: {
@@ -161,7 +163,7 @@ export default class DBTPieChart extends Component {
 					<div className="card">
 						<div className="card-header">
 							<h6 className="card-title">
-								<i className="fas fa-users"> </i> {this.props.pieChartProps.activityLabel}
+								<i className="fas fa-users"> </i> <b>{this.props.pieChartProps.activityLabel}</b>
 							</h6>
 							<div className="card-tools">
 								<button type="button" className="btn btn-tool" data-card-widget="collapse"><i className="fas fa-minus"></i>
