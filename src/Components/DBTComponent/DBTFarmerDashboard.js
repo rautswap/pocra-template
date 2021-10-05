@@ -31,7 +31,7 @@ var view = "", map;
 let pocraDBTLayer;
 var featurelayer; var a = new Array();
 var thing;
-var vectorSource, geojson;
+var vectorSource, geojson, talukaLayer;
 var imgSource = new ImageWMS({});
 export default class DBTFarmerDashboard extends Component {
 
@@ -111,13 +111,15 @@ export default class DBTFarmerDashboard extends Component {
 			type: 'scalebar',
 			bar: true,
 			steps: 2,
-			minWidth: 80
+			minWidth: 80,
+			text:'S'
 		});
 		this.mouse = new MousePosition({
 			projection: 'EPSG:4326',
 			coordinateFormat: function (coordinate) {
-				return format(coordinate, "&nbsp;&nbsp; Latitude : {y}, &nbsp;&nbsp; Longitude: {x} &nbsp;&nbsp;", 4);
-			}
+				return format(coordinate, "&nbsp;&nbsp; Lat : {y}, &nbsp;&nbsp; Long: {x} &nbsp;&nbsp;", 6);
+			},
+			placeholder:'&nbsp;&nbsp; Mouse Position'
 		});
 
 		var topo = new TileLayer({
@@ -477,8 +479,8 @@ export default class DBTFarmerDashboard extends Component {
 
 								text: '' + feature.get('no_of_application') + '',
 								font: '12px Calibri,sans-serif',
-								offsetY: 15,
-								offsetX: 25,
+								offsetY: 10,
+								offsetX: 10,
 								align: 'bottom',
 								scale: 1,
 								// textBaseline: 'bottom',
@@ -514,11 +516,11 @@ export default class DBTFarmerDashboard extends Component {
 				// console.log(data)
 				var labelValue = "";
 				if (applicationFor === "no_of_application") {
-					labelValue = "No. of Applications";
+					labelValue = "Total Applications";
 				} else if (applicationFor === "no_of_paymentdone") {
-					labelValue = "No. of Payment Done";
+					labelValue = "Total Payments Done";
 				} else if (applicationFor === "no_of_registration") {
-					labelValue = "No. of Registration";
+					labelValue = "Total Registration";
 				}
 				initialActivity = data.activity.map((activities) => {
 					// console.log(activities.appl_1)
@@ -561,6 +563,14 @@ export default class DBTFarmerDashboard extends Component {
 				return response.json();
 			}).then(data => {
 				// console.log(data)
+				var labelValue = "";
+				if (applicationFor === "no_of_application") {
+					labelValue = "Total Applications";
+				} else if (applicationFor === "no_of_paymentdone") {
+					labelValue = "Total Payments Done";
+				} else if (applicationFor === "no_of_registration") {
+					labelValue = "Total Registration";
+				}
 				initialActivity = data.activity.map((activities) => {
 					// console.log(activities.appl_1)
 					this.setState(prev => ({
@@ -598,8 +608,14 @@ export default class DBTFarmerDashboard extends Component {
 			.then(response => {
 				return response.json();
 			}).then(data => {
-				console.log(data)
-				initialActivity = data.activity.map((activities) => {
+				var labelValue = "";
+				if (applicationFor === "no_of_application") {
+					labelValue = "Total Applications";
+				} else if (applicationFor === "no_of_paymentdone") {
+					labelValue = "Total Payments Done";
+				} else if (applicationFor === "no_of_registration") {
+					labelValue = "Total Registration";
+				} initialActivity = data.activity.map((activities) => {
 					// console.log(activities.appl_1)
 					this.setState(prev => ({
 						classValues: {
@@ -627,7 +643,9 @@ export default class DBTFarmerDashboard extends Component {
 		if (geojson) {
 			map.removeLayer(geojson);
 		}
-
+		if (talukaLayer) {
+			map.removeLayer(talukaLayer);
+		}
 		var url = "http://gis.mahapocra.gov.in/geoserver/PoCRA_Dashboard/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=District&outputFormat=application/json";
 		geojson = new Vector({
 			title: "Taluka",
@@ -663,6 +681,9 @@ export default class DBTFarmerDashboard extends Component {
 		}
 		if (imgSource) {
 			map.removeLayer(imgSource);
+		}
+		if (talukaLayer) {
+			map.removeLayer(talukaLayer);
 		}
 		if (activityId === 'All') {
 			imgSource = new ImageWMS({
@@ -743,6 +764,9 @@ export default class DBTFarmerDashboard extends Component {
 		if (imgSource) {
 			map.removeLayer(imgSource);
 		}
+		if (talukaLayer) {
+			map.removeLayer(talukaLayer);
+		}
 		let viewMap = map.getView();
 		let extent = viewMap.calculateExtent(map.getSize());
 		//hold the current resolution
@@ -811,7 +835,7 @@ export default class DBTFarmerDashboard extends Component {
 		}
 		// districtCode:" + paramValue
 
-		var url = "http://gis.mahapocra.gov.in/geoserver/PoCRA_Dashboard/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=Village&CQL_FILTER=thncode+ILike+'" + talukaCode + "'&outputFormat=application/json";
+		var url = "http://gis.mahapocra.gov.in/geoserver/PoCRA_Dashboard/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=Taluka&CQL_FILTER=thncode+ILike+'" + talukaCode + "'&outputFormat=application/json";
 		geojson = new Vector({
 			title: "Village",
 			source: new VectorSource({
@@ -842,6 +866,11 @@ export default class DBTFarmerDashboard extends Component {
 		if (pocraDBTLayer) {
 			map.removeLayer(pocraDBTLayer);
 		}
+		if (talukaLayer) {
+			map.removeLayer(talukaLayer);
+		}
+
+
 
 		if (activityId === 'All') {
 			imgSource = new ImageWMS({
@@ -881,8 +910,25 @@ export default class DBTFarmerDashboard extends Component {
 				title: "DBT PoCRA",
 				source: imgSource
 			});
+
 			map.addLayer(pocraDBTLayer);
 		}
+		talukaLayer = new ImageLayer({
+			title: "DBT PoCRA",
+			source: new ImageWMS({
+				attributions: ['&copy; DBT PoCRA'],
+				crossOrigin: 'Anonymous',
+				serverType: 'geoserver',
+				visible: true,
+				url: "http://gis.mahapocra.gov.in/geoserver/PoCRA_Dashboard/wms?",
+				params: {
+					'LAYERS': 'PoCRA_Dashboard:Taluka',
+					'TILED': true,
+					'CQL_FILTER': "thncode='" + talukaCode + "'"
+				},
+			})
+		});
+		map.addLayer(talukaLayer);
 	}
 
 
@@ -1132,36 +1178,46 @@ export default class DBTFarmerDashboard extends Component {
 			applicationFor = "no_of_paymentdone";
 		}
 		this.setState({
-			headerLabel: "Total Application | Activity : " + activity.options[activity.selectedIndex].text
+			headerLabel: "Total Applications | Activity : " + activity.options[activity.selectedIndex].text
 			// + "( " + this.state.total + " )"
 			// + " District : " + district + " Taluka : " + taluka + " Village :" + village
 		})
 
-		if (activity.value === "All" && district === "All" && taluka === 'All') {
+		if (activity.value === "All" && district === "All" && taluka === 'All' && village == 'All') {
 			this.getDBTVectorLayerDistrict(activity.value, applicationFor);
 			this.getDBTLayerClassValues(activity.value, applicationFor);
 			this.getCategoryApplicationCount(activity.value, district, "All", "All");
-		} else if (activity.value != "All" && district === "All" && taluka === 'All') {
+		} else if (activity.value != "All" && district === "All" && taluka === 'All' && village == 'All') {
 			this.getDBTVectorLayerDistrict(activity.value, applicationFor);
 			this.getDBTLayerClassValues(activity.value, applicationFor);
 			this.getCategoryApplicationCount(activity.value, district, "All", "All");
-		} else if (activity.value === "All" && district != "All" && taluka === 'All') {
+		} else if (activity.value === "All" && district != "All" && taluka === 'All' && village == 'All') {
 			this.getDBTVectorLayerTaluka(activity.value, district, applicationFor);
 			this.getDBTLayerClassValuesTaluka(activity.value, district, applicationFor);
 			this.getCategoryApplicationCount(activity.value, district, "All", "All");
-		} else if (activity.value != "All" && district != "All" && taluka === 'All') {
+		} else if (activity.value != "All" && district != "All" && taluka === 'All' && village == 'All') {
 			this.getDBTVectorLayerTaluka(activity.value, district, applicationFor);
 			this.getDBTLayerClassValuesTaluka(activity.value, district, applicationFor);
 			this.getCategoryApplicationCount(activity.value, district, "All", "All");
-		} else if (activity.value === "All" && district != "All" && taluka != 'All') {
+		} else if (activity.value === "All" && district != "All" && taluka != 'All' && village == 'All') {
 
 			this.getDBTVectorLayerVillage(activity.value, district, taluka, applicationFor);
 			this.getDBTLayerClassValuesVillage(activity.value, district, taluka, applicationFor);
 			this.getCategoryApplicationCount(activity.value, district, taluka, "All");
-		} else if (activity.value != "All" && district != "All" && taluka != 'All') {
+		} else if (activity.value != "All" && district != "All" && taluka != 'All' && village == 'All') {
 			this.getDBTVectorLayerVillage(activity.value, district, taluka, applicationFor);
 			this.getDBTLayerClassValuesVillage(activity.value, district, taluka, applicationFor);
 			this.getCategoryApplicationCount(activity.value, district, taluka, "All");
+		} else if (activity.value == "All" && district != "All" && taluka != 'All' && village != 'All') {
+			// alert("1")
+			// this.getDBTVectorLayerVillage(activity.value, district, taluka, applicationFor);
+			// this.getDBTLayerClassValuesVillage(activity.value, district, taluka, applicationFor);
+			this.getCategoryApplicationCount(activity.value, district, taluka, village);
+		} else if (activity.value != "All" && district != "All" && taluka != 'All' && village != 'All') {
+			// alert("2")
+			// this.getDBTVectorLayerVillage(activity.value, district, taluka, applicationFor);
+			// this.getDBTLayerClassValuesVillage(activity.value, district, taluka, applicationFor);
+			this.getCategoryApplicationCount(activity.value, district, taluka, village);
 		}
 
 	}
@@ -1258,11 +1314,11 @@ export default class DBTFarmerDashboard extends Component {
 									{/* /.card-header */}
 									<div className="card-body">
 										<div className="row">
-											<section className="content col-3" style={{ position: "absolute", zIndex: "9", top: "8%", left: "1%" }}>
+											<section className="content col-2" style={{ position: "absolute", zIndex: "9", top: "8%", left: "1%" }}>
 												<div className="container-fluid">
 													{/* SELECT2 EXAMPLE */}
 													<div className="card card-default" style={{ marginTop: "0.5%" }}>
-														<div className="card-header">
+														<div className="card-header" >
 															<h3 className="card-title"><b>Applications</b></h3>
 															<div className="card-tools">
 																<button type="button" className="btn btn-tool" data-card-widget="collapse"><i className="fas fa-minus" /></button>
@@ -1286,15 +1342,15 @@ export default class DBTFarmerDashboard extends Component {
 
 																				<div class="custom-control custom-radio">
 																					<input class="custom-control-input" type="radio" id="customRadio1" name="customRadio" onChange={this.updateHeaderLabel} />
-																					<label for="customRadio1" class="custom-control-label" >No. of Applications</label>
+																					<label for="customRadio1" class="custom-control-label" >Total Applications</label>
 																				</div>
 																				<div class="custom-control custom-radio">
 																					<input class="custom-control-input" type="radio" id="customRadio2" name="customRadio" onChange={this.updateHeaderLabel} />
-																					<label for="customRadio2" class="custom-control-label">No. of Registrations</label>
+																					<label for="customRadio2" class="custom-control-label">Total Registrations</label>
 																				</div>
 																				<div class="custom-control custom-radio">
 																					<input class="custom-control-input" type="radio" id="customRadio3" name="customRadio" onChange={this.updateHeaderLabel} />
-																					<label for="customRadio3" class="custom-control-label">No. of Payment Done</label>
+																					<label for="customRadio3" class="custom-control-label">Total Payments Done</label>
 																				</div>
 																			</div>
 																		</div>
@@ -1328,7 +1384,7 @@ export default class DBTFarmerDashboard extends Component {
 								{/* SELECT2 EXAMPLE */}
 								<div className="card card-default" style={{ marginTop: "0.5%" }}>
 									<div className="card-header">
-										<h3 className="card-title"><b>Total No. of Application</b></h3>
+										<h3 className="card-title"><b>Total Applications</b></h3>
 										<div className="card-tools">
 											<button type="button" className="btn btn-tool" data-card-widget="collapse"><i className="fas fa-minus" /></button>
 											{/* <button type="button" className="btn btn-tool" data-card-widget="remove"><i className="fas fa-times" /></button> */}

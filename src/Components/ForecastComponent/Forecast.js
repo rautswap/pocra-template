@@ -9,7 +9,7 @@ import XYZ from 'ol/source/XYZ';
 import { ScaleLine, MousePosition, defaults as defaultControls } from 'ol/control';
 import { format } from 'ol/coordinate';
 import { transform } from 'ol/proj';
-import { Image as ImageLayer, Tile as TileLayer } from 'ol/layer';
+import { Image as ImageLayer, Tile as TileLayer, Vector } from 'ol/layer';
 import TileWMS from 'ol/source/TileWMS'
 import ImageWMS from 'ol/source/ImageWMS'
 import Moment from 'moment';
@@ -22,7 +22,7 @@ import LegendPanel from './LegendPanel';
 let startDate = "", sdate = "";
 let frameRate = 0.5; // frames per second
 let animationId = null, imdlayer, MahaDist, minimumDate;
-var view = "",map;
+var view = "", map;
 let rain_class1, rain_class2, rain_class3, rain_class4, rain_class5, maxrainfall;
 var geojson;
 var propertyName;
@@ -132,7 +132,7 @@ class Forecast extends Component {
 	componentDidMount() {
 
 		map.setTarget("map");
-
+		this.loadMap1();
 		this.getForecastData();
 		const overlay = new Overlay({
 			element: ReactDOM.findDOMNode(this).querySelector('#popup'),
@@ -381,8 +381,8 @@ class Forecast extends Component {
 	};
 	nextTime() {
 		console.log(this.state)
-		var enddate=new Date(this.state.maxdate);
-		var end=new Date(enddate.getTime() + 24 * 60 * 60 * 1000);
+		var enddate = new Date(this.state.maxdate);
+		var end = new Date(enddate.getTime() + 24 * 60 * 60 * 1000);
 		var edate = Moment(end).format('DD-MM-YYYY')
 		startDate = new Date(this.state.mindate);
 		startDate = new Date(startDate.getTime() + 24 * 60 * 60 * 1000);
@@ -450,7 +450,34 @@ class Forecast extends Component {
 			})
 		}
 	}
+	loadMap1() {
 
+		if (geojson) {
+			map.removeLayer(geojson);
+		}
+
+		var url = "http://gis.mahapocra.gov.in/geoserver/PoCRA_Dashboard/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=District&outputFormat=application/json";
+		geojson = new Vector({
+			title: "Taluka",
+			source: new VectorSource({
+				url: url,
+				format: new GeoJSON()
+			}),
+		});
+		geojson.getSource().on('addfeature', function () {
+			//alert(geojson.getSource().getExtent());
+			map.getView().fit(
+				geojson.getSource().getExtent(), { duration: 1590, size: map.getSize() - 100 }
+			);
+		});
+
+
+		map.addLayer(geojson);
+		// this.getCategoryApplicationCount({
+		// 	target: { value: 'All' }
+
+		// });
+	}
 
 
 	render() {

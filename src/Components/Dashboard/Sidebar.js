@@ -22,15 +22,15 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
             }
         ]
         return (
-            <div>
-                <aside className="main-sidebar sidebar-dark-primary elevation-4">
+           
+                <aside className="main-sidebar sidebar-dark-primary  elevation-2">
                     {/* Brand Logo */}
                     <a className="brand-link">
                         <img src="https://mahapocra.gov.in/assets/images/pocra.png" alt="PoCRA Logo" className="brand-image img-square" />
                         <span className="brand-text font-weight " id="title">PoCRA</span>
                     </a>
                     {/* Sidebar */}
-                    <div className="sidebar">
+                    <div className="sidebar ">
                         {/* Sidebar user panel (optional) */}
                         <div className="form-inline" style={{ paddingTop: 5 }} >
                             <div className="input-group" data-widget="sidebar-search">
@@ -108,7 +108,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
                                         }
                                     </li>
                                 ))}
-                                <Content />
+                                {/* <Content /> */}
                             </ul>
                         </nav>
                         {/* /.sidebar-menu */}
@@ -118,7 +118,6 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
                     {/* /.sidebar */}
                 </aside>
 
-            </div >
         )
     }
 }
