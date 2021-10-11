@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import "./Sidebar.css"
 import Content from '../content'
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";export default class Sidebar extends Component {
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+export default class Sidebar extends Component {
 
     render() {
         const items = [
@@ -23,7 +24,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
         ]
         return (
            
-                <aside className="main-sidebar sidebar-dark-primary  elevation-2">
+                <aside className="main-sidebar sidebar-dark-primary elevation-4">
                     {/* Brand Logo */}
                     <a className="brand-link">
                         <img src="https://mahapocra.gov.in/assets/images/pocra.png" alt="PoCRA Logo" className="brand-image img-square" />

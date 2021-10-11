@@ -23,53 +23,8 @@ export default class DBTPieChart extends Component {
 	}
 
 	componentDidMount() {
-		// this.getCategoryApplicationCount();
-
-
 	}
-	getCategoryApplicationCount() {
-		// http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/dbt_data?dist_code=501
-		let initialActivity = [];
-		var districtName, total, g_other, c_other, c_others, sc, st, male, female, districtCode;
-		fetch('http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/dbt_data?dist_code=501')
-			.then(response => {
-				return response.json();
-			}).then(data => {
 
-				initialActivity = data.dbt_data.map((farmers) => {
-					// 	console.log(data)
-					c_other = farmers.c_others;
-
-					districtName = farmers.district;
-					districtCode = farmers.dtncode;
-
-					total = parseFloat(farmers.total);
-
-					g_other = parseFloat(farmers.g_other);
-					male = parseFloat(farmers.male);
-					female = parseFloat(farmers.female);
-
-					c_others = parseFloat(farmers.c_others);
-					sc = parseFloat(farmers.sc);
-					st = parseFloat(farmers.st);
-				});
-
-				this.setState({
-
-					districtName: districtName,
-					districtCode: districtCode,
-					total: total,
-					g_other: g_other,
-					male: male,
-					female: female,
-					c_others: c_others,
-					c_other: c_other,
-					sc: sc,
-					st: st,
-				});
-
-			});
-	}
 	render() {
 		const options = {
 
@@ -98,9 +53,9 @@ export default class DBTPieChart extends Component {
 				// 	"<br/>Total Application  : " + this.state.total
 			},
 			tooltip: {
-				// pointFormat:
-				// 	"{series.name}: <b>{point.percentage:.1f}% <br>Count: {point.y}</b>",
-				pointFormat: '{series.name}: <b>{point.y:.0f}</b>'
+				pointFormat:
+					"{point.name}: <b>{point.percentage:.1f}%",
+				// pointFormat: '{series.name}: <b>{point.y:.0f}</b>'
 			},
 			accessibility: {
 				point: {
@@ -118,24 +73,25 @@ export default class DBTPieChart extends Component {
 					// colors: pieColors,
 					dataLabels: {
 						enabled: true,
-						format: '<b>{point.name}</b>: {point.y:.0f}',
+						format: "{point.name}: <b>{point.y} ({point.percentage:.1f}%)</b>",
+						// format: '<b>{point.name}</b>: {point.y:.0f}',
 						connectorShape: 'straight',
 						crookDistance: '5%',
 					},
-					showInLegend: true
+					showInLegend: false
 				}
 			},
-			legend: {
-				backgroundColor: '#FCFFC5',
-				borderRadius: 5,
-				borderColor: '#C98657',
-				borderWidth: 1,
-				align: 'right',
-				verticalAlign: 'top',
-				layout: 'vertical',
-				x: 0,
-				y: 50
-			},
+			// legend: {
+			// 	backgroundColor: '#FCFFC5',
+			// 	borderRadius: 5,
+			// 	borderColor: '#C98657',
+			// 	borderWidth: 1,
+			// 	align: 'right',
+			// 	verticalAlign: 'top',
+			// 	layout: 'vertical',
+			// 	x: 0,
+			// 	y: 50
+			// },
 			series: [{
 				name: '',
 				colorByPoint: true,

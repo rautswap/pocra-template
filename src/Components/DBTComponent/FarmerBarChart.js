@@ -29,7 +29,7 @@ export default class FarmerBarChart extends Component {
 		let initialActivity = [];
 		let activityGroupName = [], totalAmountDisbursed = [], totalNoOfApplications = [], totalNoOfDisbursement = [], totalNoOfPreSanction = [];
 		// http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/dbtActivityMaster?activity=Farmer&activityId=All
-		fetch('http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/dbtActivityMaster?activity='+ this.props.chartProps.activity+'&activityId=""')
+		fetch('http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/dbtActivityMaster?activity=' + this.props.chartProps.activity + '&activityId=""')
 			.then(response => {
 				return response.json();
 			}).then(data => {
@@ -49,10 +49,7 @@ export default class FarmerBarChart extends Component {
 					TotalNoOfDisbursement: totalNoOfDisbursement,
 					TotalNoOfPreSanction: totalNoOfPreSanction
 				});
-
 			});
-
-
 	}
 
 	render() {
@@ -81,7 +78,7 @@ export default class FarmerBarChart extends Component {
 				title: {
 					text: this.props.chartProps.ylabel
 				}
-			},credits: {
+			}, credits: {
 				enabled: false
 			},
 			tooltip: {
@@ -98,9 +95,9 @@ export default class FarmerBarChart extends Component {
 					borderWidth: 0.5
 				}
 			},
-			series: [ {
+			series: [{
 				name: 'Total No Of Applications',
-				data:this.state.TotalNoOfApplications
+				data: this.state.TotalNoOfApplications
 
 			}, {
 				name: 'Total No Of Disbursement',

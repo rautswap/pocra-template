@@ -25,14 +25,14 @@ export default class LegendPanelDashboard extends Component {
 					<tr>
 						<td><img src="pocra_dashboard/dist/legend/appl_2.png" height={'20px'} width={'25px'} />  </td>
 
-						<td>{this.props.props.appl_1 + 0.1} - {this.props.props.appl_2} </td>
+						<td>{this.props.props.appl_1 + 1} - {this.props.props.appl_2} </td>
 					</tr>
 					<tr>
-						<td><img src="pocra_dashboard/dist/legend/appl_3.png" height={'20px'} width={'25px'} />  </td>
+						<td><img src="pocra_dashboard/dist/legend/appl_6.png" height={'20px'} width={'25px'} />  </td>
 
-						<td>{this.props.props.appl_2 + 0.1} - {this.props.props.appl_3} </td>
+						<td>{this.props.props.appl_2 + 1} - and above  </td>
 					</tr>
-					<tr>
+					{/* <tr>
 						<td><img src="pocra_dashboard/dist/legend/appl_4.png" height={'20px'} width={'25px'} />  </td>
 
 						<td>{this.props.props.appl_3 + 0.1} - {this.props.props.appl_4} </td>
@@ -46,7 +46,7 @@ export default class LegendPanelDashboard extends Component {
 						<td><img src="pocra_dashboard/dist/legend/appl_6.png" height={'20px'} width={'25px'} />  </td>
 
 						<td>{this.props.props.appl_5 + 0.1} - and above </td>
-					</tr>
+					</tr> */}
 				</table>
 			</div>
 		)

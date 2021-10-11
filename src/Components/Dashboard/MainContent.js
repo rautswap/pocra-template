@@ -95,7 +95,7 @@ export default class MainContent extends Component {
                             {/* Main row */}
                             <div className="row">
                                 {/* Left col */}
-                                <section className="col-lg-6 connectedSortable">
+                                <section className="col-lg-12 connectedSortable">
                                     {/* Custom tabs (Charts with tabs)*/}
                                     <div className="card">
                                         <div className="card-header">
@@ -114,7 +114,7 @@ export default class MainContent extends Component {
                                                 <FarmerBarChart chartProps={{
                                                     activityLabel: "Farmer Report",
                                                     activity: "Farmer",
-                                                    xlabel: "Source : PoCRA DBT",
+                                                    // xlabel: "Source : PoCRA DBT",
                                                     ylabel: "Total No of Applications"
                                                 }} />
 
@@ -130,7 +130,7 @@ export default class MainContent extends Component {
                                     <div className="card">
                                         <div className="card-header">
                                             <h3 className="card-title">
-                                                <i class="fas fa-chart-bar" /> FPC/NRM
+                                                <i class="fas fa-chart-bar" /> FPC/FPO
                                             </h3>
                                             <div class="card-tools">
                                                 <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
@@ -144,7 +144,7 @@ export default class MainContent extends Component {
                                                 <FarmerBarChart chartProps={{
                                                     activityLabel: "FPC/NRM Report",
                                                     activity: "FPC",
-                                                    xlabel: "Source : PoCRA DBT",
+                                                    // xlabel: "Source : PoCRA DBT",
                                                     ylabel: "Total No of Applications"
                                                 }} />
 

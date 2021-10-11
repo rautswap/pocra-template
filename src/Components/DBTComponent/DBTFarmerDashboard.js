@@ -41,9 +41,12 @@ export default class DBTFarmerDashboard extends Component {
 
 			total: 0,
 			headerLabel: "",
+			graphCountLabel: "",
+			graphLabel: "",
 			lat: 0,
 			lon: 0,
 			no_of_application: 0,
+			applicationCount: 0,
 			districtName: "",
 			classValues: {
 				appl_1: 0,
@@ -112,14 +115,14 @@ export default class DBTFarmerDashboard extends Component {
 			bar: true,
 			steps: 2,
 			minWidth: 80,
-			text:'S'
+			text: 'S'
 		});
 		this.mouse = new MousePosition({
 			projection: 'EPSG:4326',
 			coordinateFormat: function (coordinate) {
 				return format(coordinate, "&nbsp;&nbsp; Lat : {y}, &nbsp;&nbsp; Long: {x} &nbsp;&nbsp;", 6);
 			},
-			placeholder:'&nbsp;&nbsp; Mouse Position'
+			placeholder: '&nbsp;&nbsp; Mouse Position'
 		});
 
 		var topo = new TileLayer({
@@ -196,7 +199,6 @@ export default class DBTFarmerDashboard extends Component {
 	componentDidMount() {
 		// this.getDBTLayerClassValues();
 		map.setTarget("map");
-		this.loadMap1();
 		this.getDistrict();
 		this.getFarmerActivity();
 		this.updateHeaderLabel();
@@ -261,6 +263,7 @@ export default class DBTFarmerDashboard extends Component {
 		if (vectorSource) {
 
 		}
+		var applications = 0;
 		fetch('http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/dbtDistrict?activityId=' + activityId)
 			.then(response => {
 				return response.json();
@@ -272,13 +275,18 @@ export default class DBTFarmerDashboard extends Component {
 
 					// totalApp = totalApp + activities.no_of_application
 					if (applicationFor === "no_of_application") {
+
+						applications = applications + activities.no_of_application;
+
 						this.setState({
 							lat: activities.lat,
 							lon: activities.lon,
 							no_of_application: activities.no_of_application,
 							districtName: activities.district,
+
 							// total: totalApp
 						})
+
 					} else if (applicationFor === "no_of_paymentdone") {
 						this.setState({
 							lat: activities.lat,
@@ -314,6 +322,11 @@ export default class DBTFarmerDashboard extends Component {
 				if (featurelayer) {
 					map.removeLayer(featurelayer)
 				}
+				console.log(applications)
+
+				this.setState({
+					applicationCount: applications
+				})
 				featurelayer = new Vector({
 					source: vectorSource,
 					style: (feature) => {
@@ -321,18 +334,19 @@ export default class DBTFarmerDashboard extends Component {
 							text: new Text({
 
 								text: '' + feature.get('no_of_application') + '',
-								font: '12px Calibri,sans-serif',
+								font: 'bold 12px sans-serif',
+
 								offsetY: 15,
 								offsetX: 25,
 								align: 'bottom',
 								scale: 1,
 								// textBaseline: 'bottom',
 								fill: new Fill({
-									color: '#ffffff'
+									color: '#1F51FF'
 								}),
 								stroke: new Stroke({
-									color: '#5151c8',
-									width: 3
+									color: '#FFF',
+									width: 0.5
 								})
 							}),
 						});
@@ -431,7 +445,89 @@ export default class DBTFarmerDashboard extends Component {
 
 				vectorSource = new VectorSource({})
 				data.activity.map((activities) => {
-					console.log(data)
+					// console.log(data)
+					if (applicationFor === "no_of_application") {
+						this.setState({
+							lat: activities.lat,
+							lon: activities.lon,
+							no_of_application: activities.no_of_application,
+							districtName: activities.district,
+							// total: totalApp
+						})
+					} else if (applicationFor === "no_of_paymentdone") {
+						this.setState({
+							lat: activities.lat,
+							lon: activities.lon,
+							no_of_application: activities.no_of_paymentdone,
+							districtName: activities.district,
+							// total: totalApp
+						})
+					} else if (applicationFor === "no_of_registration") {
+						this.setState({
+							lat: activities.lat,
+							lon: activities.lon,
+							no_of_application: activities.no_of_registration,
+							districtName: activities.district,
+							// total: totalApp
+						})
+					}
+					var feature = new Feature({
+						geometry: new Point(transform([parseFloat(this.state.lat), parseFloat(this.state.lon)], 'EPSG:4326', 'EPSG:3857')),
+						no_of_application: this.state.no_of_application,
+						district: this.state.districtName
+					});
+
+					vectorSource.addFeature(feature);
+
+				});
+
+
+				if (featurelayer) {
+					map.removeLayer(featurelayer)
+				}
+				featurelayer = new Vector({
+					source: vectorSource,
+					style: (feature) => {
+						return new Style({
+							text: new Text({
+
+								text: '' + feature.get('no_of_application') + '',
+								font: '12px Calibri,sans-serif',
+								offsetY: 10,
+								offsetX: 10,
+								align: 'bottom',
+								scale: 1,
+								// textBaseline: 'bottom',
+								// fill: new Fill({
+								// 	color: '#ffffff'
+								// }),
+								stroke: new Stroke({
+									color: '#5151c8',
+									width: 3
+								})
+							}),
+						});
+					}
+				})
+				map.addLayer(featurelayer)
+			});
+
+	}
+	getDBTVectorLayerVillageData(activityId, districtCode, talukaCode, villageCode, applicationFor) {
+
+		if (vectorSource) {
+
+		}
+
+
+
+		fetch('http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/dbtVillageIndividual?activityId=' + activityId + '&districtCode=' + districtCode + '&talukaCode=' + talukaCode + '&villageCode=' + villageCode)
+			.then(response => {
+				return response.json();
+			}).then(data => {
+				console.log(data)
+				vectorSource = new VectorSource({})
+				data.activity.map((activities) => {
 					if (applicationFor === "no_of_application") {
 						this.setState({
 							lat: activities.lat,
@@ -516,11 +612,11 @@ export default class DBTFarmerDashboard extends Component {
 				// console.log(data)
 				var labelValue = "";
 				if (applicationFor === "no_of_application") {
-					labelValue = "Total Applications";
+					labelValue = "Applications";
 				} else if (applicationFor === "no_of_paymentdone") {
-					labelValue = "Total Payments Done";
+					labelValue = "Disbursement";
 				} else if (applicationFor === "no_of_registration") {
-					labelValue = "Total Registration";
+					labelValue = "Registrations";
 				}
 				initialActivity = data.activity.map((activities) => {
 					// console.log(activities.appl_1)
@@ -530,7 +626,7 @@ export default class DBTFarmerDashboard extends Component {
 							appl_2: activities.appl_2,
 							appl_3: activities.appl_3,
 							appl_4: activities.appl_4,
-							appl_5: activities.appl_5,
+							// appl_5: activities.appl_5,
 							legendLabel: labelValue,
 						},
 
@@ -562,14 +658,14 @@ export default class DBTFarmerDashboard extends Component {
 			.then(response => {
 				return response.json();
 			}).then(data => {
-				// console.log(data)
+				console.log(data)
 				var labelValue = "";
 				if (applicationFor === "no_of_application") {
-					labelValue = "Total Applications";
+					labelValue = "Applications";
 				} else if (applicationFor === "no_of_paymentdone") {
-					labelValue = "Total Payments Done";
+					labelValue = "Disbursement";
 				} else if (applicationFor === "no_of_registration") {
-					labelValue = "Total Registration";
+					labelValue = "Registrations";
 				}
 				initialActivity = data.activity.map((activities) => {
 					// console.log(activities.appl_1)
@@ -579,7 +675,7 @@ export default class DBTFarmerDashboard extends Component {
 							appl_2: activities.appl_2,
 							appl_3: activities.appl_3,
 							appl_4: activities.appl_4,
-							appl_5: activities.appl_5,
+							// appl_5: activities.appl_5,
 							legendLabel: labelValue,
 						}
 					}));
@@ -608,13 +704,14 @@ export default class DBTFarmerDashboard extends Component {
 			.then(response => {
 				return response.json();
 			}).then(data => {
+				console.log(data)
 				var labelValue = "";
 				if (applicationFor === "no_of_application") {
-					labelValue = "Total Applications";
+					labelValue = "Applications";
 				} else if (applicationFor === "no_of_paymentdone") {
-					labelValue = "Total Payments Done";
+					labelValue = "Disbursement";
 				} else if (applicationFor === "no_of_registration") {
-					labelValue = "Total Registration";
+					labelValue = "Registrations";
 				} initialActivity = data.activity.map((activities) => {
 					// console.log(activities.appl_1)
 					this.setState(prev => ({
@@ -623,7 +720,7 @@ export default class DBTFarmerDashboard extends Component {
 							appl_2: activities.appl_2,
 							appl_3: activities.appl_3,
 							appl_4: activities.appl_4,
-							appl_5: activities.appl_5,
+							// appl_5: activities.appl_5,
 							legendLabel: labelValue,
 						}
 					}));
@@ -638,8 +735,72 @@ export default class DBTFarmerDashboard extends Component {
 
 	}
 
-	loadMap1() {
+	getDBTLayerClassValuesVillageData(activityId, districtCode, talukaCode, villageCode, applicationFor) {
 
+
+		var url = "", layerName = "";
+		if (activityId === "All") {
+			// url = "http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/dbtNumApplications?activityId=7&summary_for=application";
+			layerName = "dbtVillage";
+		} else {
+			layerName = "dbtAcivityGroupVillage";
+		}
+
+		let initialActivity = [];
+		var labelValue = "";
+		fetch('http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/dbtNumApplicationsVillage?activityId=' + activityId + '&summary_for=' + applicationFor + '&districtCode=' + districtCode + '&talukaCode=' + talukaCode)
+			.then(response => {
+				return response.json();
+			}).then(data => {
+				var labelValue = "";
+				if (applicationFor === "no_of_application") {
+					labelValue = "Applications";
+				} else if (applicationFor === "no_of_paymentdone") {
+					labelValue = "Disbursement";
+				} else if (applicationFor === "no_of_registration") {
+					labelValue = "Registrations";
+				} initialActivity = data.activity.map((activities) => {
+					// console.log(activities.appl_1)
+					this.setState(prev => ({
+						classValues: {
+							appl_1: activities.appl_1,
+							appl_2: activities.appl_2,
+							appl_3: activities.appl_3,
+							appl_4: activities.appl_4,
+							// appl_5: activities.appl_5,
+							legendLabel: labelValue,
+						}
+					}));
+					return activities;
+
+				});
+				this.loadMapVillageData(initialActivity, layerName, activityId, districtCode, talukaCode, villageCode, applicationFor)
+				// this.setState(prev => ({
+				// 	classValues: initialActivity
+				// }));
+			});
+
+	}
+
+
+	loadMap = (initialActivity, layerName, activityId, applicationFor) => {
+
+
+		let viewMap = map.getView();
+		let extent = viewMap.calculateExtent(map.getSize());
+		//hold the current resolution
+		let res = viewMap.getResolution();
+		viewMap.fit(extent, map.getSize());
+		view.setResolution(res);
+		if (pocraDBTLayer) {
+			map.removeLayer(pocraDBTLayer);
+		}
+		if (imgSource) {
+			map.removeLayer(imgSource);
+		}
+		if (talukaLayer) {
+			map.removeLayer(talukaLayer);
+		}
 		if (geojson) {
 			map.removeLayer(geojson);
 		}
@@ -663,28 +824,8 @@ export default class DBTFarmerDashboard extends Component {
 
 
 		map.addLayer(geojson);
-		// this.getCategoryApplicationCount({
-		// 	target: { value: 'All' }
 
-		// });
-	}
-	loadMap = (initialActivity, layerName, activityId, applicationFor) => {
 
-		let viewMap = map.getView();
-		let extent = viewMap.calculateExtent(map.getSize());
-		//hold the current resolution
-		let res = viewMap.getResolution();
-		viewMap.fit(extent, map.getSize());
-		view.setResolution(res);
-		if (pocraDBTLayer) {
-			map.removeLayer(pocraDBTLayer);
-		}
-		if (imgSource) {
-			map.removeLayer(imgSource);
-		}
-		if (talukaLayer) {
-			map.removeLayer(talukaLayer);
-		}
 		if (activityId === 'All') {
 			imgSource = new ImageWMS({
 				attributions: ['&copy; DBT PoCRA'],
@@ -695,7 +836,7 @@ export default class DBTFarmerDashboard extends Component {
 				params: {
 					'LAYERS': 'PoCRA_Dashboard:' + layerName,
 					'TILED': true,
-					'env': "propname:" + applicationFor + ";labelName:dtnname;appl_1:" + (parseInt(initialActivity[0].appl_1)) + ";appl_2:" + (parseInt(initialActivity[0].appl_2)) + ";appl_3:" + (parseInt(initialActivity[0].appl_3)) + ";appl_4:" + (parseInt(initialActivity[0].appl_4)) + ";appl_5:" + (parseInt(initialActivity[0].appl_5))
+					'env': "propname:" + applicationFor + ";labelName:dtnname;appl_1:" + (parseInt(initialActivity[0].appl_1)) + ";appl_2:" + (parseInt(initialActivity[0].appl_2)) + ";appl_3:" + (parseInt(initialActivity[0].appl_3)) + ";appl_4:" + (parseInt(initialActivity[0].appl_4))
 				},
 			})
 			pocraDBTLayer = new ImageLayer({
@@ -713,7 +854,8 @@ export default class DBTFarmerDashboard extends Component {
 				params: {
 					'LAYERS': 'PoCRA_Dashboard:' + layerName,
 					'TILED': true,
-					'env': "propname:" + applicationFor + ";labelName:dtnname;appl_1:" + (parseInt(initialActivity[0].appl_1)) + ";appl_2:" + (parseInt(initialActivity[0].appl_2)) + ";appl_3:" + (parseInt(initialActivity[0].appl_3)) + ";appl_4:" + (parseInt(initialActivity[0].appl_4)) + ";appl_5:" + (parseInt(initialActivity[0].appl_5)),
+					'env': "propname:" + applicationFor + ";labelName:dtnname;appl_1:" + (parseInt(initialActivity[0].appl_1)) + ";appl_2:" + (parseInt(initialActivity[0].appl_2)) + ";appl_3:" + (parseInt(initialActivity[0].appl_3)) + ";appl_4:" + (parseInt(initialActivity[0].appl_4)),
+					//  + ";appl_5:" + (parseInt(initialActivity[0].appl_5)),
 					// 'CQL_FILTER': indate
 					'viewparams': "groupID:" + activityId
 				},
@@ -736,7 +878,7 @@ export default class DBTFarmerDashboard extends Component {
 	}
 
 	loadMapTaluka = (initialActivity, layerName, activityId, paramName, paramValue, applicationFor) => {
-		// http://gis.mahapocra.gov.in/geoserver/PoCRA_Dashboard/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=Subdivision&CQL_FILTER=" + paramName + "+ILike+'" + paramValue + "'&outputFormat=application/json
+
 		if (geojson) {
 			map.removeLayer(geojson);
 		}
@@ -788,7 +930,8 @@ export default class DBTFarmerDashboard extends Component {
 				params: {
 					'LAYERS': 'PoCRA_Dashboard:' + layerName,
 					'TILED': true,
-					'env': "propname:" + applicationFor + ";labelName:thnname;appl_1:" + (parseInt(initialActivity[0].appl_1)) + ";appl_2:" + (parseInt(initialActivity[0].appl_2)) + ";appl_3:" + (parseInt(initialActivity[0].appl_3)) + ";appl_4:" + (parseInt(initialActivity[0].appl_4)) + ";appl_5:" + (parseInt(initialActivity[0].appl_5)),
+					'env': "propname:" + applicationFor + ";labelName:thnname;appl_1:" + (parseInt(initialActivity[0].appl_1)) + ";appl_2:" + (parseInt(initialActivity[0].appl_2)) + ";appl_3:" + (parseInt(initialActivity[0].appl_3)) + ";appl_4:" + (parseInt(initialActivity[0].appl_4)),
+					// + ";appl_5:" + (parseInt(initialActivity[0].appl_5)),
 					'viewparams': "districtCode:" + paramValue
 				},
 			})
@@ -807,7 +950,8 @@ export default class DBTFarmerDashboard extends Component {
 				params: {
 					'LAYERS': 'PoCRA_Dashboard:' + layerName,
 					'TILED': true,
-					'env': "propname:" + applicationFor + ";labelName:thnname;appl_1:" + (parseInt(initialActivity[0].appl_1)) + ";appl_2:" + (parseInt(initialActivity[0].appl_2)) + ";appl_3:" + (parseInt(initialActivity[0].appl_3)) + ";appl_4:" + (parseInt(initialActivity[0].appl_4)) + ";appl_5:" + (parseInt(initialActivity[0].appl_5)),
+					'env': "propname:" + applicationFor + ";labelName:thnname;appl_1:" + (parseInt(initialActivity[0].appl_1)) + ";appl_2:" + (parseInt(initialActivity[0].appl_2)) + ";appl_3:" + (parseInt(initialActivity[0].appl_3)) + ";appl_4:" + (parseInt(initialActivity[0].appl_4)),
+					// ,+ ";appl_5:" + (parseInt(initialActivity[0].appl_5)),
 					// 'CQL_FILTER': indate
 					'viewparams': "groupID:" + activityId + ";districtCode:" + paramValue
 				},
@@ -882,7 +1026,8 @@ export default class DBTFarmerDashboard extends Component {
 				params: {
 					'LAYERS': 'PoCRA_Dashboard:' + layerName,
 					'TILED': true,
-					'env': "propname:" + applicationFor + ";labelName:vilname;appl_1:" + (parseInt(initialActivity[0].appl_1)) + ";appl_2:" + (parseInt(initialActivity[0].appl_2)) + ";appl_3:" + (parseInt(initialActivity[0].appl_3)) + ";appl_4:" + (parseInt(initialActivity[0].appl_4)) + ";appl_5:" + (parseInt(initialActivity[0].appl_5)),
+					'env': "propname:" + applicationFor + ";labelName:vilname;appl_1:" + (parseInt(initialActivity[0].appl_1)) + ";appl_2:" + (parseInt(initialActivity[0].appl_2)) + ";appl_3:" + (parseInt(initialActivity[0].appl_3)) + ";appl_4:" + (parseInt(initialActivity[0].appl_4)),
+					// + ";appl_5:" + (parseInt(initialActivity[0].appl_5)),
 					'viewparams': "districtCode:" + paramValue + ";talukaCode:" + talukaCode
 				},
 			})
@@ -901,7 +1046,8 @@ export default class DBTFarmerDashboard extends Component {
 				params: {
 					'LAYERS': 'PoCRA_Dashboard:' + layerName,
 					'TILED': true,
-					'env': "propname:" + applicationFor + ";labelName:vilname;appl_1:" + (parseInt(initialActivity[0].appl_1)) + ";appl_2:" + (parseInt(initialActivity[0].appl_2)) + ";appl_3:" + (parseInt(initialActivity[0].appl_3)) + ";appl_4:" + (parseInt(initialActivity[0].appl_4)) + ";appl_5:" + (parseInt(initialActivity[0].appl_5)),
+					'env': "propname:" + applicationFor + ";labelName:vilname;appl_1:" + (parseInt(initialActivity[0].appl_1)) + ";appl_2:" + (parseInt(initialActivity[0].appl_2)) + ";appl_3:" + (parseInt(initialActivity[0].appl_3)) + ";appl_4:" + (parseInt(initialActivity[0].appl_4)),
+					// + ";appl_5:" + (parseInt(initialActivity[0].appl_5)),
 					// 'CQL_FILTER': indate
 					'viewparams': "groupID:" + activityId + ";districtCode:" + paramValue + ";talukaCode:" + talukaCode
 				},
@@ -930,7 +1076,114 @@ export default class DBTFarmerDashboard extends Component {
 		});
 		map.addLayer(talukaLayer);
 	}
+	loadMapVillageData = (initialActivity, layerName, activityId, paramValue, talukaCode, villageCode, applicationFor) => {
+		// http://gis.mahapocra.gov.in/geoserver/PoCRA_Dashboard/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=Subdivision&CQL_FILTER=" + paramName + "+ILike+'" + paramValue + "'&outputFormat=application/json
+		if (geojson) {
+			map.removeLayer(geojson);
+		}
+		// districtCode:" + paramValue
 
+		var url = "http://gis.mahapocra.gov.in/geoserver/PoCRA_Dashboard/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=Village&CQL_FILTER=vincode+ILike+'" + villageCode + "'&outputFormat=application/json";
+		geojson = new Vector({
+			title: "Village",
+			source: new VectorSource({
+				url: url,
+				format: new GeoJSON()
+			}),
+		});
+		geojson.getSource().on('addfeature', function () {
+			//alert(geojson.getSource().getExtent());
+			map.getView().fit(
+				geojson.getSource().getExtent(), { duration: 1590, size: map.getSize() - 100 }
+			);
+		});
+
+
+		map.addLayer(geojson);
+
+
+		if (imgSource) {
+			map.removeLayer(imgSource);
+		}
+		let viewMap = map.getView();
+		let extent = viewMap.calculateExtent(map.getSize());
+		//hold the current resolution
+		let res = viewMap.getResolution();
+		viewMap.fit(extent, map.getSize());
+		view.setResolution(res);
+		if (pocraDBTLayer) {
+			map.removeLayer(pocraDBTLayer);
+		}
+		if (talukaLayer) {
+			map.removeLayer(talukaLayer);
+		}
+
+
+
+		if (activityId === 'All') {
+			imgSource = new ImageWMS({
+				attributions: ['&copy; DBT PoCRA'],
+				crossOrigin: 'Anonymous',
+				serverType: 'geoserver',
+				visible: true,
+				url: "http://gis.mahapocra.gov.in/geoserver/PoCRA_Dashboard/wms?",
+				params: {
+					'LAYERS': 'PoCRA_Dashboard:' + layerName,
+					'TILED': true,
+					'env': "propname:" + applicationFor + ";labelName:vilname;appl_1:" + (parseInt(initialActivity[0].appl_1)) + ";appl_2:" + (parseInt(initialActivity[0].appl_2)) + ";appl_3:" + (parseInt(initialActivity[0].appl_3)) + ";appl_4:" + (parseInt(initialActivity[0].appl_4)),
+					//  + ";appl_5:" + (parseInt(initialActivity[0].appl_5)),
+					'CQL_FILTER': "vincode='" + villageCode + "'",
+					'viewparams': "districtCode:" + paramValue + ";talukaCode:" + talukaCode,
+
+				},
+			})
+			pocraDBTLayer = new ImageLayer({
+				title: "DBT PoCRA",
+				source: imgSource
+			});
+			map.addLayer(pocraDBTLayer);
+		} else {
+			imgSource = new ImageWMS({
+				attributions: ['&copy; DBT PoCRA'],
+				crossOrigin: 'Anonymous',
+				serverType: 'geoserver',
+				visible: true,
+				url: "http://gis.mahapocra.gov.in/geoserver/PoCRA_Dashboard/wms?",
+				params: {
+					'LAYERS': 'PoCRA_Dashboard:' + layerName,
+					'TILED': true,
+					'env': "propname:" + applicationFor + ";labelName:vilname;appl_1:" + (parseInt(initialActivity[0].appl_1)) + ";appl_2:" + (parseInt(initialActivity[0].appl_2)) + ";appl_3:" + (parseInt(initialActivity[0].appl_3)) + ";appl_4:" + (parseInt(initialActivity[0].appl_4)),
+					// + ";appl_5:" + (parseInt(initialActivity[0].appl_5)),
+					// 'CQL_FILTER': indate
+					'CQL_FILTER': "vincode='" + villageCode + "'",
+					'viewparams': "groupID:" + activityId + ";districtCode:" + paramValue + ";talukaCode:" + talukaCode,
+
+				},
+			})
+			pocraDBTLayer = new ImageLayer({
+				title: "DBT PoCRA",
+				source: imgSource
+			});
+
+			map.addLayer(pocraDBTLayer);
+		}
+		// talukaLayer = new ImageLayer({
+		// 	title: "DBT PoCRA",
+		// 	source: new ImageWMS({
+		// 		attributions: ['&copy; DBT PoCRA'],
+		// 		crossOrigin: 'Anonymous',
+		// 		serverType: 'geoserver',
+		// 		visible: true,
+		// 		url: "http://gis.mahapocra.gov.in/geoserver/PoCRA_Dashboard/wms?",
+		// 		params: {
+		// 			'LAYERS': 'PoCRA_Dashboard:Village',
+		// 			'TILED': true,
+		// 			'CQL_FILTER': "thncode='" + talukaCode + "'"
+		// 		},
+		// 	})
+		// });
+		// map.addLayer(talukaLayer);
+	}
 
 
 	getFarmerActivity() {
@@ -1079,7 +1332,7 @@ export default class DBTFarmerDashboard extends Component {
 
 	}
 
-	getCategoryApplicationCount(activity, district, taluka, village) {
+	getCategoryApplicationCount(activity, district, taluka, village, applicationFor) {
 		let activityValue = document.getElementById("activity").value;
 		var genderData = [], categoryData = [], farmerTypeData = [];
 		fetch('http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/dbtActivitybyID_dtnCode_thnCode_vinCode?activityID=' + activity + '&districtCode=' + district + '&talukaCode=' + taluka + '&villageCode=' + village)
@@ -1088,24 +1341,66 @@ export default class DBTFarmerDashboard extends Component {
 			}).then(data => {
 				// console.log(data)
 				data.gender.map(gender => {
-					genderData.push({
-						name: gender.gender,
-						y: parseInt(gender.no_of_application)
-					})
+
+					if (applicationFor === "no_of_application") {
+						genderData.push({
+							name: gender.gender,
+							y: parseInt(gender.no_of_application)
+						})
+					} else if (applicationFor === "no_of_paymentdone") {
+						genderData.push({
+							name: gender.gender,
+							y: parseInt(gender.no_of_paymentdone)
+						})
+					} else if (applicationFor === "no_of_registration") {
+						genderData.push({
+							name: gender.gender,
+							y: parseInt(gender.no_of_registration)
+						})
+					}
+					// genderData.push({
+					// 	name: gender.gender,
+					// 	y: parseInt(gender.no_of_application)
+					// })
 				})
 
 				data.socialCategory.map(category => {
-					categoryData.push({
-						name: category.category,
-						y: parseInt(category.no_of_application)
-					})
 
+					if (applicationFor === "no_of_application") {
+						categoryData.push({
+							name: category.category,
+							y: parseInt(category.no_of_application)
+						})
+					} else if (applicationFor === "no_of_paymentdone") {
+						categoryData.push({
+							name: category.category,
+							y: parseInt(category.no_of_paymentdone)
+						})
+					} else if (applicationFor === "no_of_registration") {
+						categoryData.push({
+							name: category.category,
+							y: parseInt(category.no_of_registration)
+						})
+					}
 				})
 				data.farmerType.map(farmer_type => {
-					farmerTypeData.push({
-						name: farmer_type.farmer_type,
-						y: parseInt(farmer_type.no_of_application)
-					})
+
+					if (applicationFor === "no_of_application") {
+						farmerTypeData.push({
+							name: farmer_type.farmer_type,
+							y: parseInt(farmer_type.no_of_application)
+						})
+					} else if (applicationFor === "no_of_paymentdone") {
+						farmerTypeData.push({
+							name: farmer_type.farmer_type,
+							y: parseInt(farmer_type.no_of_paymentdone)
+						})
+					} else if (applicationFor === "no_of_registration") {
+						farmerTypeData.push({
+							name: farmer_type.farmer_type,
+							y: parseInt(farmer_type.no_of_registration)
+						})
+					}
 				})
 
 				// console.log(genderData);
@@ -1130,17 +1425,17 @@ export default class DBTFarmerDashboard extends Component {
 			document.getElementById("customRadio1").checked = true;
 			document.getElementById("customRadio2").checked = false;
 			document.getElementById("customRadio3").checked = false;
-			this.updateHeaderLabel("no_of_application")
+			this.updateHeaderLabel()
 		} else if (customRadio1 == false && customRadio2 == true && customRadio3 == false) {
 			document.getElementById("customRadio1").checked = false;
 			document.getElementById("customRadio2").checked = true;
 			document.getElementById("customRadio3").checked = false;
-			this.updateHeaderLabel("no_of_registration")
+			this.updateHeaderLabel()
 		} else if (customRadio1 == false && customRadio2 == false && customRadio3 == true) {
 			document.getElementById("customRadio1").checked = false;
 			document.getElementById("customRadio2").checked = false;
 			document.getElementById("customRadio3").checked = true;
-			this.updateHeaderLabel("no_of_paymentdone")
+			this.updateHeaderLabel()
 		}
 
 
@@ -1149,12 +1444,12 @@ export default class DBTFarmerDashboard extends Component {
 	updateHeaderLabel() {
 		var activity = document.getElementById("activity");
 		// console.log(activity)
-		var district = document.getElementById("district").value;
+		var district = document.getElementById("district");
 		// console.log(district)
-		var taluka = document.getElementById("taluka").value;
+		var taluka = document.getElementById("taluka");
 		// console.log(taluka)
 
-		var village = document.getElementById("village").value;
+		var village = document.getElementById("village");
 		// console.log(village)
 		// console.log(activity.options[activity.selectedIndex].text)
 		var applicationFor = "";
@@ -1177,47 +1472,116 @@ export default class DBTFarmerDashboard extends Component {
 			document.getElementById("customRadio3").checked = true;
 			applicationFor = "no_of_paymentdone";
 		}
-		this.setState({
-			headerLabel: "Total Applications | Activity : " + activity.options[activity.selectedIndex].text
-			// + "( " + this.state.total + " )"
-			// + " District : " + district + " Taluka : " + taluka + " Village :" + village
-		})
+		var labelValue = "";
+		if (applicationFor === "no_of_application") {
+			labelValue = "Applications";
+		} else if (applicationFor === "no_of_paymentdone") {
+			labelValue = "Disbursement";
+		} else if (applicationFor === "no_of_registration") {
+			labelValue = "Registrations";
+		}
 
-		if (activity.value === "All" && district === "All" && taluka === 'All' && village == 'All') {
+
+		if (activity.value === "All" && district.value === "All" && taluka.value === 'All' && village.value == 'All') {
+			this.setState({
+				headerLabel: labelValue + " | Activity : " + activity.options[activity.selectedIndex].text,
+				graphCountLabel: labelValue,
+				graphLabel: labelValue + " | Activity : " + activity.options[activity.selectedIndex].text + " | District: " + district.options[district.selectedIndex].text
+				// + " | Taluka:" + taluka.options[taluka.selectedIndex].text + " | Village: " + village.options[village.selectedIndex].text
+				// + "( " + this.state.+ " )"
+				// + " District : " + district + " Taluka : " + taluka + " Village :" + village
+			})
 			this.getDBTVectorLayerDistrict(activity.value, applicationFor);
 			this.getDBTLayerClassValues(activity.value, applicationFor);
-			this.getCategoryApplicationCount(activity.value, district, "All", "All");
-		} else if (activity.value != "All" && district === "All" && taluka === 'All' && village == 'All') {
+			this.getCategoryApplicationCount(activity.value, district.value, "All", "All", applicationFor);
+		} else if (activity.value != "All" && district.value === "All" && taluka.value === 'All' && village.value == 'All') {
+			this.setState({
+				headerLabel: labelValue + " | Activity : " + activity.options[activity.selectedIndex].text,
+				graphCountLabel: labelValue,
+				graphLabel: labelValue + " | Activity : " + activity.options[activity.selectedIndex].text + " | District: " + district.options[district.selectedIndex].text
+				// + " | Taluka:" + taluka.options[taluka.selectedIndex].text + " | Village: " + village.options[village.selectedIndex].text
+				// + "( " + this.state.+ " )"
+				// + " District : " + district + " Taluka : " + taluka + " Village :" + village
+			})
 			this.getDBTVectorLayerDistrict(activity.value, applicationFor);
 			this.getDBTLayerClassValues(activity.value, applicationFor);
-			this.getCategoryApplicationCount(activity.value, district, "All", "All");
-		} else if (activity.value === "All" && district != "All" && taluka === 'All' && village == 'All') {
-			this.getDBTVectorLayerTaluka(activity.value, district, applicationFor);
-			this.getDBTLayerClassValuesTaluka(activity.value, district, applicationFor);
-			this.getCategoryApplicationCount(activity.value, district, "All", "All");
-		} else if (activity.value != "All" && district != "All" && taluka === 'All' && village == 'All') {
-			this.getDBTVectorLayerTaluka(activity.value, district, applicationFor);
-			this.getDBTLayerClassValuesTaluka(activity.value, district, applicationFor);
-			this.getCategoryApplicationCount(activity.value, district, "All", "All");
-		} else if (activity.value === "All" && district != "All" && taluka != 'All' && village == 'All') {
-
-			this.getDBTVectorLayerVillage(activity.value, district, taluka, applicationFor);
-			this.getDBTLayerClassValuesVillage(activity.value, district, taluka, applicationFor);
-			this.getCategoryApplicationCount(activity.value, district, taluka, "All");
-		} else if (activity.value != "All" && district != "All" && taluka != 'All' && village == 'All') {
-			this.getDBTVectorLayerVillage(activity.value, district, taluka, applicationFor);
-			this.getDBTLayerClassValuesVillage(activity.value, district, taluka, applicationFor);
-			this.getCategoryApplicationCount(activity.value, district, taluka, "All");
-		} else if (activity.value == "All" && district != "All" && taluka != 'All' && village != 'All') {
-			// alert("1")
-			// this.getDBTVectorLayerVillage(activity.value, district, taluka, applicationFor);
-			// this.getDBTLayerClassValuesVillage(activity.value, district, taluka, applicationFor);
-			this.getCategoryApplicationCount(activity.value, district, taluka, village);
-		} else if (activity.value != "All" && district != "All" && taluka != 'All' && village != 'All') {
-			// alert("2")
-			// this.getDBTVectorLayerVillage(activity.value, district, taluka, applicationFor);
-			// this.getDBTLayerClassValuesVillage(activity.value, district, taluka, applicationFor);
-			this.getCategoryApplicationCount(activity.value, district, taluka, village);
+			this.getCategoryApplicationCount(activity.value, district.value, "All", "All", applicationFor);
+		} else if (activity.value === "All" && district.value != "All" && taluka.value === 'All' && village.value == 'All') {
+			this.setState({
+				headerLabel: labelValue + " | Activity : " + activity.options[activity.selectedIndex].text,
+				graphCountLabel: labelValue,
+				graphLabel: labelValue + " | Activity : " + activity.options[activity.selectedIndex].text + " | District: " + district.options[district.selectedIndex].text
+				// + " | Taluka:" + taluka.options[taluka.selectedIndex].text + " | Village: " + village.options[village.selectedIndex].text
+				// + "( " + this.state.+ " )"
+				// + " District : " + district + " Taluka : " + taluka + " Village :" + village
+			})
+			this.getDBTVectorLayerTaluka(activity.value, district.value, applicationFor);
+			this.getDBTLayerClassValuesTaluka(activity.value, district.value, applicationFor);
+			this.getCategoryApplicationCount(activity.value, district.value, "All", "All", applicationFor);
+		} else if (activity.value != "All" && district.value != "All" && taluka.value === 'All' && village.value == 'All') {
+			this.setState({
+				headerLabel: labelValue + " | Activity : " + activity.options[activity.selectedIndex].text,
+				graphCountLabel: labelValue,
+				graphLabel: labelValue + " | Activity : " + activity.options[activity.selectedIndex].text + " | District: " + district.options[district.selectedIndex].text
+				// + " | Taluka:" + taluka.options[taluka.selectedIndex].text + " | Village: " + village.options[village.selectedIndex].text
+				// + "( " + this.state.+ " )"
+				// + " District : " + district + " Taluka : " + taluka + " Village :" + village
+			})
+			this.getDBTVectorLayerTaluka(activity.value, district.value, applicationFor);
+			this.getDBTLayerClassValuesTaluka(activity.value, district.value, applicationFor);
+			this.getCategoryApplicationCount(activity.value, district.value, "All", "All", applicationFor);
+		} else if (activity.value === "All" && district.value != "All" && taluka.value != 'All' && village.value == 'All') {
+			this.setState({
+				headerLabel: labelValue + " | Activity : " + activity.options[activity.selectedIndex].text,
+				graphCountLabel: labelValue,
+				graphLabel: labelValue + " | Activity : " + activity.options[activity.selectedIndex].text + " | District: " + district.options[district.selectedIndex].text
+					+ " | Taluka:" + taluka.options[taluka.selectedIndex].text
+				// + " | Village: " + village.options[village.selectedIndex].text
+				// + "( " + this.state.+ " )"
+				// + " District : " + district + " Taluka : " + taluka + " Village :" + village
+			})
+			this.getDBTVectorLayerVillage(activity.value, district.value, taluka.value, applicationFor);
+			this.getDBTLayerClassValuesVillage(activity.value, district.value, taluka.value, applicationFor);
+			this.getCategoryApplicationCount(activity.value, district.value, taluka.value, "All", applicationFor);
+		} else if (activity.value != "All" && district.value != "All" && taluka.value != 'All' && village.value == 'All') {
+			this.setState({
+				headerLabel: labelValue + " | Activity : " + activity.options[activity.selectedIndex].text,
+				graphCountLabel: labelValue,
+				graphLabel: labelValue + " | Activity : " + activity.options[activity.selectedIndex].text + " | District: " + district.options[district.selectedIndex].text
+					+ " | Taluka:" + taluka.options[taluka.selectedIndex].text
+				// + " | Village: " + village.options[village.selectedIndex].text
+				// + "( " + this.state.+ " )"
+				// + " District : " + district + " Taluka : " + taluka + " Village :" + village
+			})
+			this.getDBTVectorLayerVillage(activity.value, district.value, taluka.value, applicationFor);
+			this.getDBTLayerClassValuesVillage(activity.value, district.value, taluka.value, applicationFor);
+			this.getCategoryApplicationCount(activity.value, district.value, taluka.value, "All", applicationFor);
+		} else if (activity.value == "All" && district.value != "All" && taluka.value != 'All' && village.value != 'All') {
+			this.setState({
+				headerLabel: labelValue + " | Activity : " + activity.options[activity.selectedIndex].text,
+				graphCountLabel: labelValue,
+				graphLabel: labelValue + " | Activity : " + activity.options[activity.selectedIndex].text + " | District: " + district.options[district.selectedIndex].text
+					+ " | Taluka:" + taluka.options[taluka.selectedIndex].text
+					+ " | Village: " + village.options[village.selectedIndex].text
+				// + "( " + this.state.+ " )"
+				// + " District : " + district + " Taluka : " + taluka + " Village :" + village
+			})
+			this.getDBTVectorLayerVillageData(activity.value, district.value, taluka.value, village.value, applicationFor);
+			this.getDBTLayerClassValuesVillageData(activity.value, district.value, taluka.value, village.value, applicationFor);
+			this.getCategoryApplicationCount(activity.value, district.value, taluka.value, village.value, applicationFor);
+		} else if (activity.value != "All" && district.value != "All" && taluka.value != 'All' && village.value != 'All') {
+			this.setState({
+				headerLabel: labelValue + " | Activity : " + activity.options[activity.selectedIndex].text,
+				graphCountLabel: labelValue,
+				graphLabel: labelValue + " | Activity : " + activity.options[activity.selectedIndex].text + " | District: " + district.options[district.selectedIndex].text
+					+ " | Taluka:" + taluka.options[taluka.selectedIndex].text
+					+ " | Village: " + village.options[village.selectedIndex].text
+				// + "( " + this.state.+ " )"
+				// + " District : " + district + " Taluka : " + taluka + " Village :" + village
+			})
+			this.getDBTVectorLayerVillageData(activity.value, district.value, taluka.value, village.value, applicationFor);
+			this.getDBTLayerClassValuesVillageData(activity.value, district.value, taluka.value, village.value, applicationFor);
+			this.getCategoryApplicationCount(activity.value, district.value, taluka.value, village.value, applicationFor);
 		}
 
 	}
@@ -1235,14 +1599,14 @@ export default class DBTFarmerDashboard extends Component {
 								<div className="card card-default" style={{ marginTop: "0.5%" }}>
 									<div className="card-header ">
 										<h3 className="card-title"><b>Farmer Activity</b></h3>
-										{/* <div className="card-tools">
+										<div className="card-tools">
 											<button type="button" className="btn btn-tool" data-card-widget="collapse"><i className="fas fa-minus" /></button>
-											<button type="button" className="btn btn-tool" data-card-widget="remove"><i className="fas fa-times" /></button>
-										</div> */}
+											{/* <button type="button" className="btn btn-tool" data-card-widget="remove"><i className="fas fa-times" /></button> */}
+										</div>
 									</div>
 									{/* /.card-header */}
 									<div className="card-body">
-										<div className="row">
+										<div className="row" style={{ marginBottom: "-16px" }}>
 											<div className="col-md-12">
 												<div className="form-group form-inline">
 													<div className="col-md-3">
@@ -1319,7 +1683,7 @@ export default class DBTFarmerDashboard extends Component {
 													{/* SELECT2 EXAMPLE */}
 													<div className="card card-default" style={{ marginTop: "0.5%" }}>
 														<div className="card-header" >
-															<h3 className="card-title"><b>Applications</b></h3>
+															<h3 className="card-title"><b>Attributes</b></h3>
 															<div className="card-tools">
 																<button type="button" className="btn btn-tool" data-card-widget="collapse"><i className="fas fa-minus" /></button>
 																{/* <button type="button" className="btn btn-tool" data-card-widget="remove"><i className="fas fa-times" /></button> */}
@@ -1328,34 +1692,24 @@ export default class DBTFarmerDashboard extends Component {
 														{/* /.card-header */}
 														<div className="card-body">
 															<div className="row">
-
 																<div className="col">
 																	<div className="form-group form-inline">
-																		<div className="col-md-12">
+																		<div className="col-md-6">
 																			<div class="form-group">
-																				{/* <div>
-																					<label className="radio-inline"><input type="radio" defaultValue="LULC_Raster" name="baseGroup" onchange="radioChange(this)" /> Land Use / Cover (2015-16)</label>
-																					<label className="radio-inline"><input type="radio" defaultValue="SoilTextureRaster" name="baseGroup" onchange="radioChange(this)" /> मृदा पोत</label>
-																					<label className="radio-inline" style={{ marginLeft: 6 }}><input type="radio" defaultValue="SoilDepthRaster" name="baseGroup" onchange="radioChange(this)" /> मृदा खोली</label>
-																					<label className="radio-inline"><input type="radio" defaultValue="SoilErosionRaster" name="baseGroup" onchange="radioChange(this)" /> मृदेची धूप</label>
-																				</div> */}
-
-																				<div class="custom-control custom-radio">
-																					<input class="custom-control-input" type="radio" id="customRadio1" name="customRadio" onChange={this.updateHeaderLabel} />
-																					<label for="customRadio1" class="custom-control-label" >Total Applications</label>
-																				</div>
 																				<div class="custom-control custom-radio">
 																					<input class="custom-control-input" type="radio" id="customRadio2" name="customRadio" onChange={this.updateHeaderLabel} />
-																					<label for="customRadio2" class="custom-control-label">Total Registrations</label>
+																					<label for="customRadio2" class="custom-control-label" style={{ fontSize: '14px', fontWeight: "normal" }}>Registrations</label>
+																				</div>
+																				<div class="custom-control custom-radio">
+																					<input class="custom-control-input" type="radio" id="customRadio1" name="customRadio" onChange={this.updateHeaderLabel} />
+																					<label for="customRadio1" class="custom-control-label" style={{ fontSize: '14px', fontWeight: "normal" }}>Applications</label>
 																				</div>
 																				<div class="custom-control custom-radio">
 																					<input class="custom-control-input" type="radio" id="customRadio3" name="customRadio" onChange={this.updateHeaderLabel} />
-																					<label for="customRadio3" class="custom-control-label">Total Payments Done</label>
+																					<label for="customRadio3" class="custom-control-label" style={{ fontSize: '14px', fontWeight: "normal" }}> Disbursement</label>
 																				</div>
 																			</div>
 																		</div>
-
-
 																	</div>
 																</div>
 															</div>
@@ -1384,7 +1738,7 @@ export default class DBTFarmerDashboard extends Component {
 								{/* SELECT2 EXAMPLE */}
 								<div className="card card-default" style={{ marginTop: "0.5%" }}>
 									<div className="card-header">
-										<h3 className="card-title"><b>Total Applications</b></h3>
+										<h3 className="card-title"><b>{this.state.graphLabel}</b></h3>
 										<div className="card-tools">
 											<button type="button" className="btn btn-tool" data-card-widget="collapse"><i className="fas fa-minus" /></button>
 											{/* <button type="button" className="btn btn-tool" data-card-widget="remove"><i className="fas fa-times" /></button> */}
@@ -1395,17 +1749,17 @@ export default class DBTFarmerDashboard extends Component {
 										<div className="row">
 											<DBTPieChart pieChartProps={{
 												activityLabel: "Gender",
-												activity: "Farmer",
+												activity: this.state.graphCountLabel,
 												data: this.state.gender
 											}} />
 											<DBTPieChart pieChartProps={{
 												activityLabel: "Social Category",
-												activity: "Social",
+												activity: this.state.graphCountLabel,
 												data: this.state.category
 											}} />
 											<DBTPieChart pieChartProps={{
 												activityLabel: "Farmer Type",
-												activity: "Farmer",
+												activity: this.state.graphCountLabel,
 												data: this.state.farmerType
 											}} />
 
