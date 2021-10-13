@@ -24,15 +24,23 @@ import DBTPieChart from './DBTPieChart';
 import Point from 'ol/geom/Point';
 import { Fill, Stroke, RegularShape, Circle, Icon, Text, Style } from 'ol/style';
 import LegendPanelDashboard from './LegendPanelDashboard';
-import $ from 'jquery';
 import select from "select2";
 import { act } from 'react-dom/test-utils';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'jquery/dist/jquery.min.js';
+//Datatable Modules
+import "datatables.net-dt/js/dataTables.dataTables"
+import "datatables.net-dt/css/jquery.dataTables.min.css"
+import $ from 'jquery';
+import InfoTable from './InfoTable';
 var view = "", map;
 let pocraDBTLayer;
 var featurelayer; var a = new Array();
 var thing;
-var vectorSource, geojson, talukaLayer;
+var geojson, talukaLayer;
+var vectorSource = new VectorSource({});
 var imgSource = new ImageWMS({});
+let infoTable;
 export default class DBTFarmerDashboard extends Component {
 
 	constructor(props) {
@@ -205,7 +213,7 @@ export default class DBTFarmerDashboard extends Component {
 		this.handleRadioChange();
 		// this.getCategoryApplicationCount("All","All","All","All");
 
-
+		
 		// $(function () {
 		//Initialize Select2 Elements
 		// $('.select2').select2();
@@ -224,36 +232,117 @@ export default class DBTFarmerDashboard extends Component {
 
 		// map.addOverlay(overlay);
 
-		// map.on('click', evt => {
-		// 	overlay.setPosition(undefined)
-		// 	const coordinate = evt.coordinate;
+		map.on('click', evt => {
+			// 	overlay.setPosition(undefined)
+			const coordinate = evt.coordinate;
 
-		// 	var viewResolution = (view.getResolution());
-		// 	var url = imdlayer.getSource().getFeatureInfoUrl(
-		// 		evt.coordinate,
-		// 		viewResolution,
-		// 		'EPSG:3857', { 'INFO_FORMAT': 'application/json' }
-		// 	);
-		// 	if (url) {
-		// 		fetch(url)
-		// 			.then((response) => {
-		// 				// console.log(response.text());
-		// 				return response.text();
-		// 			})
-		// 			.then((html) => {
-		// 				var jsondata = JSON.parse(html);
-		// 				if (jsondata.features[0]) {
-		// 					if (jsondata.features[0].properties) {
-		// 						var popupContent = overlay.element.querySelector('#popup-content');
-		// 						popupContent.innerHTML = '';
-		// 						popupContent.innerHTML = '<table id="customers" className="table table-bordered" style="border:1px solid black;width: 100%;color:black"><tr ><td style="background-color:skyblue;text-align:center;font-weight:bold;" colspan=2 >IMD Weather Forecast Attribute Information</td></tr><tr><td style="text-align: left">District </td><td style="text-align: left">' + jsondata.features[0].properties.dtnname + '</td></tr><tr><td style="text-align: left">Taluka </td><td style="text-align: left">' + jsondata.features[0].properties.thnname + '</td></tr><tr><td style="text-align: left">Forecast Date </td><td style="text-align: left">' + jsondata.features[0].properties.forecast_date + '</td></tr><tr><td style="text-align: left">Rainfall (mm) </td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.rainfall_mm) + '</td></tr><tr><td style="text-align: left">Maximum Temprature &#8451; </td><td style="text-align: left ">' + parseFloat(jsondata.features[0].properties.temp_max_deg_c) + '</td></tr><tr><td style="text-align: left">Minimum Temprature &#8451; </td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.temp_min_deg_c) + '</td></tr><tr><td style="text-align: left">Wind Speed(m/s) </td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.wind_speed_ms) + '</td></tr><tr><td style="text-align: left">Wind Direction</td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.wind_direction_deg) + '</td></tr><tr><td style="text-align: left">Humidity 1 (%) </td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.humidity_1) + '</td></tr><tr><td style="text-align: left">Humidity 2 (%)</td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.humidity_2) + '</td></tr><tr><td style="text-align: left">Cloud Cover </td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.cloud_cover_octa) + '</td></tr><tr></table>';
-		// 						// overlay.addOverlay(this.popup);
-		// 						overlay.setPosition(coordinate);
-		// 					}
-		// 				}
-		// 			});
-		// 	}
-		// })
+			var viewResolution = (view.getResolution());
+
+			var activity = document.getElementById("activity").value;
+			// console.log(activity)
+			var district = document.getElementById("district").value;
+			// console.log(district)
+			var taluka = document.getElementById("taluka").value;
+			// console.log(taluka)
+
+			var village = document.getElementById("village").value;
+			var infoTabled = document.getElementById("infoTable");
+
+			if (activity === "All" && district != "All") {
+				$(document).ready(function () {
+					setTimeout(function () {
+						$('#example').DataTable();
+					}, 1000);
+				});
+				// imgSource
+				// document.getElementById("tableSection").style.display = "block";
+				var url = pocraDBTLayer.getSource().getFeatureInfoUrl(
+					evt.coordinate,
+					viewResolution,
+					'EPSG:3857', { 'INFO_FORMAT': 'application/json' }
+				);
+				if (url) {
+					fetch(url)
+						.then((response) => {
+							// console.log(response.text());
+							return response.text();
+						})
+						.then((html) => {
+							try {
+								var jsondata = JSON.parse(html);
+								// console.log(jsondata.features[0].properties.dtncode)
+								fetch('http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/pointInfo_ActivitybyID_dtnCode_thnCode_vinCode?activityID=' + activity + '&districtCode=' + district + '&talukaCode=' + jsondata.features[0].properties.thncode + '&villageCode=All')
+									.then(response => {
+										return response.json();
+									}).then(data => {
+										var tableData = "";
+										// console.log(data.tableInfo)
+										// data.tableInfo.map((activities) => {
+										// 	tableData = tableData + "<tr><td>" + activities.district + "</td><td>" + activities.district + "</td><tr>"
+										// })
+										ReactDOM.render(
+											<InfoTable tabdata={data.tableInfo}/>,
+											document.getElementById('infoTable')
+										  )
+										// infoTabled.innerHTML= <InfoTable />
+										// infoTable.innerHTML = '<table id="example" class="table table-bordered table-striped"><thead><tr ><th>District</th><th>Taluka</th></tr></thead><tbody>'+tableData+'</tbody></table>'
+										// "<table>" + tableData + "</table>";
+									});
+
+							}
+							catch (err) {
+
+								// document.getElementById("tableSection").style.display = "none";
+								infoTabled.innerHTML = '';
+							}
+
+						});
+				}
+
+			} else if (activity != "All" && district != "All") {
+				var url = pocraDBTLayer.getSource().getFeatureInfoUrl(
+					evt.coordinate,
+					viewResolution,
+					'EPSG:3857', { 'INFO_FORMAT': 'application/json' }
+				);
+				if (url) {
+					fetch(url)
+						.then((response) => {
+							// console.log(response.text());
+							return response.text();
+						})
+						.then((html) => {
+							var jsondata = JSON.parse(html);
+							console.log(jsondata.features[0].properties.dtncode)
+
+
+						});
+				}
+			}
+
+
+			// if (url) {
+			// 	fetch(url)
+			// 		.then((response) => {
+			// 			// console.log(response.text());
+			// 			return response.text();
+			// 		})
+			// 		.then((html) => {
+			// 			var jsondata = JSON.parse(html);
+			// 			console.log(jsondata)
+
+			// 			// 				if (jsondata.features[0]) {
+			// 			// 					if (jsondata.features[0].properties) {
+			// 			// 						var popupContent = overlay.element.querySelector('#popup-content');
+			// 			// 						popupContent.innerHTML = '';
+			// 			// 						popupContent.innerHTML = '<table id="customers" className="table table-bordered" style="border:1px solid black;width: 100%;color:black"><tr ><td style="background-color:skyblue;text-align:center;font-weight:bold;" colspan=2 >IMD Weather Forecast Attribute Information</td></tr><tr><td style="text-align: left">District </td><td style="text-align: left">' + jsondata.features[0].properties.dtnname + '</td></tr><tr><td style="text-align: left">Taluka </td><td style="text-align: left">' + jsondata.features[0].properties.thnname + '</td></tr><tr><td style="text-align: left">Forecast Date </td><td style="text-align: left">' + jsondata.features[0].properties.forecast_date + '</td></tr><tr><td style="text-align: left">Rainfall (mm) </td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.rainfall_mm) + '</td></tr><tr><td style="text-align: left">Maximum Temprature &#8451; </td><td style="text-align: left ">' + parseFloat(jsondata.features[0].properties.temp_max_deg_c) + '</td></tr><tr><td style="text-align: left">Minimum Temprature &#8451; </td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.temp_min_deg_c) + '</td></tr><tr><td style="text-align: left">Wind Speed(m/s) </td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.wind_speed_ms) + '</td></tr><tr><td style="text-align: left">Wind Direction</td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.wind_direction_deg) + '</td></tr><tr><td style="text-align: left">Humidity 1 (%) </td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.humidity_1) + '</td></tr><tr><td style="text-align: left">Humidity 2 (%)</td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.humidity_2) + '</td></tr><tr><td style="text-align: left">Cloud Cover </td><td style="text-align: left">' + parseFloat(jsondata.features[0].properties.cloud_cover_octa) + '</td></tr><tr></table>';
+			// 			// 						// overlay.addOverlay(this.popup);
+			// 			// 						overlay.setPosition(coordinate);
+			// 			// 					}
+			// 			// 				}
+			// 		});
+			// }
+		})
 
 	}
 
@@ -309,7 +398,10 @@ export default class DBTFarmerDashboard extends Component {
 					var feature = new Feature({
 						geometry: new Point(transform([parseFloat(this.state.lat), parseFloat(this.state.lon)], 'EPSG:4326', 'EPSG:3857')),
 						no_of_application: this.state.no_of_application,
-						district: this.state.districtName
+						district: this.state.districtName,
+						no_of_applications: activities.no_of_application,
+						no_of_registration: activities.no_of_registration,
+						no_of_paymentdone: activities.no_of_paymentdone
 					});
 
 					vectorSource.addFeature(feature);
@@ -364,7 +456,6 @@ export default class DBTFarmerDashboard extends Component {
 			.then(response => {
 				return response.json();
 			}).then(data => {
-
 				vectorSource = new VectorSource({})
 				data.activity.map((activities) => {
 					if (applicationFor === "no_of_application") {
@@ -1588,6 +1679,9 @@ export default class DBTFarmerDashboard extends Component {
 
 
 	render() {
+
+
+
 		return (
 			<div>
 				<div className="content-wrapper">
@@ -1725,6 +1819,12 @@ export default class DBTFarmerDashboard extends Component {
 											<div id={"legend"} className="box stack-top">
 												<LegendPanelDashboard props={this.state.classValues} />
 											</div>
+
+
+
+											<section className="content col-4" style={{ position: "absolute", zIndex: "9", top: "30%", right: "1%",height:"100px"}} id="infoTable">
+												
+											</section>
 										</div>
 									</div>
 
