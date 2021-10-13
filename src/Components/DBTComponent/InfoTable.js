@@ -32,8 +32,8 @@ class InfoTable extends Component {
 	}
 	render() {
 		return (
-			<div className="container-fluid">
-				<div className="row">
+			<div className="container-fluid" >
+				<div className="row" >
 					<div className="col-12">
 						{/* /.card */}
 						<div className="card">
@@ -46,10 +46,10 @@ class InfoTable extends Component {
 							</div>
 
 							{/* /.card-header */}
-							<div className="card-body" style={{height:"300px"}}> 
+							<div className="card-body" > 
 								<table id="example" className="table table-bordered table-striped">
-									<thead>
-										<tr >
+									<thead >
+										<tr style={{fontSize:"10px" }}>
 											<th>Activity Name</th>
 											<th>Registrations</th>
 											<th>Applications </th>

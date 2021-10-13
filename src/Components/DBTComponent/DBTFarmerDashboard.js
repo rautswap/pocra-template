@@ -1822,7 +1822,7 @@ export default class DBTFarmerDashboard extends Component {
 
 
 
-											<section className="content col-4" style={{ position: "absolute", zIndex: "9", top: "30%", right: "1%",height:"100px"}} id="infoTable">
+											<section className="content col-sm-5" style={{ position: "absolute", zIndex: "9", top: "20%", right: "0%",height:"300px"}} id="infoTable">
 												
 											</section>
 										</div>
