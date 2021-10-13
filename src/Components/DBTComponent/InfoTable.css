@@ -1,6 +1,6 @@
 .dataTables_wrapper {
     font-family: tahoma;
-    font-size: 12px;
+    font-size: 10px;
     /* direction: rtl;
     position: relative;
     clear: both;
@@ -9,5 +9,8 @@
 }
 table, th {
     font-size: 12px;
-   
+}
+.custom-control-label{
+	font-size: 80% !important;
+	font-weight: normal !important;
 }

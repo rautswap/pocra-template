@@ -38,10 +38,10 @@ class InfoTable extends Component {
 						{/* /.card */}
 						<div className="card">
 							<div className="card-header">
-								<h3 className="card-title">Attribute Information</h3>
+								<h3 className="card-title"><b>Attribute Information</b></h3>
 								<div className="card-tools">
 									<button type="button" className="btn btn-tool" data-card-widget="collapse"><i className="fas fa-minus" /></button>
-									{/* <button type="button" className="btn btn-tool" data-card-widget="remove"><i className="fas fa-times" /></button> */}
+									<button type="button" className="btn btn-tool" ><i className="fas fa-times" /></button>
 								</div>
 							</div>
 
@@ -49,7 +49,7 @@ class InfoTable extends Component {
 							<div className="card-body" > 
 								<table id="example" className="table table-bordered table-striped">
 									<thead >
-										<tr style={{fontSize:"10px" }}>
+										<tr>
 											<th>Activity Name</th>
 											<th>Registrations</th>
 											<th>Applications </th>
