@@ -201,7 +201,6 @@ export default class DBTFarmerDashboard extends Component {
 		this.loadMap = this.loadMap.bind(this);
 		this.getDBTVectorLayerDistrict = this.getDBTVectorLayerDistrict.bind(this);
 		this.updateHeaderLabel = this.updateHeaderLabel.bind(this);
-		this.handleRadioChange = this.handleRadioChange.bind(this);
 	}
 
 
@@ -211,7 +210,6 @@ export default class DBTFarmerDashboard extends Component {
 		this.getDistrict();
 		this.getFarmerActivity();
 		this.updateHeaderLabel();
-		this.handleRadioChange();
 		// this.getCategoryApplicationCount("All","All","All","All");
 
 
@@ -279,11 +277,12 @@ export default class DBTFarmerDashboard extends Component {
 											tableData = tableData + "<tr><td>" + activities.activity_group + "</td><td>" + activities.no_of_registration + "</td><td>" + activities.no_of_application + "</td><td>" + activities.no_of_paymentdone + "</td></tr>"
 										})
 
-										infoTabled.innerHTML = '<div class="container-fluid" ><div class="row" ><div class="col-12"><div class="card"><div class="card-header"><h3 class="card-title"><b>Attribute Information</b></h3><div class="card-tools"><button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus" /></button><button type="button" class="btn btn-tool" ><i class="fas fa-times" /></button></div></div><div class="card-body" ><table id="example" class="table table-bordered table-striped"><thead ><tr><th>Activity </th><th>Registrations</th><th>Applications </th><th>Disbursement </th></tr></thead><tbody>' + tableData + '</tbody></table></div></div></div></div></div>'
+										infoTabled.innerHTML = '<div class="container-fluid" ><div class="row" ><div class="col-12"><div class="card"><div class="card-header"><h3 class="card-title"><b>Attribute Information</b></h3><div class="card-tools"><button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus" ></i></button> <button type="button" class="btn btn-tool" data-card-widget="remove" ><i class="fas fa-times" /></button></div></div><div class="card-body" ><table id="example" class="table table-bordered table-striped"><thead ><tr><th>Activity </th><th>Registrations</th><th>Applications </th><th>Disbursement </th></tr></thead><tbody>' + tableData + '</tbody></table></div></div></div></div></div>'
 
 									});
 							}
 							catch (err) {
+								infoTabled.style.display="none";
 								infoTabled.innerHTML = '';
 							}
 						});
@@ -315,7 +314,7 @@ export default class DBTFarmerDashboard extends Component {
 										data.tableInfo.map((activities) => {
 											tableData = tableData + "<tr><td>" + activities.activity_group + "</td><td>" + activities.no_of_registration + "</td><td>" + activities.no_of_application + "</td><td>" + activities.no_of_paymentdone + "</td></tr>"
 										})
-										infoTabled.innerHTML = '<div class="container-fluid" ><div class="row" ><div class="col-12"><div class="card"><div class="card-header"><h3 class="card-title"><b>Attribute Information</b></h3><div class="card-tools"><button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus" /></button><button type="button" class="btn btn-tool" ><i class="fas fa-times" /></button></div></div><div class="card-body" ><table id="example" class="table table-bordered table-striped"><thead ><tr><th>Activity </th><th>Registrations</th><th>Applications </th><th>Disbursement </th></tr></thead><tbody>' + tableData + '</tbody></table></div></div></div></div></div>';
+										infoTabled.innerHTML = '<div class="container-fluid" ><div class="row" ><div class="col-12"><div class="card"><div class="card-header"><h3 class="card-title"><b>Attribute Information</b></h3><div class="card-tools"><button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus" ></i></button><button type="button" class="btn btn-tool" data-card-widget="remove" ><i class="fas fa-times" /></button></div></div><div class="card-body" ><table id="example" class="table table-bordered table-striped"><thead ><tr><th>Activity </th><th>Registrations</th><th>Applications </th><th>Disbursement </th></tr></thead><tbody>' + tableData + '</tbody></table></div></div></div></div></div>';
 									});
 							}
 							catch (err) {
@@ -350,7 +349,7 @@ export default class DBTFarmerDashboard extends Component {
 										data.tableInfo.map((activities) => {
 											tableData = tableData + "<tr><td>" + activities.activity_group + "</td><td>" + activities.no_of_registration + "</td><td>" + activities.no_of_application + "</td><td>" + activities.no_of_paymentdone + "</td></tr>"
 										})
-										infoTabled.innerHTML = '<div class="container-fluid" ><div class="row" ><div class="col-12"><div class="card"><div class="card-header"><h3 class="card-title"><b>Attribute Information</b></h3><div class="card-tools"><button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus" /></button><button type="button" class="btn btn-tool" ><i class="fas fa-times" /></button></div></div><div class="card-body" ><table id="example" class="table table-bordered table-striped"><thead ><tr><th>Activity </th><th>Registrations</th><th>Applications </th><th>Disbursement </th></tr></thead><tbody>' + tableData + '</tbody></table></div></div></div></div></div>';
+										infoTabled.innerHTML = '<div class="container-fluid" ><div class="row" ><div class="col-12"><div class="card"><div class="card-header"><h3 class="card-title"><b>Attribute Information</b></h3><div class="card-tools"><button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus" ></i></button><button type="button" class="btn btn-tool" data-card-widget="remove" ><i class="fas fa-times" /></button></div></div><div class="card-body" ><table id="example" class="table table-bordered table-striped"><thead ><tr><th>Activity </th><th>Registrations</th><th>Applications </th><th>Disbursement </th></tr></thead><tbody>' + tableData + '</tbody></table></div></div></div></div></div>';
 									});
 							}
 							catch (err) {
@@ -385,7 +384,7 @@ export default class DBTFarmerDashboard extends Component {
 										data.tableInfo.map((activities) => {
 											tableData = tableData + "<tr><td>" + activities.activity_group + "</td><td>" + activities.no_of_registration + "</td><td>" + activities.no_of_application + "</td><td>" + activities.no_of_paymentdone + "</td></tr>"
 										})
-										infoTabled.innerHTML = '<div class="container-fluid" ><div class="row" ><div class="col-12"><div class="card"><div class="card-header"><h3 class="card-title"><b>Attribute Information</b></h3><div class="card-tools"><button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus" /></button><button type="button" class="btn btn-tool" ><i class="fas fa-times" /></button></div></div><div class="card-body" ><table id="example" class="table table-bordered table-striped"><thead ><tr><th>Activity </th><th>Registrations</th><th>Applications </th><th>Disbursement </th></tr></thead><tbody>' + tableData + '</tbody></table></div></div></div></div></div>';
+										infoTabled.innerHTML = '<div class="container-fluid" ><div class="row" ><div class="col-12"><div class="card"><div class="card-header"><h3 class="card-title"><b>Attribute Information</b></h3><div class="card-tools"><button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus" ></i></button><button type="button" class="btn btn-tool" data-card-widget="remove" ><i class="fas fa-times" /></button></div></div><div class="card-body" ><table id="example" class="table table-bordered table-striped"><thead ><tr><th>Activity </th><th>Registrations</th><th>Applications </th><th>Disbursement </th></tr></thead><tbody>' + tableData + '</tbody></table></div></div></div></div></div>';
 									});
 							}
 							catch (err) {
@@ -403,6 +402,7 @@ export default class DBTFarmerDashboard extends Component {
 
 	}
 
+	
 
 
 	getDBTVectorLayerDistrict(activityId, applicationFor) {
@@ -494,7 +494,7 @@ export default class DBTFarmerDashboard extends Component {
 									color: '#1F51FF'
 								}),
 								stroke: new Stroke({
-									color: '#FFF',
+									color: '#565287',
 									width: 0.5
 								})
 							}),
@@ -561,18 +561,19 @@ export default class DBTFarmerDashboard extends Component {
 							text: new Text({
 
 								text: '' + feature.get('no_of_application') + '',
-								font: '12px Calibri,sans-serif',
+								font: 'bold 12px sans-serif',
+
 								offsetY: 15,
 								offsetX: 25,
 								align: 'bottom',
 								scale: 1,
 								// textBaseline: 'bottom',
 								fill: new Fill({
-									color: '#ffffff'
+									color: '#1F51FF'
 								}),
 								stroke: new Stroke({
-									color: '#5151c8',
-									width: 3
+									color: '#565287',
+									width: 0.5
 								})
 							}),
 						});
@@ -640,18 +641,19 @@ export default class DBTFarmerDashboard extends Component {
 							text: new Text({
 
 								text: '' + feature.get('no_of_application') + '',
-								font: '12px Calibri,sans-serif',
-								offsetY: 10,
-								offsetX: 10,
+								font: 'bold 12px sans-serif',
+
+								offsetY: 15,
+								offsetX: 25,
 								align: 'bottom',
 								scale: 1,
 								// textBaseline: 'bottom',
-								// fill: new Fill({
-								// 	color: '#ffffff'
-								// }),
+								fill: new Fill({
+									color: '#1F51FF'
+								}),
 								stroke: new Stroke({
-									color: '#5151c8',
-									width: 3
+									color: '#565287',
+									width: 0.5
 								})
 							}),
 						});
@@ -722,18 +724,19 @@ export default class DBTFarmerDashboard extends Component {
 							text: new Text({
 
 								text: '' + feature.get('no_of_application') + '',
-								font: '12px Calibri,sans-serif',
-								offsetY: 10,
-								offsetX: 10,
+								font: 'bold 12px sans-serif',
+
+								offsetY: 15,
+								offsetX: 25,
 								align: 'bottom',
 								scale: 1,
 								// textBaseline: 'bottom',
 								fill: new Fill({
-									color: '#ffffff'
+									color: '#1F51FF'
 								}),
 								stroke: new Stroke({
-									color: '#5151c8',
-									width: 3
+									color: '#565287',
+									width: 0.5
 								})
 							}),
 						});
@@ -971,7 +974,7 @@ export default class DBTFarmerDashboard extends Component {
 		});
 
 
-		// map.addLayer(geojson);
+		map.addLayer(geojson);
 
 
 		if (activityId === 'All') {
@@ -1836,7 +1839,7 @@ export default class DBTFarmerDashboard extends Component {
 
 
 
-											<section className="content col-sm-5" style={{ position: "absolute", zIndex: "9", top: "20%", right: "0%", height: "300px" }} id="infoTable">
+											<section className="content col-sm-5" style={{ position: "absolute", zIndex: "9", top: "20%", right: "0%" }} id="infoTable">
 
 											</section>
 										</div>
