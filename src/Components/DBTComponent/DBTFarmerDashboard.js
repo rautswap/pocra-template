@@ -204,14 +204,15 @@ export default class DBTFarmerDashboard extends Component {
 			var viewResolution = (view.getResolution());
 
 			var activity = document.getElementById("activity").value;
-			// console.log(activity)
+			
 			var district = document.getElementById("district").value;
-			// console.log(district)
+			
 			var taluka = document.getElementById("taluka").value;
-			// console.log(taluka)
-
+			
 			var village = document.getElementById("village").value;
+
 			var infoTabled = document.getElementById("infoTable");
+
 			$(document).ready(function () {
 				setTimeout(function () {
 					$('#example').DataTable();
@@ -287,8 +288,7 @@ export default class DBTFarmerDashboard extends Component {
 						});
 				}
 			} else if (activity == "All" && district !== "All" && taluka !== "All" && village === "All" && document.getElementById("customRadio4").checked === false) {
-				// imgSource
-				// document.getElementById("tableSection").style.display = "block";
+				
 				var url = pocraDBTLayer.getSource().getFeatureInfoUrl(
 					evt.coordinate,
 					viewResolution,
@@ -459,14 +459,10 @@ export default class DBTFarmerDashboard extends Component {
 					vectorSource.addFeature(feature);
 
 				});
-				// this.setState({
-				// 	total: totalApp
-				// })
-
+				
 				if (featurelayer) {
 					map.removeLayer(featurelayer)
 				}
-				// console.log(applications)
 
 				this.setState({
 					applicationCount: applications
@@ -1313,9 +1309,9 @@ export default class DBTFarmerDashboard extends Component {
 					return activities = {
 						label: activities.ActivityGroupName,
 						value: activities.ActivityGroupID,
-						TotalNoOfApplications: activities.TotalNoOfApplications,
-						TotalNoOfDisbursement: activities.TotalNoOfDisbursement,
-						TotalNoOfPreSanction: activities.TotalNoOfPreSanction
+						// TotalNoOfApplications: activities.TotalNoOfApplications,
+						// TotalNoOfDisbursement: activities.TotalNoOfDisbursement,
+						// TotalNoOfPreSanction: activities.TotalNoOfPreSanction
 					}
 				});
 				this.setState({
