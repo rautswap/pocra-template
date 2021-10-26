@@ -14,10 +14,11 @@ export default class FarmerBarChart extends Component {
 		super(props)
 		this.state = {
 			ActivityGroupName: [],
-			TotalAmountDisbursed: [],
-			TotalNoOfApplications: [],
-			TotalNoOfDisbursement: [],
-			TotalNoOfPreSanction: []
+			no_of_registration: [],
+			no_of_application: [],
+			no_of_presanction: [],			
+			no_of_work_completed: [],
+			no_of_paymentdone: []
 		}
 	}
 
@@ -27,26 +28,30 @@ export default class FarmerBarChart extends Component {
 
 	getFarmerActivity() {
 		let initialActivity = [];
-		let activityGroupName = [], totalAmountDisbursed = [], totalNoOfApplications = [], totalNoOfDisbursement = [], totalNoOfPreSanction = [];
-		fetch('http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/dbtActivityMaster?activity=' + this.props.chartProps.activity + '&activityId=""')
+		let activityGroupName = [], total_no_of_registration = [], total_no_of_application = [],total_no_of_presanction = [],
+		total_no_of_work_completed = [] ,total_no_of_paymentdone = [];
+		fetch('http://gis.mahapocra.gov.in/weatherservices/meta/dbtActivityMaster?activity=' + this.props.chartProps.activity)
 			.then(response => {
 				return response.json();
 			}).then(data => {
 				// console.log(data)
 				initialActivity = data.activity.map((farmers) => {
 					activityGroupName.push(farmers.ActivityGroupName);
-					totalAmountDisbursed.push(farmers.TotalAmountDisbursed);
-					totalNoOfApplications.push(farmers.TotalNoOfApplications);
-					totalNoOfDisbursement.push(farmers.TotalNoOfDisbursement);
-					totalNoOfPreSanction.push(farmers.TotalNoOfPreSanction);
+					total_no_of_registration.push(farmers.no_of_registration);
+					total_no_of_application.push(farmers.no_of_application);
+					total_no_of_presanction.push(farmers.no_of_presanction);
+					total_no_of_work_completed.push(farmers.no_of_work_completed);
+					total_no_of_paymentdone.push(farmers.no_of_paymentdone);
 				});
 
 				this.setState({
+
 					ActivityGroupName: activityGroupName,
-					TotalAmountDisbursed: totalAmountDisbursed,
-					TotalNoOfApplications: totalNoOfApplications,
-					TotalNoOfDisbursement: totalNoOfDisbursement,
-					TotalNoOfPreSanction: totalNoOfPreSanction
+					no_of_registration: total_no_of_registration,
+					no_of_application: total_no_of_application,
+					no_of_presanction: total_no_of_presanction,			
+					no_of_work_completed: total_no_of_work_completed,
+					no_of_paymentdone:total_no_of_paymentdone
 				});
 			});
 	}
@@ -95,16 +100,24 @@ export default class FarmerBarChart extends Component {
 				}
 			},
 			series: [{
+				name: 'Total No Of Registration',
+				data: this.state.no_of_registration
+
+			},{
 				name: 'Total No Of Applications',
-				data: this.state.TotalNoOfApplications
+				data: this.state.no_of_application
+
+			},{
+				name: 'Total No Of Presanctions',
+				data: this.state.no_of_presanction
 
 			}, {
-				name: 'Total No Of Disbursement',
-				data: this.state.TotalNoOfDisbursement
+				name: 'Total No Of Work Completed',
+				data: this.state.no_of_work_completed
 
 			}, {
-				name: 'Total No Of PreSanction',
-				data: this.state.TotalNoOfPreSanction
+				name: 'Total No Of Payment Done',
+				data: this.state.no_of_paymentdone
 
 			}]
 		};

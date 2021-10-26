@@ -11,21 +11,15 @@ import { transform } from 'ol/proj';
 import { Image as ImageLayer, Tile as TileLayer, Vector } from 'ol/layer';
 import TileWMS from 'ol/source/TileWMS'
 import ImageWMS from 'ol/source/ImageWMS'
-import Moment from 'moment';
 import ReactDOM from 'react-dom';
 import GeoJSON from 'ol/format/GeoJSON';
-import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
-import DropDown from './DropDown';
-import Select from 'react-select';
 import "./DBTDashboard.css"
-import FarmerFPCChart from './FarmerFPCChart';
 import DBTPieChart from './DBTPieChart';
 import Point from 'ol/geom/Point';
 import { Fill, Stroke, RegularShape, Circle, Icon, Text, Style } from 'ol/style';
 import LegendPanelDashboard from './LegendPanelDashboard';
 import select from "select2";
-import { act } from 'react-dom/test-utils';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'jquery/dist/jquery.min.js';
 //Datatable Modules
@@ -204,11 +198,11 @@ export default class DBTFarmerDashboard extends Component {
 			var viewResolution = (view.getResolution());
 
 			var activity = document.getElementById("activity").value;
-			
+
 			var district = document.getElementById("district").value;
-			
+
 			var taluka = document.getElementById("taluka").value;
-			
+
 			var village = document.getElementById("village").value;
 
 			var infoTabled = document.getElementById("infoTable");
@@ -218,7 +212,7 @@ export default class DBTFarmerDashboard extends Component {
 					$('#example').DataTable();
 				}, 1000);
 			});
-			if (activity === "All" && district !== "All" && taluka === "All" && village === "All" && document.getElementById("customRadio4").checked === false) {
+			if (activity === "All" && district !== "All" && taluka === "All" && village === "All" && document.getElementById("locationRadio").checked === false) {
 				var url = pocraDBTLayer.getSource().getFeatureInfoUrl(
 					evt.coordinate,
 					viewResolution,
@@ -234,7 +228,7 @@ export default class DBTFarmerDashboard extends Component {
 							try {
 								var jsondata = JSON.parse(html);
 
-								fetch('http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/pointInfo_ActivitybyID_dtnCode_thnCode_vinCode?activityID=' + activity + '&districtCode=' + district + '&talukaCode=' + jsondata.features[0].properties.thncode + '&villageCode=All')
+								fetch('http://gis.mahapocra.gov.in/weatherservices/meta/pointInfo_ActivitybyID_dtnCode_thnCode_vinCode?activityID=' + activity + '&districtCode=' + district + '&talukaCode=' + jsondata.features[0].properties.thncode + '&villageCode=All')
 									.then(response => {
 										return response.json();
 									}).then(data => {
@@ -254,7 +248,7 @@ export default class DBTFarmerDashboard extends Component {
 						});
 				}
 
-			} else if (activity !== "All" && district !== "All" && taluka === "All" && village === "All" && document.getElementById("customRadio4").checked === false) {
+			} else if (activity !== "All" && district !== "All" && taluka === "All" && village === "All" && document.getElementById("locationRadio").checked === false) {
 
 				var url = pocraDBTLayer.getSource().getFeatureInfoUrl(
 					evt.coordinate,
@@ -270,7 +264,7 @@ export default class DBTFarmerDashboard extends Component {
 						.then((html) => {
 							try {
 								var jsondata = JSON.parse(html);
-								fetch('http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/pointInfo_ActivitybyID_dtnCode_thnCode_vinCode?activityID=' + activity + '&districtCode=' + district + '&talukaCode=' + jsondata.features[0].properties.thncode + '&villageCode=All')
+								fetch('http://gis.mahapocra.gov.in/weatherservices/meta/pointInfo_ActivitybyID_dtnCode_thnCode_vinCode?activityID=' + activity + '&districtCode=' + district + '&talukaCode=' + jsondata.features[0].properties.thncode + '&villageCode=All')
 									.then(response => {
 										return response.json();
 									}).then(data => {
@@ -287,8 +281,8 @@ export default class DBTFarmerDashboard extends Component {
 							}
 						});
 				}
-			} else if (activity == "All" && district !== "All" && taluka !== "All" && village === "All" && document.getElementById("customRadio4").checked === false) {
-				
+			} else if (activity == "All" && district !== "All" && taluka !== "All" && village === "All" && document.getElementById("locationRadio").checked === false) {
+
 				var url = pocraDBTLayer.getSource().getFeatureInfoUrl(
 					evt.coordinate,
 					viewResolution,
@@ -304,7 +298,7 @@ export default class DBTFarmerDashboard extends Component {
 							try {
 								var jsondata = JSON.parse(html);
 								// console.log(jsondata.features[0].properties)
-								fetch('http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/pointInfo_ActivitybyID_dtnCode_thnCode_vinCode?activityID=' + activity + '&districtCode=' + jsondata.features[0].properties.dtncode + '&talukaCode=' + jsondata.features[0].properties.thncode + '&villageCode=' + jsondata.features[0].properties.vincode)
+								fetch('http://gis.mahapocra.gov.in/weatherservices/meta/pointInfo_ActivitybyID_dtnCode_thnCode_vinCode?activityID=' + activity + '&districtCode=' + jsondata.features[0].properties.dtncode + '&talukaCode=' + jsondata.features[0].properties.thncode + '&villageCode=' + jsondata.features[0].properties.vincode)
 									.then(response => {
 										return response.json();
 									}).then(data => {
@@ -321,7 +315,7 @@ export default class DBTFarmerDashboard extends Component {
 							}
 						});
 				}
-			} else if (activity !== "All" && district !== "All" && taluka !== "All" && village === "All" && document.getElementById("customRadio4").checked === false) {
+			} else if (activity !== "All" && district !== "All" && taluka !== "All" && village === "All" && document.getElementById("locationRadio").checked === false) {
 				// imgSource
 				// document.getElementById("tableSection").style.display = "block";
 				var url = pocraDBTLayer.getSource().getFeatureInfoUrl(
@@ -339,7 +333,7 @@ export default class DBTFarmerDashboard extends Component {
 							try {
 								var jsondata = JSON.parse(html);
 								// console.log(jsondata.features[0].properties.dtncode)
-								fetch('http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/pointInfo_ActivitybyID_dtnCode_thnCode_vinCode?activityID=' + activity + '&districtCode=' + jsondata.features[0].properties.dtncode + '&talukaCode=' + jsondata.features[0].properties.thncode + '&villageCode=' + jsondata.features[0].properties.vincode)
+								fetch('http://gis.mahapocra.gov.in/weatherservices/meta/pointInfo_ActivitybyID_dtnCode_thnCode_vinCode?activityID=' + activity + '&districtCode=' + jsondata.features[0].properties.dtncode + '&talukaCode=' + jsondata.features[0].properties.thncode + '&villageCode=' + jsondata.features[0].properties.vincode)
 									.then(response => {
 										return response.json();
 									}).then(data => {
@@ -356,7 +350,7 @@ export default class DBTFarmerDashboard extends Component {
 							}
 						});
 				}
-			} else if (activity === "All" && district !== "All" && taluka !== "All" && village !== "All" && document.getElementById("customRadio4").checked === true) {
+			} else if (activity === "All" && district !== "All" && taluka !== "All" && village !== "All" && document.getElementById("locationRadio").checked === true) {
 				// imgSource
 				// document.getElementById("tableSection").style.display = "block";
 
@@ -406,7 +400,7 @@ export default class DBTFarmerDashboard extends Component {
 
 		}
 		var applications = 0;
-		fetch('http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/dbtDistrict?activityId=' + activityId)
+		fetch('http://gis.mahapocra.gov.in/weatherservices/meta/dbtDistrict?activityId=' + activityId)
 			.then(response => {
 				return response.json();
 			}).then(data => {
@@ -445,6 +439,22 @@ export default class DBTFarmerDashboard extends Component {
 							districtName: activities.district,
 						})
 					}
+					else if (applicationFor === "no_of_presanction") {
+						this.setState({
+							lat: activities.lat,
+							lon: activities.lon,
+							no_of_application: activities.no_of_presanction,
+							districtName: activities.district,
+						})
+					}
+					else if (applicationFor === "no_of_work_completed") {
+						this.setState({
+							lat: activities.lat,
+							lon: activities.lon,
+							no_of_application: activities.no_of_work_completed,
+							districtName: activities.district,
+						})
+					}
 
 
 					var feature = new Feature({
@@ -459,7 +469,7 @@ export default class DBTFarmerDashboard extends Component {
 					vectorSource.addFeature(feature);
 
 				});
-				
+
 				if (featurelayer) {
 					map.removeLayer(featurelayer)
 				}
@@ -501,7 +511,7 @@ export default class DBTFarmerDashboard extends Component {
 		if (vectorSource) {
 
 		}
-		fetch('http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/dbtTaluka?activityId=' + activityId + '&districtCode=' + districtCode)
+		fetch('http://gis.mahapocra.gov.in/weatherservices/meta/dbtTaluka?activityId=' + activityId + '&districtCode=' + districtCode)
 			.then(response => {
 				return response.json();
 			}).then(data => {
@@ -530,6 +540,21 @@ export default class DBTFarmerDashboard extends Component {
 							no_of_application: activities.no_of_registration,
 							districtName: activities.district,
 							// total: totalApp
+						})
+					} else if (applicationFor === "no_of_presanction") {
+						this.setState({
+							lat: activities.lat,
+							lon: activities.lon,
+							no_of_application: activities.no_of_presanction,
+							districtName: activities.district,
+						})
+					}
+					else if (applicationFor === "no_of_work_completed") {
+						this.setState({
+							lat: activities.lat,
+							lon: activities.lon,
+							no_of_application: activities.no_of_work_completed,
+							districtName: activities.district,
 						})
 					}
 					var feature = new Feature({
@@ -580,7 +605,7 @@ export default class DBTFarmerDashboard extends Component {
 		if (vectorSource) {
 
 		}
-		fetch('http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/dbtVillage?activityId=' + activityId + '&districtCode=' + districtCode + '&talukaCode=' + talukaCode)
+		fetch('http://gis.mahapocra.gov.in/weatherservices/meta/dbtVillage?activityId=' + activityId + '&districtCode=' + districtCode + '&talukaCode=' + talukaCode)
 			.then(response => {
 				return response.json();
 			}).then(data => {
@@ -611,6 +636,21 @@ export default class DBTFarmerDashboard extends Component {
 							no_of_application: activities.no_of_registration,
 							districtName: activities.district,
 							// total: totalApp
+						})
+					} else if (applicationFor === "no_of_presanction") {
+						this.setState({
+							lat: activities.lat,
+							lon: activities.lon,
+							no_of_application: activities.no_of_presanction,
+							districtName: activities.district,
+						})
+					}
+					else if (applicationFor === "no_of_work_completed") {
+						this.setState({
+							lat: activities.lat,
+							lon: activities.lon,
+							no_of_application: activities.no_of_work_completed,
+							districtName: activities.district,
 						})
 					}
 					var feature = new Feature({
@@ -664,7 +704,7 @@ export default class DBTFarmerDashboard extends Component {
 
 		}
 
-		fetch('http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/dbtVillageIndividual?activityId=' + activityId + '&districtCode=' + districtCode + '&talukaCode=' + talukaCode + '&villageCode=' + villageCode)
+		fetch('http://gis.mahapocra.gov.in/weatherservices/meta/dbtVillageIndividual?activityId=' + activityId + '&districtCode=' + districtCode + '&talukaCode=' + talukaCode + '&villageCode=' + villageCode)
 			.then(response => {
 				return response.json();
 			}).then(data => {
@@ -697,6 +737,21 @@ export default class DBTFarmerDashboard extends Component {
 							lat: activities.lat,
 							lon: activities.lon,
 							no_of_application: activities.no_of_registration,
+							districtName: activities.district,
+						})
+					} else if (applicationFor === "no_of_presanction") {
+						this.setState({
+							lat: activities.lat,
+							lon: activities.lon,
+							no_of_application: activities.no_of_presanction,
+							districtName: activities.district,
+						})
+					}
+					else if (applicationFor === "no_of_work_completed") {
+						this.setState({
+							lat: activities.lat,
+							lon: activities.lon,
+							no_of_application: activities.no_of_work_completed,
 							districtName: activities.district,
 						})
 					}
@@ -753,7 +808,7 @@ export default class DBTFarmerDashboard extends Component {
 
 		let initialActivity = [];
 
-		fetch('http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/dbtNumApplications?activityId=' + activityId + '&summary_for=' + applicationFor)
+		fetch('http://gis.mahapocra.gov.in/weatherservices/meta/dbtNumApplications?activityId=' + activityId + '&summary_for=' + applicationFor)
 			.then(response => {
 				return response.json();
 			}).then(data => {
@@ -765,6 +820,10 @@ export default class DBTFarmerDashboard extends Component {
 					labelValue = "Disbursement";
 				} else if (applicationFor === "no_of_registration") {
 					labelValue = "Registrations";
+				} else if (applicationFor === "no_of_presanction") {
+					labelValue = "Presanctions";
+				} else if (applicationFor === "no_of_work_completed") {
+					labelValue = "Work Completed";
 				}
 				initialActivity = data.activity.map((activities) => {
 					// console.log(activities.appl_1)
@@ -802,7 +861,7 @@ export default class DBTFarmerDashboard extends Component {
 
 		let initialActivity = [];
 		var labelValue = "";
-		fetch('http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/dbtNumApplicationsTaluka?activityId=' + activityId + '&districtCode=' + districtCode + '&summary_for=' + applicationFor)
+		fetch('http://gis.mahapocra.gov.in/weatherservices/meta/dbtNumApplicationsTaluka?activityId=' + activityId + '&districtCode=' + districtCode + '&summary_for=' + applicationFor)
 			.then(response => {
 				return response.json();
 			}).then(data => {
@@ -814,6 +873,10 @@ export default class DBTFarmerDashboard extends Component {
 					labelValue = "Disbursement";
 				} else if (applicationFor === "no_of_registration") {
 					labelValue = "Registrations";
+				}else if (applicationFor === "no_of_presanction") {
+					labelValue = "Presanctions";
+				} else if (applicationFor === "no_of_work_completed") {
+					labelValue = "Work Completed";
 				}
 				initialActivity = data.activity.map((activities) => {
 					// console.log(activities.appl_1)
@@ -847,7 +910,7 @@ export default class DBTFarmerDashboard extends Component {
 
 		let initialActivity = [];
 		var labelValue = "";
-		fetch('http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/dbtNumApplicationsVillage?activityId=' + activityId + '&summary_for=' + applicationFor + '&districtCode=' + districtCode + '&talukaCode=' + talukaCode)
+		fetch('http://gis.mahapocra.gov.in/weatherservices/meta/dbtNumApplicationsVillage?activityId=' + activityId + '&summary_for=' + applicationFor + '&districtCode=' + districtCode + '&talukaCode=' + talukaCode)
 			.then(response => {
 				return response.json();
 			}).then(data => {
@@ -859,7 +922,12 @@ export default class DBTFarmerDashboard extends Component {
 					labelValue = "Disbursement";
 				} else if (applicationFor === "no_of_registration") {
 					labelValue = "Registrations";
-				} initialActivity = data.activity.map((activities) => {
+				}else if (applicationFor === "no_of_presanction") {
+					labelValue = "Presanctions";
+				} else if (applicationFor === "no_of_work_completed") {
+					labelValue = "Work Completed";
+				} 
+				initialActivity = data.activity.map((activities) => {
 					// console.log(activities.appl_1)
 					this.setState(prev => ({
 						classValues: {
@@ -892,7 +960,7 @@ export default class DBTFarmerDashboard extends Component {
 
 		let initialActivity = [];
 		var labelValue = "";
-		fetch('http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/dbtNumApplicationsVillage?activityId=' + activityId + '&summary_for=' + applicationFor + '&districtCode=' + districtCode + '&talukaCode=' + talukaCode)
+		fetch('http://gis.mahapocra.gov.in/weatherservices/meta/dbtNumApplicationsVillage?activityId=' + activityId + '&summary_for=' + applicationFor + '&districtCode=' + districtCode + '&talukaCode=' + talukaCode)
 			.then(response => {
 				return response.json();
 			}).then(data => {
@@ -903,7 +971,12 @@ export default class DBTFarmerDashboard extends Component {
 					labelValue = "Disbursement";
 				} else if (applicationFor === "no_of_registration") {
 					labelValue = "Registrations";
-				} initialActivity = data.activity.map((activities) => {
+				} else if (applicationFor === "no_of_presanction") {
+					labelValue = "Presanctions";
+				} else if (applicationFor === "no_of_work_completed") {
+					labelValue = "Work Completed";
+				}
+				initialActivity = data.activity.map((activities) => {
 					// console.log(activities.appl_1)
 					this.setState(prev => ({
 						classValues: {
@@ -964,7 +1037,7 @@ export default class DBTFarmerDashboard extends Component {
 				geojson.getSource().getExtent()
 			);
 		});
-
+		map.addLayer(geojson);
 		if (activityId === 'All') {
 			imgSource = new ImageWMS({
 				attributions: ['&copy; DBT PoCRA'],
@@ -1297,7 +1370,7 @@ export default class DBTFarmerDashboard extends Component {
 		let initialActivity = [];
 		var ele = document.getElementById("activity");;
 		ele.innerHTML = "<option value='All'>All Activity</option>";
-		fetch('http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/dbtActivityMaster?activity=Farmer&activityId=""')
+		fetch('http://gis.mahapocra.gov.in/weatherservices/meta/dbtActivityMaster?activity=Farmer')
 			.then(response => {
 				return response.json();
 			}).then(data => {
@@ -1332,7 +1405,7 @@ export default class DBTFarmerDashboard extends Component {
 	// load pocra districts
 	getDistrict() {
 		document.getElementById("infoTable").innerHTML = "";
-		document.getElementById("customRadio1").checked = true;
+		document.getElementById("regestrationRadio").checked = true;
 		let initialDistrict = [];
 		var ele = document.getElementById("district");;
 		ele.innerHTML = "<option value='All'>All District</option>";
@@ -1424,7 +1497,7 @@ export default class DBTFarmerDashboard extends Component {
 	getCategoryApplicationCount(activity, district, taluka, village, applicationFor) {
 		document.getElementById("infoTable").innerHTML = "";
 		var genderData = [], categoryData = [], farmerTypeData = [];
-		fetch('http://gis.mahapocra.gov.in/dashboard_testing_api_2020_12_22/meta/dbtActivitybyID_dtnCode_thnCode_vinCode?activityID=' + activity + '&districtCode=' + district + '&talukaCode=' + taluka + '&villageCode=' + village)
+		fetch('http://gis.mahapocra.gov.in/weatherservices/meta/dbtActivitybyID_dtnCode_thnCode_vinCode?activityID=' + activity + '&districtCode=' + district + '&talukaCode=' + taluka + '&villageCode=' + village)
 			.then(response => {
 				return response.json();
 			}).then(data => {
@@ -1507,43 +1580,104 @@ export default class DBTFarmerDashboard extends Component {
 		var village = document.getElementById("village");
 		// console.log(activity.options[activity.selectedIndex].text)
 		var applicationFor = ""; var labelValue = "";
-		var customRadio1 = document.getElementById("customRadio1").checked;
-		var customRadio2 = document.getElementById("customRadio2").checked;
-		var customRadio3 = document.getElementById("customRadio3").checked;
-		var customRadio4 = document.getElementById("customRadio4").checked;
-		if (customRadio1 === true && customRadio2 == false && customRadio3 === false && customRadio4 === false) {
-			document.getElementById("customRadio1").checked = true;
-			document.getElementById("customRadio2").checked = false;
-			document.getElementById("customRadio3").checked = false;
-			document.getElementById("customRadio4").checked = false;
+		var villageRadio = document.getElementById("villageRadio").checked;
+		var regestrationRadio = document.getElementById("regestrationRadio").checked;
+		var applicationRadio = document.getElementById("applicationRadio").checked;
+		var presanctionRadio = document.getElementById("presanctionRadio").checked;
+		var workCompletedRadio = document.getElementById("workCompletedRadio").checked;
+		var paymentDoneRadio = document.getElementById("paymentDoneRadio").checked;
+		var locationRadio = document.getElementById("locationRadio").checked;
+
+		if (villageRadio === true && regestrationRadio === false && applicationRadio == false && presanctionRadio === false && workCompletedRadio === false && paymentDoneRadio === false && locationRadio === false) {
+			document.getElementById("villageRadio").checked = true;
+			document.getElementById("regestrationRadio").checked = false;
+			document.getElementById("applicationRadio").checked = false;
+			document.getElementById("presanctionRadio").checked = false;
+			document.getElementById("workCompletedRadio").checked = false;
+			document.getElementById("paymentDoneRadio").checked = false;
+			document.getElementById("locationRadio").checked = false;
 			if (overlay) {
 				map.removeOverlay(overlay);
 			}
+			applicationFor = "no_of_village";
 
-			applicationFor = "no_of_application";
-		} else if (customRadio1 === false && customRadio2 === true && customRadio3 === false && customRadio4 === false) {
-			document.getElementById("customRadio1").checked = false;
-			document.getElementById("customRadio2").checked = true;
-			document.getElementById("customRadio3").checked = false;
-			document.getElementById("customRadio4").checked = false;
+		}
+
+		else if (villageRadio === false && regestrationRadio === true && applicationRadio == false && presanctionRadio === false && workCompletedRadio === false && paymentDoneRadio === false && locationRadio === false) {
+			document.getElementById("villageRadio").checked = false;
+			document.getElementById("regestrationRadio").checked = true;
+			document.getElementById("applicationRadio").checked = false;
+			document.getElementById("presanctionRadio").checked = false;
+			document.getElementById("workCompletedRadio").checked = false;
+			document.getElementById("paymentDoneRadio").checked = false;
+			document.getElementById("locationRadio").checked = false;
 			if (overlay) {
 				map.removeOverlay(overlay);
 			}
 			applicationFor = "no_of_registration";
-		} else if (customRadio1 === false && customRadio2 === false && customRadio3 === true && customRadio4 === false) {
-			document.getElementById("customRadio1").checked = false;
-			document.getElementById("customRadio2").checked = false;
-			document.getElementById("customRadio3").checked = true;
-			document.getElementById("customRadio4").checked = false;
+
+		}
+
+		else if (villageRadio === false && regestrationRadio === false && applicationRadio == true && presanctionRadio === false && workCompletedRadio === false && paymentDoneRadio === false && locationRadio === false) {
+			document.getElementById("villageRadio").checked = false;
+			document.getElementById("regestrationRadio").checked = false;
+			document.getElementById("applicationRadio").checked = true;
+			document.getElementById("presanctionRadio").checked = false;
+			document.getElementById("workCompletedRadio").checked = false;
+			document.getElementById("paymentDoneRadio").checked = false;
+			document.getElementById("locationRadio").checked = false;
+			if (overlay) {
+				map.removeOverlay(overlay);
+			}
+			applicationFor = "no_of_application";
+
+		} else if (villageRadio === false && regestrationRadio === false && applicationRadio == false && presanctionRadio === true && workCompletedRadio === false && paymentDoneRadio === false && locationRadio === false) {
+			document.getElementById("villageRadio").checked = false;
+			document.getElementById("regestrationRadio").checked = false;
+			document.getElementById("applicationRadio").checked = false;
+			document.getElementById("presanctionRadio").checked = true;
+			document.getElementById("workCompletedRadio").checked = false;
+			document.getElementById("paymentDoneRadio").checked = false;
+			document.getElementById("locationRadio").checked = false;
+			if (overlay) {
+				map.removeOverlay(overlay);
+			}
+			applicationFor = "no_of_presanction";
+
+		} else if (villageRadio === false && regestrationRadio === false && applicationRadio == false && presanctionRadio === false && workCompletedRadio === true && paymentDoneRadio === false && locationRadio === false) {
+			document.getElementById("villageRadio").checked = false;
+			document.getElementById("regestrationRadio").checked = false;
+			document.getElementById("applicationRadio").checked = false;
+			document.getElementById("presanctionRadio").checked = false;
+			document.getElementById("workCompletedRadio").checked = true;
+			document.getElementById("paymentDoneRadio").checked = false;
+			document.getElementById("locationRadio").checked = false;
+			if (overlay) {
+				map.removeOverlay(overlay);
+			}
+			applicationFor = "no_of_work_completed";
+
+		} else if (villageRadio === false && regestrationRadio === false && applicationRadio == false && presanctionRadio === false && workCompletedRadio === false && paymentDoneRadio === true && locationRadio === false) {
+			document.getElementById("villageRadio").checked = false;
+			document.getElementById("regestrationRadio").checked = false;
+			document.getElementById("applicationRadio").checked = false;
+			document.getElementById("presanctionRadio").checked = false;
+			document.getElementById("workCompletedRadio").checked = false;
+			document.getElementById("paymentDoneRadio").checked = true;
+			document.getElementById("locationRadio").checked = false;
 			if (overlay) {
 				map.removeOverlay(overlay);
 			}
 			applicationFor = "no_of_paymentdone";
-		} else if (customRadio1 === false && customRadio2 === false && customRadio3 === false && customRadio4 === true) {
-			document.getElementById("customRadio4").checked = true;
-			document.getElementById("customRadio1").checked = false;
-			document.getElementById("customRadio2").checked = false;
-			document.getElementById("customRadio3").checked = false;
+
+		} else if (villageRadio === false && regestrationRadio === false && applicationRadio == false && presanctionRadio === false && workCompletedRadio === false && paymentDoneRadio === false && locationRadio === true) {
+			document.getElementById("villageRadio").checked = false;
+			document.getElementById("regestrationRadio").checked = false;
+			document.getElementById("applicationRadio").checked = false;
+			document.getElementById("presanctionRadio").checked = false;
+			document.getElementById("workCompletedRadio").checked = false;
+			document.getElementById("paymentDoneRadio").checked = false;
+			document.getElementById("locationRadio").checked = true;
 			labelValue = "Locations";
 			if (overlay) {
 				map.removeOverlay(overlay);
@@ -1591,18 +1725,23 @@ export default class DBTFarmerDashboard extends Component {
 			});
 			map.addLayer(pocraDBTLayer)
 		}
-
-		if (applicationFor === "no_of_application") {
-			labelValue = "Applications";
-		} else if (applicationFor === "no_of_paymentdone") {
-			labelValue = "Disbursement";
+		if (applicationFor === "no_of_village") {
+			labelValue = "PoCRA Villages";
 		} else if (applicationFor === "no_of_registration") {
 			labelValue = "Registrations";
+		} else if (applicationFor === "no_of_application") {
+			labelValue = "Applications";
+		} else if (applicationFor === "no_of_presanction") {
+			labelValue = "Presanctions";
+		} else if (applicationFor === "no_of_work_completed") {
+			labelValue = "Work completed";
+		} else if (applicationFor === "no_of_paymentdone") {
+			labelValue = "Disbursement";
 		}
 
 		// to display graph label
 		if (activity.value === "All" && district.value === "All" && taluka.value === 'All' && village.value == 'All') {
-			document.getElementById("locradio").style.display = "none";
+			document.getElementById("locRadio").style.display = "none";
 			this.setState({
 				headerLabel: labelValue + " | Activity : " + activity.options[activity.selectedIndex].text,
 				graphCountLabel: labelValue,
@@ -1615,7 +1754,7 @@ export default class DBTFarmerDashboard extends Component {
 			this.getDBTLayerClassValues(activity.value, applicationFor);
 			this.getCategoryApplicationCount(activity.value, district.value, "All", "All", applicationFor);
 		} else if (activity.value !== "All" && district.value === "All" && taluka.value === 'All' && village.value == 'All') {
-			document.getElementById("locradio").style.display = "none";
+			document.getElementById("locRadio").style.display = "none";
 			this.setState({
 				headerLabel: labelValue + " | Activity : " + activity.options[activity.selectedIndex].text,
 				graphCountLabel: labelValue,
@@ -1626,7 +1765,7 @@ export default class DBTFarmerDashboard extends Component {
 			this.getDBTLayerClassValues(activity.value, applicationFor);
 			this.getCategoryApplicationCount(activity.value, district.value, "All", "All", applicationFor);
 		} else if (activity.value === "All" && district.value !== "All" && taluka.value === 'All' && village.value == 'All') {
-			document.getElementById("locradio").style.display = "none";
+			document.getElementById("locRadio").style.display = "none";
 			this.setState({
 				headerLabel: labelValue + " | Activity : " + activity.options[activity.selectedIndex].text,
 				graphCountLabel: labelValue,
@@ -1636,7 +1775,7 @@ export default class DBTFarmerDashboard extends Component {
 			this.getDBTLayerClassValuesTaluka(activity.value, district.value, applicationFor);
 			this.getCategoryApplicationCount(activity.value, district.value, "All", "All", applicationFor);
 		} else if (activity.value !== "All" && district.value !== "All" && taluka.value === 'All' && village.value === 'All') {
-			document.getElementById("locradio").style.display = "none";
+			document.getElementById("locRadio").style.display = "none";
 			this.setState({
 				headerLabel: labelValue + " | Activity : " + activity.options[activity.selectedIndex].text,
 				graphCountLabel: labelValue,
@@ -1647,7 +1786,7 @@ export default class DBTFarmerDashboard extends Component {
 			this.getDBTLayerClassValuesTaluka(activity.value, district.value, applicationFor);
 			this.getCategoryApplicationCount(activity.value, district.value, "All", "All", applicationFor);
 		} else if (activity.value === "All" && district.value !== "All" && taluka.value !== 'All' && village.value === 'All') {
-			document.getElementById("locradio").style.display = "none";
+			document.getElementById("locRadio").style.display = "none";
 			this.setState({
 				headerLabel: labelValue + " | Activity : " + activity.options[activity.selectedIndex].text,
 				graphCountLabel: labelValue,
@@ -1658,7 +1797,7 @@ export default class DBTFarmerDashboard extends Component {
 			this.getDBTLayerClassValuesVillage(activity.value, district.value, taluka.value, applicationFor);
 			this.getCategoryApplicationCount(activity.value, district.value, taluka.value, "All", applicationFor);
 		} else if (activity.value !== "All" && district.value !== "All" && taluka.value !== 'All' && village.value === 'All') {
-			document.getElementById("locradio").style.display = "none";
+			document.getElementById("locRadio").style.display = "none";
 			this.setState({
 				headerLabel: labelValue + " | Activity : " + activity.options[activity.selectedIndex].text,
 				graphCountLabel: labelValue,
@@ -1669,7 +1808,7 @@ export default class DBTFarmerDashboard extends Component {
 			this.getDBTLayerClassValuesVillage(activity.value, district.value, taluka.value, applicationFor);
 			this.getCategoryApplicationCount(activity.value, district.value, taluka.value, "All", applicationFor);
 		} else if (activity.value == "All" && district.value !== "All" && taluka.value !== 'All' && village.value !== 'All') {
-			document.getElementById("locradio").style.display = "block";
+			document.getElementById("locRadio").style.display = "block";
 			this.setState({
 				headerLabel: labelValue + " | Activity : " + activity.options[activity.selectedIndex].text,
 				graphCountLabel: labelValue,
@@ -1681,7 +1820,7 @@ export default class DBTFarmerDashboard extends Component {
 			this.getDBTLayerClassValuesVillageData(activity.value, district.value, taluka.value, village.value, applicationFor);
 			this.getCategoryApplicationCount(activity.value, district.value, taluka.value, village.value, applicationFor);
 		} else if (activity.value !== "All" && district.value !== "All" && taluka.value !== 'All' && village.value !== 'All') {
-			document.getElementById("locradio").style.display = "block";
+			document.getElementById("locRadio").style.display = "block";
 			this.setState({
 				headerLabel: labelValue + " | Activity : " + activity.options[activity.selectedIndex].text,
 				graphCountLabel: labelValue,
@@ -1763,7 +1902,7 @@ export default class DBTFarmerDashboard extends Component {
 									{/* /.card-header */}
 									<div className="card-body">
 										<div className="row">
-											<section className="content col-2" style={{ position: "absolute", zIndex: "9", top: "8%", left: "1%" }}>
+											<section className="content col-3" style={{ position: "absolute", zIndex: "9", top: "8%", left: "1%" }}>
 												<div className="container-fluid">
 													{/* SELECT2 EXAMPLE */}
 													<div className="card card-default" style={{ marginTop: "0.5%" }}>
@@ -1777,25 +1916,37 @@ export default class DBTFarmerDashboard extends Component {
 														{/* /.card-header */}
 														<div className="card-body">
 															<div className="row">
-																<div className="col">
+																<div className="col-12">
 																	<div className="form-group form-inline">
-																		<div className="col-1">
+																		<div className="col-6">
 																			<div class="form-group">
 																				<div class="custom-control custom-radio">
-																					<input class="custom-control-input" type="radio" id="customRadio2" name="customRadio" onChange={this.updateHeaderLabel} />
-																					<label for="customRadio2" class="custom-control-label" >Registrations</label>
+																					<input class="custom-control-input" type="radio" id="villageRadio" name="customRadio" onChange={this.updateHeaderLabel} />
+																					<label for="villageRadio" class="custom-control-label" >PoCRA Villages</label>
 																				</div>
 																				<div class="custom-control custom-radio">
-																					<input class="custom-control-input" type="radio" id="customRadio1" name="customRadio" onChange={this.updateHeaderLabel} />
-																					<label for="customRadio1" class="custom-control-label" >Applications</label>
+																					<input class="custom-control-input" type="radio" id="regestrationRadio" name="customRadio" onChange={this.updateHeaderLabel} />
+																					<label for="regestrationRadio" class="custom-control-label" >Registrations</label>
 																				</div>
 																				<div class="custom-control custom-radio">
-																					<input class="custom-control-input" type="radio" id="customRadio3" name="customRadio" onChange={this.updateHeaderLabel} />
-																					<label for="customRadio3" class="custom-control-label" > Disbursement</label>
+																					<input class="custom-control-input" type="radio" id="applicationRadio" name="customRadio" onChange={this.updateHeaderLabel} />
+																					<label for="applicationRadio" class="custom-control-label" >Applications</label>
 																				</div>
-																				<div class="custom-control custom-radio" id='locradio' style={{ display: 'none' }}>
-																					<input class="custom-control-input" type="radio" id="customRadio4" name="customRadio" onChange={this.updateHeaderLabel} />
-																					<label for="customRadio4" class="custom-control-label" > Locations</label>
+																				<div class="custom-control custom-radio">
+																					<input class="custom-control-input" type="radio" id="presanctionRadio" name="customRadio" onChange={this.updateHeaderLabel} />
+																					<label for="presanctionRadio" class="custom-control-label" >PreSanction</label>
+																				</div>
+																				<div class="custom-control custom-radio">
+																					<input class="custom-control-input" type="radio" id="workCompletedRadio" name="customRadio" onChange={this.updateHeaderLabel} />
+																					<label for="workCompletedRadio" class="custom-control-label" >Work Completed</label>
+																				</div>
+																				<div class="custom-control custom-radio">
+																					<input class="custom-control-input" type="radio" id="paymentDoneRadio" name="customRadio" onChange={this.updateHeaderLabel} />
+																					<label for="paymentDoneRadio" class="custom-control-label" > Disbursement</label>
+																				</div>
+																				<div class="custom-control custom-radio" id='locRadio' style={{ display: 'none' }}>
+																					<input class="custom-control-input" type="radio" id="locationRadio" name="customRadio" onChange={this.updateHeaderLabel} />
+																					<label for="locationRadio" class="custom-control-label" > Locations</label>
 																				</div>
 																			</div>
 																		</div>
