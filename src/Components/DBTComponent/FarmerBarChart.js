@@ -3,12 +3,6 @@ import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 
 
-
-
-
-
-
-
 export default class FarmerBarChart extends Component {
 	constructor(props) {
 		super(props)
@@ -80,7 +74,7 @@ export default class FarmerBarChart extends Component {
 					rangeDescription: 'Range: 0.1 to 1000'
 				},
 				title: {
-					text: this.props.chartProps.ylabel
+					text: 'Total'
 				}
 			}, credits: {
 				enabled: false
@@ -98,25 +92,29 @@ export default class FarmerBarChart extends Component {
 					pointPadding: 0.2,
 					borderWidth: 0.5
 				}
-			},
+			},legend: {
+				itemStyle: {
+				  fontWeight: 'lighter'
+				}
+			  },
 			series: [{
-				name: 'Total No Of Registration',
+				name: 'Registration',
 				data: this.state.no_of_registration
 
 			},{
-				name: 'Total No Of Applications',
+				name: 'Applications',
 				data: this.state.no_of_application
 
 			},{
-				name: 'Total No Of Presanctions',
+				name: 'Presanctions',
 				data: this.state.no_of_presanction
 
 			}, {
-				name: 'Total No Of Work Completed',
+				name: 'Work Completed',
 				data: this.state.no_of_work_completed
 
 			}, {
-				name: 'Total No Of Payment Done',
+				name: 'Payment Done',
 				data: this.state.no_of_paymentdone
 
 			}]

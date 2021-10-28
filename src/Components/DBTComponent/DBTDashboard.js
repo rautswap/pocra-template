@@ -35,7 +35,7 @@ var vectorSource = new VectorSource({});
 var imgSource = new ImageWMS({});
 let infoTable;
 var overlay
-export default class DBTFarmerDashboard extends Component {
+export default class DBTDashboard extends Component {
 
 	constructor(props) {
 		super(props)
@@ -116,7 +116,7 @@ export default class DBTFarmerDashboard extends Component {
 			coordinateFormat: function (coordinate) {
 				return format(coordinate, "&nbsp;&nbsp; Lat : {y}, &nbsp;&nbsp; Long: {x} &nbsp;&nbsp;", 6);
 			},
-			placeholder: '&nbsp;&nbsp; '
+			placeholder: '&nbsp;&nbsp; Mouse Position'
 		});
 		// topo layer
 		var topo = new TileLayer({
@@ -1088,7 +1088,7 @@ export default class DBTFarmerDashboard extends Component {
 				source: imgSource
 			});
 
-			// map.addLayer(pocraDBTLayer);
+			map.addLayer(pocraDBTLayer);
 
 		} else {
 			imgSource = new ImageWMS({
@@ -1910,13 +1910,13 @@ export default class DBTFarmerDashboard extends Component {
 			<div>
 				<div className="content-wrapper">
 					{/* Content Header (Page header) */}
-					<section className="content-header">
+					<section className="content-header" style={{ display: "none" }}>
 						<section className="content">
 							<div className="container-fluid">
 								{/* SELECT2 EXAMPLE */}
 								<div className="card card-default" style={{ marginTop: "0.5%" }}>
 									<div className="card-header ">
-										<h3 className="card-title"><b>Farmer Activity</b></h3>
+										<h3 className="card-title"><b>DBT Dashboard</b></h3>
 										<div className="card-tools">
 											<button type="button" className="btn btn-tool" data-card-widget="collapse"><i className="fas fa-minus" /></button>
 											{/* <button type="button" className="btn btn-tool" data-card-widget="remove"><i className="fas fa-times" /></button> */}
@@ -1956,7 +1956,7 @@ export default class DBTFarmerDashboard extends Component {
 							</div>
 						</section>
 					</section>
-					<section className="content-header" style={{ marginTop: "-50px" }}>
+					<section className="content-header" >
 						<section className="content">
 							<div className="container-fluid">
 								{/* SELECT2 EXAMPLE */}

@@ -73,7 +73,7 @@ export default class DBTPieChart extends Component {
 					// colors: pieColors,
 					dataLabels: {
 						enabled: true,
-						format: "{point.name}: <b>{point.y} ({point.percentage:.1f}%)</b>",
+						format: "{point.name}: <br>{point.y} <br>({point.percentage:.1f}%)</b>",
 						// format: '<b>{point.name}</b>: {point.y:.0f}',
 						connectorShape: 'straight',
 						crookDistance: '5%',
