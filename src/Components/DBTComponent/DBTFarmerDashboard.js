@@ -370,7 +370,7 @@ export default class DBTFarmerDashboard extends Component {
 						})
 						.then((html) => {
 							var jsondata = JSON.parse(html);
-							// console.log(jsondata.features[0].properties)
+							console.log(jsondata.features[0].properties)
 							if (jsondata.features[0]) {
 								if (jsondata.features[0].properties) {
 									var popupContent = overlay.element.querySelector('#popup-content');
@@ -1302,6 +1302,23 @@ export default class DBTFarmerDashboard extends Component {
 			})
 		});
 		map.addLayer(talukaLayer);
+
+		// var villageLayer = new ImageLayer({
+		// 	title: "DBT PoCRA",
+		// 	source: new ImageWMS({
+		// 		attributions: ['&copy; DBT PoCRA'],
+		// 		crossOrigin: 'Anonymous',
+		// 		serverType: 'geoserver',
+		// 		visible: true,
+		// 		url: "http://gis.mahapocra.gov.in/geoserver/PoCRA_Dashboard/wms?",
+		// 		params: {
+		// 			'LAYERS': 'PoCRA_Dashboard:Village',
+		// 			'TILED': true,
+		// 			'CQL_FILTER': "thncode='" + talukaCode + "'"
+		// 		},
+		// 	})
+		// });
+		// map.addLayer(villageLayer);
 	}
 
 	// function to add map at single village level

@@ -6,8 +6,8 @@ export default class Sidebar extends Component {
 
     render() {
         const items = [
-            { name: 'home', css: 'nav-icon fas fa-home', label: 'होम' },
-            { name: 'forecast', css: 'nav-icon fas fa-cloud-moon-rain', label: 'हवामान अंदाज' },
+            { name: 'home', css: 'nav-icon fas fa-home', label: 'Home' },
+            { name: 'forecast', css: 'nav-icon fas fa-cloud-moon-rain', label: 'Weather Forecast' },
             // { name: 'soilcard', css: 'nav-icon fas fa-copy', label: 'मृद आरोग्य पत्रिका ' },
             // { name: 'dbt', css: 'nav-icon fas fa-tachometer-alt', label: 'PoCRA DBT' },
             {

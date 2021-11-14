@@ -111,7 +111,7 @@ export default class FarmerFPCChart extends Component {
 		};
 		return (
 			<div >
-				<HighchartsReact highcharts={Highcharts} options={options} style={{height:"100px"}} />
+				{/* <HighchartsReact highcharts={Highcharts} options={options} style={{height:"100px"}} /> */}
 			</div>
 		)
 	}
