@@ -15,8 +15,8 @@ export default class Sidebar extends Component {
                 label: 'DBT',
                 css: 'nav-icon fas fa-rupee-sign',
                 items: [
-                    { name: 'dbtfarmer', label: 'Farmer', css: 'nav-icon fas fa-tractor' },
-                    { name: 'crm', label: 'Community', css: 'nav-icon fas fa-users' },
+                    { name: 'dbtfarmer', label: 'Farmer', css: 'nav-icon fas fa-tractor', style:'color:white ! important' },
+                    { name: 'nrm', label: 'Community', css: 'nav-icon fas fa-users' },
                     { name: 'fpc_fpo', label: 'FPC/FPO', css: 'nav-icon fas fa-store-alt' },
 
                 ],

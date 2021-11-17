@@ -8,6 +8,8 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Forecast from './Components/ForecastComponent/Forecast';
 import NoFound from './Components/NoFound';
 import DBTFarmerDashboard from './Components/DBTComponent/DBTFarmerDashboard';
+import DBTNRMDashboard from './Components/DBTComponent/DBTNRMDashboard';
+import DBTFPCDashboard from './Components/DBTComponent/DBTFPCDashboard';
 function App() {
   return (
     <div class="wrapper">
@@ -19,6 +21,8 @@ function App() {
           <Route path="/forecast" component={Forecast} />
           <Route exact path="/home" component={MainContent} />
           <Route exact path="/dbtfarmer" component={DBTFarmerDashboard} />
+          <Route exact path="/nrm" component={DBTNRMDashboard} />
+          <Route exact path="/fpc_fpo" component={DBTFPCDashboard} />
           <Route exact path="/pocra_dashboard" component={MainContent} />
           <Route component={NoFound} />
         </Switch>

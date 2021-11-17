@@ -5,3 +5,11 @@
     color: rgba(255, 255, 255);
     text-shadow: 0 0 3px black, 0 0 1px black, 0 0 1px black, 0 0 1px black;
 }
+.nav-item
+{
+    color: white !important;
+}
+.nav-item a
+{
+    color: white !important;
+}
